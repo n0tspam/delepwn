@@ -12,8 +12,6 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 # Your email address to share the files with
 user_email = ''
 
-
-
 # Function to set read permissions for a file or folder
 def set_permissions(file_id, user_email, drive_service):
     try: 
