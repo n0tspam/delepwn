@@ -9,9 +9,8 @@ KEY_FOLDER = 'SA_private_keys'
 
 class OAuthEnumerator:
     """ Creates access token to each private key, OAuth scope, and distinct org email and validate whether they have DWD enabled"""
-    def __init__(self, gcp_project_enumerator, workspace_user_email, scopes_file, key_folder, verbose=False):
+    def __init__(self, gcp_project_enumerator, scopes_file, key_folder, verbose=False):
         self.gcp_project_enumerator = gcp_project_enumerator
-        self.workspace_user_email = workspace_user_email
         self.scopes_file = scopes_file
         self.key_folder = key_folder
         self.scopes = self.read_scopes_from_file()
@@ -37,15 +36,11 @@ class OAuthEnumerator:
             return []
 
     def get_org_emails(self):
-        """ Initialize user emails based on the provided workspace_user_email in config or via enumeration IAM roles on GCP projects """
-        if self.workspace_user_email:
-            return [self.workspace_user_email]
-        else:
-            domain_user_enumerator = DomainUserEnumerator(self.gcp_project_enumerator)
-            unique_users = domain_user_enumerator.list_unique_domain_users()
-            print("\n[+] Enumerating unique org domain and users on GCP (ONE user per domain) ...")
-            domain_user_enumerator.print_unique_domain_users()
-            return list(unique_users.values())
+        domain_user_enumerator = DomainUserEnumerator(self.gcp_project_enumerator)
+        unique_users = domain_user_enumerator.list_unique_domain_users()
+        print("\n[+] Enumerating unique org domain and users on GCP (ONE user per domain) ...")
+        domain_user_enumerator.print_unique_domain_users()
+        return list(unique_users.values())
 
     def jwt_creator(self):
         """ Create JWT objects for each combination of workspace distinct org email, OAuth scope, and private key pair  """
