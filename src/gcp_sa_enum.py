@@ -1,8 +1,7 @@
 import requests
 from googleapiclient.discovery import build
 from src.private_key_creator import PrivateKeyCreator
-
-
+from utils.text_color import print_color
 
 class ServiceAccountEnumerator:
     """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission  """
@@ -29,7 +28,7 @@ class ServiceAccountEnumerator:
                 return self.find_service_account_email_by_client_id(azp) if azp else None
             return response.json().get('email')
         except requests.RequestException as e:
-            print(f"Error fetching user info: {e}")
+            print_color(f"Error fetching user info: {e}", color="red")
             return None
 
     def find_service_account_email_by_client_id(self, client_id):
@@ -145,9 +144,10 @@ class ServiceAccountEnumerator:
             print("No GCP Service Accounts roles found with the relevant key permissions")
 
     def print_service_account_details(self, account, roles=None):
-        print('Name: ' + account['name'])
-        print('Email: ' + account['email'])
-        print('UniqueId: ' + account['uniqueId'])
+        print_color('Name: ' + account['name'], color="green")
+        print_color('Email: ' + account['email'], color="green")
+        print_color('UniqueId: ' + account['uniqueId'], color="green")
         if roles:
-            print('Roles: ', ', '.join(roles))
+            print_color(f'Roles: {", ".join(roles)}', color="green")
+
 

@@ -7,25 +7,25 @@ from utils.text_color import print_color
 import argparse
 
 
-def check_gcp_bearer_access_token(verbose):
+def check_gcp_bearer_access_token(testEmail, verbose):
     token = os.environ.get('GCP_BEARER_ACCESS_TOKEN')
     if token:
         try:
             credentials = CustomCredentials(token)
             enumerator = ServiceAccountEnumerator(credentials, verbose=verbose)
             if enumerator.user_email == None:
-                raise Exception("Error verifying token. Ensure it's refreshed.") 
+                raise Exception(print_color("[-] Error verifying token. Ensure it's refreshed.", color="red"))
             print_color(f"[+] GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="green")
-            check(enumerator, verbose)
+            check(enumerator, testEmail, verbose)
         except Exception as e:
             print(f"An error occurred: {e}")
 
     else:
-        print("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for a user with the iam.ServiceAccountKeys.create permission to be set as the GCP_BEARER_ACCESS_TOKEN environment variable.")
+        print("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for a user with the iam.ServiceAccountKeys.create permission to be set as the GCP_BEARER_ACCESS_TOKEN environment variable.\
+            The token can be retrieved from an authenticated gcloud session by executing \"gcloud auth print-access-token\".")
         sys.exit(1)
 
 def main():
-
 
     parser = argparse.ArgumentParser(description='Exploit Domain-Wide Delegation in GCP')
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
@@ -34,7 +34,8 @@ def main():
     # Subparser for 'enum' command
     parser_enum = subparsers.add_parser('enum', help='Enumerate GCP service accounts with DWD privileges. Requires an access token for a user with the iam.ServiceAccountKeys.create permission to be set as the GCP_BEARER_ACCESS_TOKEN environment variable.')
     # If you have additional arguments for 'enum', add them here
-    parser_enum.add_argument('--verbose', action='store_true', help='Enable verbose output')
+    parser_enum.add_argument('--verbose', action='store_true', default=False, help='Enable verbose output')
+    parser_enum.add_argument('--email', type=str, help='Optional: Specify a single email to test DWD against instead of enumerating users')
 
     # Subparser for 'drive' command
     drive_parser = subparsers.add_parser('drive', help='Impersonate a user and perform actions on Google Drive.')
@@ -55,8 +56,8 @@ def main():
     verbose = args.verbose
 
     if args.command == 'enum':
-        print_color(f"[*] Beginning check for service accounts with Domain-Wide delegation privileges..\n", color="cyan")
-        check_gcp_bearer_access_token(verbose)
+        print_color(f"\n[*] Beginning check for service accounts with Domain-Wide delegation privileges..\n", color="cyan")
+        check_gcp_bearer_access_token(args.email, verbose)
     
     elif args.command == 'drive':
         OUTPUTFILE = args.output

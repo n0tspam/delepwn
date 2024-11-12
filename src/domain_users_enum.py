@@ -3,6 +3,7 @@ class DomainUserEnumerator:
     """ Find target Workspace users using GCP projects role enumeration. returns one email address per distinct domain org """
     def __init__(self, gcp_project_enumerator):
         self.gcp_project_enumerator = gcp_project_enumerator
+        self.single_test_email = {}
 
     def list_unique_domain_users(self):
         """List unique domain users across projects (excluding service accounts)"""
@@ -23,13 +24,15 @@ class DomainUserEnumerator:
                                     domain = email.split('@')[1]
                                     if domain not in unique_domains:
                                         unique_domains[domain] = email
+                                        break
+        self.single_test_email = unique_domains
         return unique_domains
 
 
     def print_unique_domain_users(self):
         unique_domain_users = self.list_unique_domain_users()
         if unique_domain_users:
-            print("\n[+] Unique domain IAM users for creating valid JWT objects to Google Workspace found ...")
+            print("\n[+] Single domain IAM user for creating valid JWT objects to Google Workspace retrieved ...")
             for domain, user in unique_domain_users.items():
                 print(f"Domain: {domain}, User: {user}")
         else:

@@ -9,6 +9,7 @@ from src.domain_users_enum import DomainUserEnumerator
 import os
 import traceback
 import time
+from utils.text_color import print_color
 
 SCOPES_FILE = 'src/oauth_scopes.txt'  #  scopes file
 KEY_FOLDER = 'SA_private_keys'
@@ -37,7 +38,7 @@ def results(oauth_enumerator):
 
     filename = f'results_{timestamp}.txt'
     filepath = os.path.join(result_folder, filename)
-    print(f"\n\n[+] Saving results to results/{filename} ...")
+    print_color(f"\n\n[+] Saving results to results/{filename} ...", color="green")
 
     with open(filepath, 'w') as f:
         valid_results = oauth_enumerator.get_valid_results()
@@ -51,22 +52,30 @@ def results(oauth_enumerator):
 
 
 
-def check(enumerator, verbose):
+def check(enumerator, testEmail, verbose):
     try:
-        print("\n[+] Enumerating GCP Resources: Projects and Service Accounts...")
+        print_color(f"\n[+] Enumerating GCP Resources: Projects and Service Accounts...", color="cyan")
         enumerator.enumerate_service_accounts()
 
-        domain_user_enumerator = DomainUserEnumerator(enumerator)
-        print("\n[+] Enumerating unique org domain and users on GCP (ONE user per domain) ...")
-        domain_user_enumerator.print_unique_domain_users()
+        if testEmail:
+            print_color(f"\n[*] Using provided test email: {testEmail}", color="cyan")
+            # Create a dictionary with the test email in the same format as single_test_email
+            domain = testEmail.split('@')[1]
+            test_email_dict = {domain: testEmail}
+            oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, test_email_dict, verbose=verbose)
+        else:
+            # If no test email provided, enumerate users to find one
+            domain_user_enumerator = DomainUserEnumerator(enumerator)
+            print_color(f"\n[*] Enumerating unique org domain and retrieving single IAM user for testing...", color="cyan")
+            domain_user_enumerator.print_unique_domain_users()
+            oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
 
-        oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, verbose=verbose)
-        print("\n[+] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations) ")
+        print_color("\n[*] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations) ", color="cyan")
         oauth_enumerator.run()
         confirmed_dwd_keys = oauth_enumerator.confirmed_dwd_keys
         enumerator.key_creator.delete_keys_without_dwd(confirmed_dwd_keys)
 
         results(oauth_enumerator)
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print_color(f"An error occurred: {e}", color="red")
         traceback.print_exc()
