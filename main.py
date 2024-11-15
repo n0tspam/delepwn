@@ -21,8 +21,8 @@ def check_gcp_bearer_access_token(testEmail, verbose):
             print(f"An error occurred: {e}")
 
     else:
-        print("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for a user with the iam.ServiceAccountKeys.create permission to be set as the GCP_BEARER_ACCESS_TOKEN environment variable.\
-            The token can be retrieved from an authenticated gcloud session by executing \"gcloud auth print-access-token\".")
+        print_color("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for a user with the iam.ServiceAccountKeys.create permission to be set as the GCP_BEARER_ACCESS_TOKEN environment variable.\
+            The token can be retrieved from an authenticated gcloud session by executing \"gcloud auth print-access-token\".", color="red")
         sys.exit(1)
 
 def main():
@@ -58,7 +58,6 @@ def main():
     if args.command == 'enum':
         print_color(f"\n[*] Beginning check for service accounts with Domain-Wide delegation privileges..\n", color="cyan")
         check_gcp_bearer_access_token(args.email, verbose)
-    
     elif args.command == 'drive':
         OUTPUTFILE = args.output
         if OUTPUTFILE:

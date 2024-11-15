@@ -54,11 +54,11 @@ def results(oauth_enumerator):
 
 def check(enumerator, testEmail, verbose):
     try:
-        print_color(f"\n[+] Enumerating GCP Resources: Projects and Service Accounts...", color="cyan")
+        print_color(f"\n[+] Enumerating GCP Resources: Projects and Service Accounts...", color="white")
         enumerator.enumerate_service_accounts()
 
         if testEmail:
-            print_color(f"\n[*] Using provided test email: {testEmail}", color="cyan")
+            print_color(f"\n[*] Using provided test email: {testEmail}", color="white")
             # Create a dictionary with the test email in the same format as single_test_email
             domain = testEmail.split('@')[1]
             test_email_dict = {domain: testEmail}
@@ -66,7 +66,6 @@ def check(enumerator, testEmail, verbose):
         else:
             # If no test email provided, enumerate users to find one
             domain_user_enumerator = DomainUserEnumerator(enumerator)
-            print_color(f"\n[*] Enumerating unique org domain and retrieving single IAM user for testing...", color="cyan")
             domain_user_enumerator.print_unique_domain_users()
             oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
 

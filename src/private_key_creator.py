@@ -93,7 +93,7 @@ class PrivateKeyCreator:
 
     def delete_keys_without_dwd(self, confirmed_dwd_keys):
         """ Delete SA keys which found without DWD from local folder and remotely"""
-        print_color("\n\n[*] Clearing private keys without DWD enabled ...", color="cyan")
+        print_color("\n[*] Clearing private keys without DWD enabled ...", color="cyan")
         for key_path in os.listdir(self.keys_directory):
             full_path = os.path.join(self.keys_directory, key_path)
             if full_path not in confirmed_dwd_keys:
