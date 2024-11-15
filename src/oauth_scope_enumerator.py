@@ -57,6 +57,13 @@ class OAuthEnumerator:
                     jwt_objects.append((json_path, user_email, scope, creds))
         return jwt_objects
 
+    def print_valid_output(self):
+        for token, scopes in self.valid_results.items():
+            print_color(f"Service Account with Domain-Wide Delegation: {token}", color="cyan")
+            print_color("-" * len(token), color="cyan")
+            for scope in scopes:
+                print_color(f"✔ {scope}", color="green")
+
     def token_validator(self, jwt_objects):
         """ Validate access tokens for each JWT object combination  """
         for json_path, user_email, scope, creds in jwt_objects:
@@ -67,7 +74,6 @@ class OAuthEnumerator:
 
                 if response.status_code == 200:
                     self.valid_results.setdefault(json_path, []).append(scope)
-                    print_color(f"[+] Token is valid for {json_path} with scope {scope}", color="green")
                     if json_path not in self.confirmed_dwd_keys:
                         self.confirmed_dwd_keys.append(json_path)
 
@@ -76,6 +82,7 @@ class OAuthEnumerator:
             except RefreshError as e:
                 if self.verbose:
                     print_color(f"[-] Invalid or expired token with scope {scope}", color="red")
+        self.print_valid_output()
 
     def total_jwt_combinations(self):
         """ calculate total combinations of JWT based on the number of enumerated OAuth scopes, GCP private keys pairs and target workspace org emails
@@ -96,6 +103,5 @@ class OAuthEnumerator:
             return
 
         total_combinations = self.total_jwt_combinations()
-        print_color(f"[*] Total of JWT combinations to enumerate: {total_combinations}!", color="yellow")
         jwt_objects = self.jwt_creator()
         self.token_validator(jwt_objects)

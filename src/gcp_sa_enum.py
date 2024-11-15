@@ -138,16 +138,17 @@ class ServiceAccountEnumerator:
                         any_service_account_with_key_permission = True
                     elif self.verbose:
                         self.print_service_account_details(account)
-                        print('\033[91m' + '\tNo relevant roles found' + '\033[0m')
+                        print_color('✗ No relevant roles found', color="red")
                         print('---')
         if not any_service_account_with_key_permission:
             print("No GCP Service Accounts roles found with the relevant key permissions")
 
     def print_service_account_details(self, account, roles=None):
-        print_color('Name: ' + account['name'], color="green")
-        print_color('Email: ' + account['email'], color="green")
-        print_color('UniqueId: ' + account['uniqueId'], color="green")
+        print_color("→ Service Account Details", color="magenta")
+        print_color('  Name: ' + account['name'], color="cyan")
+        print_color('  Email: ' + account['email'], color="cyan")
+        print_color('  UniqueId: ' + account['uniqueId'], color="cyan")
         if roles:
-            print_color(f'Roles: {", ".join(roles)}', color="green")
+            print_color(f'  Roles: {", ".join(roles)}', color="green")
 
 

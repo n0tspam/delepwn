@@ -38,7 +38,7 @@ def results(oauth_enumerator):
 
     filename = f'results_{timestamp}.txt'
     filepath = os.path.join(result_folder, filename)
-    print_color(f"\n\n[+] Saving results to results/{filename} ...", color="green")
+    print_color(f"\n✓ Saving results to results/{filename}\n", color="green")
 
     with open(filepath, 'w') as f:
         valid_results = oauth_enumerator.get_valid_results()
@@ -54,7 +54,7 @@ def results(oauth_enumerator):
 
 def check(enumerator, testEmail, verbose):
     try:
-        print_color(f"\n[+] Enumerating GCP Resources: Projects and Service Accounts...", color="white")
+        print_color(f"\n→ Enumerating GCP Resources: Projects and Service Accounts...\n", color="cyan")
         enumerator.enumerate_service_accounts()
 
         if testEmail:
@@ -69,7 +69,7 @@ def check(enumerator, testEmail, verbose):
             domain_user_enumerator.print_unique_domain_users()
             oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
 
-        print_color("\n[*] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations) ", color="cyan")
+        print_color("\n[*] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations)\n", color="yellow")
         oauth_enumerator.run()
         confirmed_dwd_keys = oauth_enumerator.confirmed_dwd_keys
         enumerator.key_creator.delete_keys_without_dwd(confirmed_dwd_keys)

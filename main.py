@@ -15,7 +15,7 @@ def check_gcp_bearer_access_token(testEmail, verbose):
             enumerator = ServiceAccountEnumerator(credentials, verbose=verbose)
             if enumerator.user_email == None:
                 raise Exception(print_color("[-] Error verifying token. Ensure it's refreshed.", color="red"))
-            print_color(f"[+] GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="green")
+            print_color(f"✓ GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="green")
             check(enumerator, testEmail, verbose)
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -56,7 +56,6 @@ def main():
     verbose = args.verbose
 
     if args.command == 'enum':
-        print_color(f"\n[*] Beginning check for service accounts with Domain-Wide delegation privileges..\n", color="cyan")
         check_gcp_bearer_access_token(args.email, verbose)
     elif args.command == 'drive':
         OUTPUTFILE = args.output

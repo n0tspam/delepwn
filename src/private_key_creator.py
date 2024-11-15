@@ -32,10 +32,10 @@ class PrivateKeyCreator:
                                     scopes=['https://www.googleapis.com/auth/cloud-platform.read-only']
                                 )
                                 creds.refresh(Request())
-                                print_color(f"[*] Using existing valid key for {sa_email} at {file_path}", color="cyan")
+                                print_color(f"  Using existing valid key for {sa_email} at {file_path}\n", color="blue")
                                 return True
                             except Exception as e:
-                                print_color(f"[!] Found existing key for {sa_email} but it's invalid ({str(e)}), creating new one.", color="yellow")
+                                print_color(f"  Found existing key for {sa_email} but it's invalid ({str(e)}), creating new one.", color="blue")
                                 # Make sure file is closed before trying to remove it
                                 try:
                                     f.close()  # Ensure the file is closed
@@ -72,7 +72,7 @@ class PrivateKeyCreator:
             with open(file_path, "w") as file:
                 json.dump(key_data, file)  # Save the decoded key data, not the entire key object
 
-            print_color(f"\n[*] Key created and saved to {file_path}", color="cyan")
+            print_color(f"\n[*] Key created and saved to {file_path}", color="blue")
 
         except Exception as e:
             if "Precondition check failed." in str(e):
@@ -87,7 +87,7 @@ class PrivateKeyCreator:
         """ Delete the remote service account key """
         try:
             self.iam_service.projects().serviceAccounts().keys().delete(name=key_name).execute()
-            print_color(f"[+] Successfully deleted remote service account key: {key_name}", color="green")
+            print_color(f"✓ Successfully deleted remote service account key: {key_name}", color="green")
         except Exception as e:
             print_color(f"[!] Error deleting remote key {key_name}: {e}", color="red")
 
@@ -109,6 +109,6 @@ class PrivateKeyCreator:
                         self.delete_remote_key(resource_name)
                     # Delete the key locally
                     os.remove(full_path)
-                    print_color(f"[+] Deleted local service account key without DWD: {full_path}", color="green")
+                    print_color(f"✓ Deleted local service account key without DWD: {full_path}", color="green")
                 except OSError as e:
                     print_color(f"Error deleting {full_path}: {e}", color="red")

@@ -1,3 +1,4 @@
+from utils.text_color import print_color
 
 class DomainUserEnumerator:
     """ Find target Workspace users using GCP projects role enumeration. returns one email address per distinct domain org """
@@ -32,8 +33,10 @@ class DomainUserEnumerator:
     def print_unique_domain_users(self):
         unique_domain_users = self.list_unique_domain_users()
         if unique_domain_users:
-            print("\n[+] Single domain IAM user for creating valid JWT objects to Google Workspace retrieved ...")
+            print_color("\n✓ Single domain IAM user for creating valid JWT objects to Google Workspace found...", color="green")
             for domain, user in unique_domain_users.items():
-                print(f"Domain: {domain}, User: {user}")
+                print_color(f"  Domain: {domain}", color="cyan")
+                print_color(f"  User: {user}", color="cyan")
         else:
-            print("\nNo unique domain IAM users found in the specified projects.")
+            print_color("\n  No unique domain IAM users found in the specified projects.", color="yellow")
+
