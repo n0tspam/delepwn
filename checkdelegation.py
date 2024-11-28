@@ -8,7 +8,7 @@ from src import oauth_scope_enumerator
 from src.domain_users_enum import DomainUserEnumerator
 import os
 import traceback
-import time
+from datetime import datetime
 from utils.text_color import print_color
 
 SCOPES_FILE = 'src/oauth_scopes.txt'  #  scopes file
@@ -31,28 +31,53 @@ class CustomCredentials(Credentials):
 
 
 def results(oauth_enumerator):
-    timestamp = int(time.time())
+    """
+    Write enumeration results to a file in the results directory
+    Args:
+        oauth_enumerator: The OAuthEnumerator instance containing results
+    """
+    # Create results directory if it doesn't exist
     result_folder = 'results'
-    if not os.path.exists(result_folder):
-        os.makedirs(result_folder)
+    os.makedirs(result_folder, exist_ok=True)
 
-    filename = f'results_{timestamp}.txt'
+    # Generate filename with datetime
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"delepwn_enum_{timestamp}.txt"
     filepath = os.path.join(result_folder, filename)
-    print_color(f"\n✓ Saving results to results/{filename}\n", color="green")
+
+    valid_results = oauth_enumerator.get_valid_results()
+    
+    if not valid_results:
+        print("\n[!] No valid results found to save.")
+
 
     with open(filepath, 'w') as f:
-        valid_results = oauth_enumerator.get_valid_results()
+        # Write header
+        f.write("=" * 50 + "\n")
+        f.write("DelePwn Enum Scan Results\n")
+        f.write(f"Scan Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("=" * 50 + "\n\n")
+
+        # Write results for each service account
         for json_path, valid_scopes in valid_results.items():
             if valid_scopes:
-                f.write(f'Service Account Key Name: {os.path.basename(json_path)}\n')
-                f.write('Valid OAuth Scopes:\n')
+                # Service Account section
+                f.write("-" * 40 + "\n")
+                f.write(f"Service Account: {os.path.basename(json_path)}\n")
+                f.write("-" * 40 + "\n")
+                
+                # OAuth Scopes section
+                f.write("\nValid OAuth Scopes:\n")
                 for scope in valid_scopes:
-                    f.write(f'{scope}\n')
-                f.write('---\n')
+                    f.write(f"  • {scope}\n")
+                f.write("\n")
+    print(f"\n[+] Results saved to {filepath}")
+
+    return filepath
 
 
 
-def check(enumerator, testEmail, verbose):
+def check(enumerator, testEmail, verbose, enum_output):
     try:
         print_color(f"\n→ Enumerating GCP Resources: Projects and Service Accounts...\n", color="cyan")
         enumerator.enumerate_service_accounts()
@@ -74,7 +99,8 @@ def check(enumerator, testEmail, verbose):
         confirmed_dwd_keys = oauth_enumerator.confirmed_dwd_keys
         enumerator.key_creator.delete_keys_without_dwd(confirmed_dwd_keys)
 
-        results(oauth_enumerator)
+        if enum_output:
+            results(oauth_enumerator)
     except Exception as e:
         print_color(f"An error occurred: {e}", color="red")
         traceback.print_exc()
