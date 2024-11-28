@@ -50,8 +50,6 @@ def results(oauth_enumerator):
     if not valid_results:
         print("\n[!] No valid results found to save.")
 
-box
-
     with open(filepath, 'w') as f:
         # Write header
         f.write("=" * 50 + "\n")
@@ -72,7 +70,7 @@ box
                 for scope in valid_scopes:
                     f.write(f"  • {scope}\n")
                 f.write("\n")
-    print(f"\n[+] Results saved to {filepath}")
+    print_color(f"\n[+] Results saved to {filepath}", color="blue")
 
     return filepath
 
