@@ -252,3 +252,162 @@ class DriveManager:
         except RefreshError:
             print("[*] Token refresh required")
             raise
+    def share_folder_with_user(self, folder_id, target_email, role='writer', notify=False):
+        """Share a folder with a specific user
+        
+        Args:
+            folder_id (str): ID of the folder to share
+            target_email (str): Email of the user to share with
+            role (str, optional): Permission role. Defaults to 'writer'.
+                                Can be 'reader', 'writer', or 'commenter'
+            notify (bool, optional): Whether to send notification email. Defaults to False.
+            
+        Returns:
+            bool: True if sharing was successful, False otherwise
+        """
+        try:
+            permission = {
+                'type': 'user',
+                'role': role,
+                'emailAddress': target_email
+            }
+            
+            result = self.service.permissions().create(
+                fileId=folder_id,
+                body=permission,
+                sendNotificationEmail=notify,
+                fields='id'
+            ).execute()
+            
+            if result and 'id' in result:
+                print_color(f"✓ Shared folder {folder_id} with {target_email}", color="green")
+                return True
+                
+        except HttpError as error:
+            if error.resp.status == 404:
+                print_color(f"× Folder {folder_id} not found", color="red")
+            elif error.resp.status == 400:
+                print_color(f"× Invalid sharing request for folder {folder_id}", color="red")
+            elif error.resp.status == 403:
+                print_color(f"× Permission denied for folder {folder_id}", color="red")
+            else:
+                print_color(f"× Error sharing folder {folder_id}: {str(error)}", color="red")
+        except Exception as e:
+            print_color(f"× Unexpected error sharing folder {folder_id}: {str(e)}", color="red")
+            
+        return False
+
+    def share_all_folders(self, target_email, role='writer', notify=False, root_folder='root'):
+        """Share all folders with a specific user
+        
+        Args:
+            target_email (str): Email of the user to share folders with
+            role (str, optional): Permission role. Defaults to 'writer'
+            notify (bool, optional): Whether to send notification emails. Defaults to False
+            root_folder (str, optional): ID of the root folder. Defaults to 'root'
+            
+        Returns:
+            tuple: (total_folders, successful_shares, failed_shares)
+        """
+        if not self.service:
+            raise ValueError("Service not initialized. Call initialize_service first.")
+
+        try:
+            total_folders = 0
+            successful_shares = 0
+            failed_shares = 0
+            
+            print_color(f"\nStarting folder sharing process...", color="cyan")
+            print_color(f"Target email: {target_email}", color="cyan")
+            print_color(f"Permission role: {role}", color="cyan")
+            
+            # Query to find all folders
+            query = f"mimeType='application/vnd.google-apps.folder' and '{root_folder}' in parents"
+            page_token = None
+            
+            while True:
+                try:
+                    response = self.service.files().list(
+                        q=query,
+                        spaces='drive',
+                        fields='nextPageToken, files(id, name, permissions)',
+                        pageToken=page_token
+                    ).execute()
+                    
+                    folders = response.get('files', [])
+                    for folder in folders:
+                        total_folders += 1
+                        folder_name = folder.get('name', 'Unknown Folder')
+                        print_color(f"\nProcessing: {folder_name}", color="blue")
+                        
+                        # Check if already shared
+                        permissions = folder.get('permissions', [])
+                        already_shared = any(
+                            p.get('emailAddress') == target_email 
+                            for p in permissions
+                        )
+                        
+                        if already_shared:
+                            print_color(f"→ Already shared with {target_email}", color="yellow")
+                            successful_shares += 1
+                            continue
+                            
+                        # Share the folder
+                        if self.share_folder_with_user(folder['id'], target_email, role, notify):
+                            successful_shares += 1
+                        else:
+                            failed_shares += 1
+                    
+                    page_token = response.get('nextPageToken')
+                    if not page_token:
+                        break
+                        
+                except HttpError as error:
+                    print_color(f"Error retrieving folders: {str(error)}", color="red")
+                    break
+            
+            # Print summary
+            print_color("\nSharing Summary:", color="cyan")
+            print_color(f"Total folders processed: {total_folders}", color="white")
+            print_color(f"Successfully shared: {successful_shares}", color="green")
+            print_color(f"Failed to share: {failed_shares}", color="red")
+            
+            return total_folders, successful_shares, failed_shares
+            
+        except Exception as e:
+            print_color(f"\nAn unexpected error occurred: {str(e)}", color="red")
+            return 0, 0, 0
+
+    def get_folder_tree(self, folder_id='root', depth=None):
+        """Get the folder structure as a tree
+        
+        Args:
+            folder_id (str, optional): Starting folder ID. Defaults to 'root'
+            depth (int, optional): Maximum depth to traverse. None for unlimited
+            
+        Returns:
+            dict: Tree structure of folders
+        """
+        try:
+            query = f"mimeType='application/vnd.google-apps.folder' and '{folder_id}' in parents"
+            response = self.service.files().list(
+                q=query,
+                fields='files(id, name)'
+            ).execute()
+            
+            folders = response.get('files', [])
+            tree = {}
+            
+            # Base case for recursion
+            if depth is not None and depth <= 0:
+                return tree
+                
+            for folder in folders:
+                new_depth = None if depth is None else depth - 1
+                tree[folder['name']] = self.get_folder_tree(folder['id'], new_depth)
+                
+            return tree
+            
+        except HttpError as error:
+            print_color(f"Error retrieving folder structure: {str(error)}", color="red")
+            return {}

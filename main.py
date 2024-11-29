@@ -52,6 +52,15 @@ def handle_drive_commands(args):
             # List files (either in specific folder or all)
             drive_manager.list_files(args.output, args.folder)
             
+        elif args.sharefolders:
+            # Share all folders with the specified user
+            print_color(f"\nStarting folder sharing process...", color="cyan")
+            total, success, failed = drive_manager.share_all_folders(
+                target_email=args.sharefolders,
+                role=args.role,
+                root_folder=args.root_folder
+            )
+            
         elif args.download:
             if not args.id:
                 raise ValueError("Must provide a file id with --id argument.")
@@ -89,6 +98,8 @@ def main():
             help='Download a single file from Google Drive')
         group.add_argument('--list', action='store_true',
             help='List all contents of Google Drive')
+        group.add_argument('--sharefolders', type=str, metavar='TARGET_EMAIL',
+            help='Share all folders with the specified target email')
 
         drive_parser.add_argument('--id', type=str, default=None,
             help='Id of the file to download.')
