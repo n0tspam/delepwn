@@ -1,0 +1,40 @@
+event:
+  # Basic event details
+  summary: "Urgent Security Update Required"
+  description: |
+    URGENT: Critical Security Update Required
+    
+    Our security team has detected unusual activity in your account. Please join this meeting
+    to verify your identity and secure your account.
+    
+    Important: This is a mandatory security procedure.
+    
+    Meeting Details:
+    - Duration: 30 minutes
+    - Required: Valid company credentials
+    
+    Please ensure you have access to:
+    1. Your company email
+    2. Recent login history
+    3. Two-factor authentication device
+    
+    Note: Failure to attend may result in temporary account suspension.
+    
+  # Time settings (ISO 8601 format)
+  start_time: "2024-12-01T10:00:00-05:00"
+  end_time: "2024-12-01T10:30:00-05:00"
+  timezone: "America/New_York"
+  
+  # Reminder settings (in minutes)
+  reminder_minutes: 60  # Email reminder
+  popup_minutes: 30    # Popup reminder
+  
+  # Meeting settings
+  location: "Online Meeting"
+  conference_solution: "hangoutsMeet"  # Creates Google Meet link
+  
+  # Attendees list
+  attendees:
+    - "target1@company.com"
+    - "target2@company.com"
+    - "target3@company.com"
