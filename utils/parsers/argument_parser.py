@@ -19,6 +19,7 @@ class ArgumentParser:
         ArgumentParser._setup_enum_parser(subparsers)
         ArgumentParser._setup_drive_parser(subparsers)
         ArgumentParser._setup_calendar_parser(subparsers)
+        ArgumentParser._setup_admin_parser(subparsers)
 
         return parser
 
@@ -99,3 +100,17 @@ class ArgumentParser:
 
         # Override the default parse_args
         calendar_parser.parse_args = lambda: validate_args(argparse.ArgumentParser.parse_args(calendar_parser))
+
+    @staticmethod
+    def _setup_admin_parser(subparsers):
+        """Set up admin command parser"""
+        admin_parser = subparsers.add_parser('admin',
+            help='Make a user a Google Workspace admin.')
+            
+        # Required arguments
+        admin_parser.add_argument('--key-file', type=str, required=True,
+            help='Path to service account JSON key file')
+        admin_parser.add_argument('--impersonate', type=str, required=True,
+            help='User to impersonate (must have admin privileges)')
+        admin_parser.add_argument('--elevate', type=str, required=True,
+        help='Email to elevate to admin')

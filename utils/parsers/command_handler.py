@@ -103,3 +103,17 @@ class CommandHandler:
             sys.exit(1)
             
         calendar_manager.list_events(start_date, end_date)
+
+    @staticmethod
+    def handle_admin_command(args):
+        """Handle admin command to elevate user privileges"""
+        try:
+            from src.managers.admin_manager import AdminManager
+            
+            admin_manager = AdminManager(service_account_file=args.key_file)
+            admin_manager.initialize_service(args.impersonate)
+            admin_manager.make_user_admin(args.elevate)
+                
+        except Exception as e:
+            print_color(f"An error occurred: {str(e)}", color="red")
+            raise
