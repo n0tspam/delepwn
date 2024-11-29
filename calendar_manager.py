@@ -40,7 +40,7 @@ class CalendarManager:
         
         self.service = build('calendar', 'v3', credentials=credentials)
         self.current_user = impersonate_email
-        print_color(f"✓ Initialized calendar service for {impersonate_email}", color="green")
+        print_color(f"✓ Calendar service initialized for {impersonate_email}", color="green")
 
     def list_events(self, start_date, end_date):
         """List events between specified dates
@@ -55,7 +55,7 @@ class CalendarManager:
         try:
             events_result = self.service.events().list(
                 calendarId='primary',
-                timeMin=start_date.isoformat() + 'Z',
+                timeMin=start_date.isoformat() + 'Z',  # 'Z' indicates UTC time
                 timeMax=end_date.isoformat() + 'Z',
                 singleEvents=True,
                 orderBy='startTime'
@@ -118,7 +118,7 @@ class CalendarManager:
             print_color(f"Error getting event details: {error}", color="red")
 
     def create_phishing_event(self, config_path):
-        """Create a calendar event based on YAML configuration
+        """Create a phishing calendar event from YAML configuration
         
         Args:
             config_path (str): Path to YAML configuration file
@@ -127,101 +127,111 @@ class CalendarManager:
             raise ValueError("Service not initialized")
 
         try:
-            # Load configuration
+            # Load and validate configuration
             with open(config_path, 'r') as file:
                 config = yaml.safe_load(file)
 
-            event = {
-                'summary': config['event']['summary'],
-                'location': config.get('event', {}).get('location', ''),
-                'description': config['event']['description'],
-                'start': {
-                    'dateTime': config['event']['start_time'],
-                    'timeZone': config.get('event', {}).get('timezone', 'UTC'),
-                },
-                'end': {
-                    'dateTime': config['event']['end_time'],
-                    'timeZone': config.get('event', {}).get('timezone', 'UTC'),
-                },
-                'attendees': [{'email': email} for email in config['event']['attendees']],
-                'reminders': {
-                    'useDefault': False,
-                    'overrides': [
-                        {'method': 'email', 'minutes': config.get('event', {}).get('reminder_minutes', 60)},
-                        {'method': 'popup', 'minutes': config.get('event', {}).get('popup_minutes', 30)}
-                    ],
-                }
-            }
+            # Debug output for configuration
+            print_color(f"\nLoaded configuration: {config_path}", color="cyan")
 
-            # Add optional conference details if specified
-            if config.get('event', {}).get('conference_solution'):
+            event_config = config['event']
+            send_notifications = event_config.get('send_notifications', True)
+            
+            # Build event object with required fields
+            event = {
+                'summary': event_config['summary'],
+                'description': event_config['description']
+            }
+            
+            # Add optional fields if present
+            if 'start_time' in event_config:
+                event['start'] = {
+                    'dateTime': event_config['start_time'],
+                    'timeZone': event_config.get('timezone', 'UTC')
+                }
+                
+            if 'end_time' in event_config:
+                event['end'] = {
+                    'dateTime': event_config['end_time'],
+                    'timeZone': event_config.get('timezone', 'UTC')
+                }
+                
+            if 'location' in event_config:
+                event['location'] = event_config['location']
+                
+            if 'attendees' in event_config:
+                event['attendees'] = [{'email': email} for email in event_config['attendees']]
+                print_color(f"\nConfigured attendees:", color="cyan")
+                for attendee in event['attendees']:
+                    print_color(f"  - {attendee['email']}", color="white")
+                
+            if 'reminder_minutes' in event_config or 'popup_minutes' in event_config:
+                event['reminders'] = {
+                    'useDefault': False,
+                    'overrides': []
+                }
+                if 'reminder_minutes' in event_config:
+                    event['reminders']['overrides'].append({
+                        'method': 'email', 
+                        'minutes': event_config['reminder_minutes']
+                    })
+                if 'popup_minutes' in event_config:
+                    event['reminders']['overrides'].append({
+                        'method': 'popup', 
+                        'minutes': event_config['popup_minutes']
+                    })
+
+            # Add conference details if specified
+            if 'conference_solution' in event_config:
                 event['conferenceData'] = {
                     'createRequest': {
                         'requestId': f"meet-{datetime.now().strftime('%Y%m%d-%H%M%S')}",
                         'conferenceSolutionKey': {
-                            'type': config['event']['conference_solution']
+                            'type': event_config['conference_solution']
                         }
                     }
                 }
 
-            event_result = self.service.events().insert(
+            print_color("\nSending event with configuration:", color="cyan")
+            print_color(f"Send notifications: {send_notifications}", color="white")
+
+            # Create the event
+            result = self.service.events().insert(
                 calendarId='primary',
                 body=event,
-                sendUpdates='all',
-                conferenceDataVersion=1 if config.get('event', {}).get('conference_solution') else 0
+                sendUpdates='all' if send_notifications else 'none',
+                conferenceDataVersion=1 if event_config.get('conference_solution') else 0
             ).execute()
 
-            print_color(f"\n✓ Event created successfully", color="green")
-            print_color(f"Event ID: {event_result['id']}", color="white")
-            if 'hangoutLink' in event_result:
-                print_color(f"Meet Link: {event_result['hangoutLink']}", color="white")
+            print_color("\n✓ Calendar event created successfully", color="green")
+            print_color(f"Event ID: {result.get('id')}", color="white")
+            if 'hangoutLink' in result:
+                print_color(f"Meet Link: {result.get('hangoutLink')}", color="white")
+            if 'attendees' in event:
+                print_color(f"Added {len(event['attendees'])} attendee(s)", color="white")
+                print_color("Attendees:", color="white")
+                for attendee in event['attendees']:
+                    print_color(f"  - {attendee['email']}", color="white")
+            print_color(f"Email notifications: {'enabled' if send_notifications else 'disabled'}", color="white")
+
+            return result
+
+        except Exception as e:
+            print_color(f"Error creating event: {str(e)}", color="red")
+            raise
 
         except FileNotFoundError:
             print_color(f"Configuration file not found: {config_path}", color="red")
+            raise
         except yaml.YAMLError as e:
             print_color(f"Error parsing YAML configuration: {e}", color="red")
-        except HttpError as error:
-            print_color(f"Error creating event: {error}", color="red")
-
-    def update_event(self, event_id, summary=None, description=None, location=None):
-        """Update specific fields of an event
-        
-        Args:
-            event_id (str): ID of the event to update
-            summary (str, optional): New summary for the event
-            description (str, optional): New description for the event
-            location (str, optional): New location for the event
-        """
-        if not self.service:
-            raise ValueError("Service not initialized")
-
-        try:
-            # Get the existing event
-            event = self.service.events().get(
-                calendarId='primary',
-                eventId=event_id
-            ).execute()
-
-            # Update specified fields
-            if summary:
-                event['summary'] = summary
-            if description:
-                event['description'] = description
-            if location:
-                event['location'] = location
-
-            updated_event = self.service.events().update(
-                calendarId='primary',
-                eventId=event_id,
-                body=event,
-                sendUpdates='none'
-            ).execute()
-
-            print_color(f"\n✓ Event updated successfully", color="green")
-            print_color(f"Event ID: {event_id}", color="white")
-
-        except HttpError as error:
-            print_color(f"Error updating event: {error}", color="red")
+            raise
+        except ValueError as e:
+            print_color(f"Invalid configuration: {str(e)}", color="red")
+            raise
+        except Exception as e:
+            print_color(f"Error creating event: {str(e)}", color="red")
+            raise
 
     def delete_event(self, event_id):
         """Delete a specific event

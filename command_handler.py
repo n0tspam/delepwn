@@ -73,6 +73,9 @@ class CommandHandler:
     def handle_calendar_command(args):
         """Handle calendar-related commands"""
         try:
+            if args.list and not (args.start_date and args.end_date):
+                raise ValueError("--list requires both --start-date and --end-date")
+                
             calendar_manager = CalendarManager(service_account_file=args.key_file)
             calendar_manager.initialize_service(args.impersonate)
 

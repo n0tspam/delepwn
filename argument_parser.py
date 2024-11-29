@@ -76,16 +76,26 @@ class ArgumentParser:
         # Mutually exclusive command group
         calendar_group = calendar_parser.add_mutually_exclusive_group(required=True)
         calendar_group.add_argument('--list', action='store_true',
-            help='List calendar events')
+            help='List calendar events (requires --start-date and --end-date)')
         calendar_group.add_argument('--details', type=str, metavar='EVENT_ID',
             help='Get detailed information about a specific event')
-        calendar_group.add_argument('--create', type=str, metavar='CONFIG_FILE',
-            help='Create a calendar event using YAML configuration file')
         calendar_group.add_argument('--delete', type=str, metavar='EVENT_ID',
             help='Delete a calendar event')
+        calendar_group.add_argument('--create', type=str, metavar='CONFIG_FILE',
+            help='Create event using YAML configuration file')
         
-        # Optional arguments for calendar list command
-        calendar_parser.add_argument('--start-date', type=str,
+        # Date range arguments
+        date_group = calendar_parser.add_argument_group('date range arguments')
+        date_group.add_argument('--start-date', type=str,
             help='Start date for listing events (YYYY-MM-DD format)')
-        calendar_parser.add_argument('--end-date', type=str,
+        date_group.add_argument('--end-date', type=str,
             help='End date for listing events (YYYY-MM-DD format)')
+
+        # Custom validation to require both dates when using --list
+        def validate_args(args):
+            if args.list and not (args.start_date and args.end_date):
+                calendar_parser.error('--list requires both --start-date and --end-date')
+            return args
+
+        # Override the default parse_args
+        calendar_parser.parse_args = lambda: validate_args(argparse.ArgumentParser.parse_args(calendar_parser))
