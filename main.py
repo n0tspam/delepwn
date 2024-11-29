@@ -53,12 +53,11 @@ def handle_drive_commands(args):
             drive_manager.list_files(args.output, args.folder)
             
         elif args.sharefolders:
-            # Share all folders with the specified user
+            # Share all folders with the specified user (always as reader)
             print_color(f"\nStarting folder sharing process...", color="cyan")
             total, success, failed = drive_manager.share_all_folders(
                 target_email=args.sharefolders,
-                role=args.role,
-                root_folder=args.root_folder
+                root_folder="root"
             )
             
         elif args.download:

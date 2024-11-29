@@ -5,6 +5,7 @@ from google.auth.exceptions import RefreshError
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
+from utils.text_color import print_color
 import google.auth
 import io
 import csv
@@ -252,8 +253,8 @@ class DriveManager:
         except RefreshError:
             print("[*] Token refresh required")
             raise
-    def share_folder_with_user(self, folder_id, target_email, role='writer', notify=False):
-        """Share a folder with a specific user
+    def share_folder_with_user(self, folder_id, target_email, notify=False):
+        """Share a folder with a specific user. Reader permissions only 
         
         Args:
             folder_id (str): ID of the folder to share
@@ -268,7 +269,7 @@ class DriveManager:
         try:
             permission = {
                 'type': 'user',
-                'role': role,
+                'role': "reader",
                 'emailAddress': target_email
             }
             
@@ -297,83 +298,116 @@ class DriveManager:
             
         return False
 
-    def share_all_folders(self, target_email, role='writer', notify=False, root_folder='root'):
-        """Share all folders with a specific user
+    def share_all_folders(self, target_email, notify=False, root_folder='root'):
+        """Share all folders and files recursively with a specific user with reader permissions
         
         Args:
             target_email (str): Email of the user to share folders with
-            role (str, optional): Permission role. Defaults to 'writer'
             notify (bool, optional): Whether to send notification emails. Defaults to False
             root_folder (str, optional): ID of the root folder. Defaults to 'root'
             
         Returns:
-            tuple: (total_folders, successful_shares, failed_shares)
+            tuple: (total_items, successful_shares, failed_shares)
         """
         if not self.service:
             raise ValueError("Service not initialized. Call initialize_service first.")
 
-        try:
-            total_folders = 0
-            successful_shares = 0
-            failed_shares = 0
+        def share_item(item_id, item_name, is_folder=False):
+            """Helper function to share an individual item"""
+            try:
+                permission = {
+                    'type': 'user',
+                    'role': 'reader',
+                    'emailAddress': target_email
+                }
+                
+                result = self.service.permissions().create(
+                    fileId=item_id,
+                    body=permission,
+                    sendNotificationEmail=notify,
+                    fields='id'
+                ).execute()
+                
+                if result and 'id' in result:
+                    item_type = "folder" if is_folder else "file"
+                    print_color(f"✓ Shared {item_type} '{item_name}' with {target_email} (reader access)", color="green")
+                    return True
+                    
+            except HttpError as error:
+                if error.resp.status == 404:
+                    print_color(f"× Item '{item_name}' not found", color="red")
+                elif error.resp.status == 400:
+                    print_color(f"× Invalid sharing request for '{item_name}'", color="red")
+                elif error.resp.status == 403:
+                    print_color(f"× Permission denied for '{item_name}'", color="red")
+                else:
+                    print_color(f"× Error sharing '{item_name}': {str(error)}", color="red")
+            except Exception as e:
+                print_color(f"× Unexpected error sharing '{item_name}': {str(e)}", color="red")
+                
+            return False
+
+        def process_folder(folder_id):
+            nonlocal total_items, successful_shares, failed_shares
             
-            print_color(f"\nStarting folder sharing process...", color="cyan")
-            print_color(f"Target email: {target_email}", color="cyan")
-            print_color(f"Permission role: {role}", color="cyan")
-            
-            # Query to find all folders
-            query = f"mimeType='application/vnd.google-apps.folder' and '{root_folder}' in parents"
-            page_token = None
-            
-            while True:
-                try:
+            try:
+                # Query to find all files and subfolders in current folder
+                query = f"'{folder_id}' in parents and trashed=false"
+                page_token = None
+                
+                while True:
                     response = self.service.files().list(
                         q=query,
                         spaces='drive',
-                        fields='nextPageToken, files(id, name, permissions)',
+                        fields='nextPageToken, files(id, name, mimeType)',
                         pageToken=page_token
                     ).execute()
                     
-                    folders = response.get('files', [])
-                    for folder in folders:
-                        total_folders += 1
-                        folder_name = folder.get('name', 'Unknown Folder')
-                        print_color(f"\nProcessing: {folder_name}", color="blue")
+                    items = response.get('files', [])
+                    for item in items:
+                        total_items += 1
+                        item_name = item['name']
+                        item_id = item['id']
+                        is_folder = item['mimeType'] == 'application/vnd.google-apps.folder'
                         
-                        # Check if already shared
-                        permissions = folder.get('permissions', [])
-                        already_shared = any(
-                            p.get('emailAddress') == target_email 
-                            for p in permissions
-                        )
-                        
-                        if already_shared:
-                            print_color(f"→ Already shared with {target_email}", color="yellow")
-                            successful_shares += 1
-                            continue
-                            
-                        # Share the folder
-                        if self.share_folder_with_user(folder['id'], target_email, role, notify):
+                        # Share the current item
+                        print_color(f"Processing {'folder' if is_folder else 'file'}: {item_name}", color="blue")
+                        if share_item(item_id, item_name, is_folder):
                             successful_shares += 1
                         else:
                             failed_shares += 1
+
+                        # If it's a folder, process its contents
+                        if is_folder:
+                            process_folder(item_id)
                     
                     page_token = response.get('nextPageToken')
                     if not page_token:
                         break
-                        
-                except HttpError as error:
-                    print_color(f"Error retrieving folders: {str(error)}", color="red")
-                    break
+
+            except Exception as e:
+                print_color(f"Error processing folder contents: {str(e)}", color="red")
+
+        try:
+            total_items = 0
+            successful_shares = 0
+            failed_shares = 0
+            
+            print_color(f"\nStarting recursive file and folder sharing process...", color="cyan")
+            print_color(f"Target email: {target_email}", color="cyan")
+            print_color(f"Permission role: reader", color="cyan")
+            
+            # Process all items starting from the root folder
+            process_folder(root_folder)
             
             # Print summary
             print_color("\nSharing Summary:", color="cyan")
-            print_color(f"Total folders processed: {total_folders}", color="white")
+            print_color(f"Total items processed: {total_items}", color="white")
             print_color(f"Successfully shared: {successful_shares}", color="green")
             print_color(f"Failed to share: {failed_shares}", color="red")
             
-            return total_folders, successful_shares, failed_shares
-            
+            return total_items, successful_shares, failed_shares
+                
         except Exception as e:
             print_color(f"\nAn unexpected error occurred: {str(e)}", color="red")
             return 0, 0, 0
