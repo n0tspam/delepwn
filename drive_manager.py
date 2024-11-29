@@ -9,6 +9,7 @@ from utils.text_color import print_color
 import google.auth
 import io
 import csv
+import os
 
 class DriveManager:
     """Class to manage Google Drive operations with domain-wide delegation"""
@@ -63,7 +64,7 @@ class DriveManager:
         
         Args:
             file_id: ID of the file to download
-            
+                
         Returns:
             tuple: (file_name, file_content) or (None, None) if error occurs
         """
@@ -77,12 +78,17 @@ class DriveManager:
             # Get file metadata
             file_metadata = self.service.files().get(
                 fileId=file_id, 
-                fields='name, mimeType'
+                fields='name, mimeType, size'
             ).execute()
             
-            print("Metadata: ", file_metadata)
+            print_color(f"\nDownloading file: {file_metadata.get('name')}", color="cyan")
             file_name = file_metadata.get('name')
             mime_type = file_metadata.get('mimeType')
+            file_size = file_metadata.get('size', 'unknown')
+            
+            print_color(f"File type: {mime_type}", color="cyan")
+            print_color(f"File size: {file_size} bytes", color="cyan")
+            
             file = io.BytesIO()
 
             if mime_type.startswith('application/vnd.google-apps.'):
@@ -90,8 +96,16 @@ class DriveManager:
                 export_mime_type = {
                     'application/vnd.google-apps.document': 'application/pdf',
                     'application/vnd.google-apps.spreadsheet': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    'application/vnd.google-apps.presentation': 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-                }.get(mime_type, 'application/pdf')
+                    'application/vnd.google-apps.presentation': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'application/vnd.google-apps.drawing': 'application/pdf',
+                    'application/vnd.google-apps.script': 'application/json',
+                    'application/vnd.google-apps.form': 'application/pdf',
+                    'application/vnd.google-apps.site': 'text/plain',
+                }.get(mime_type)
+                
+                if not export_mime_type:
+                    print_color(f"Warning: Unsupported Google Workspace file type: {mime_type}", color="yellow")
+                    return None, None
 
                 request = self.service.files().export_media(
                     fileId=file_id, 
@@ -101,31 +115,60 @@ class DriveManager:
                 file_extension = {
                     'application/pdf': '.pdf',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
-                    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx'
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
+                    'application/json': '.json',
+                    'text/plain': '.txt'
                 }.get(export_mime_type, '.pdf')
                 
-                file_name += file_extension
+                if not file_name.endswith(file_extension):
+                    file_name += file_extension
             else:
                 # Handle binary files
                 request = self.service.files().get_media(fileId=file_id)
 
             downloader = MediaIoBaseDownload(file, request)
-            print("Downloader: ", downloader)
             
             done = False
+            last_progress = 0
+            
             while not done:
                 status, done = downloader.next_chunk()
-                print(f"Download {int(status.progress() * 100)}%.")
+                if status:
+                    progress = int(status.progress() * 100)
+                    if progress - last_progress >= 10:  # Update every 10%
+                        print_color(f"Download progress: {progress}%", color="blue")
+                        last_progress = progress
 
             if file.getvalue():
-                with open(file_name, 'wb') as f:
+                # Create a downloads directory if it doesn't exist
+                os.makedirs('downloads', exist_ok=True)
+                file_path = os.path.join('downloads', file_name)
+                
+                # Check if file already exists and handle naming
+                counter = 1
+                base_name, extension = os.path.splitext(file_path)
+                while os.path.exists(file_path):
+                    file_path = f"{base_name}_{counter}{extension}"
+                    counter += 1
+                
+                with open(file_path, 'wb') as f:
                     f.write(file.getvalue())
-                print(f'File downloaded as {file_name}')
-
-            return file_name, file.getvalue()
+                print_color(f'\n✓ File downloaded successfully as: {file_path}', color="green")
+                return file_name, file.getvalue()
+            
+            print_color("× No data received for download", color="red")
+            return None, None
 
         except HttpError as error:
-            print(f"An error occurred: {error}")
+            if error.resp.status == 404:
+                print_color(f"× File not found: {file_id}", color="red")
+            elif error.resp.status == 403:
+                print_color(f"× Access denied to file: {file_id}", color="red")
+            else:
+                print_color(f"× An error occurred while downloading: {str(error)}", color="red")
+            return None, None
+        except Exception as e:
+            print_color(f"× Unexpected error while downloading: {str(e)}", color="red")
             return None, None
 
     def get_file_extension(self, mime_type):
