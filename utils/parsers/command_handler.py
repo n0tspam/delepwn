@@ -4,10 +4,10 @@ import sys
 import csv
 from datetime import datetime, timedelta
 from src.gcp_sa_enum import ServiceAccountEnumerator
-from checkdelegation import CustomCredentials, check
+from src.checkdelegation import CustomCredentials, check
 from utils.text_color import print_color
-from drive_manager import DriveManager
-from calendar_manager import CalendarManager
+from src.managers.drive_manager import DriveManager
+from src.managers.calendar_manager import CalendarManager
 
 class CommandHandler:
     """Handles command execution for different modules"""

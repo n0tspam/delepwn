@@ -3,8 +3,8 @@
 import sys
 import traceback
 from utils.text_color import print_color
-from argument_parser import ArgumentParser
-from command_handler import CommandHandler
+from utils.parsers.argument_parser import ArgumentParser
+from utils.parsers.command_handler import CommandHandler
 
 def main():
     """Main entry point for the application"""
