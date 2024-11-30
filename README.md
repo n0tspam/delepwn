@@ -70,6 +70,14 @@ pip install .
 delepwn [command] [options]
 ```
 
+## Requirements
+
+- Python 3.8 or higher
+- Poetry package manager
+- Valid GCP Bearer Access Token for a user with `iam.serviceAccountKeys.create` permission
+
+## Usage
+
 ### Environment Setup
 
 Before running any commands, make sure to set up your GCP Bearer Access Token:
@@ -80,14 +88,6 @@ set GCP_BEARER_ACCESS_TOKEN=your_token_here       # Windows CMD
 $env:GCP_BEARER_ACCESS_TOKEN="your_token_here"    # Windows PowerShell
 ```
 
-
-## Requirements
-
-- Python 3.8 or higher
-- Poetry package manager
-- Valid GCP Bearer Access Token for a user with `iam.serviceAccountKeys.create` permission
-
-## Usage
 
 ### Basic Commands
 
