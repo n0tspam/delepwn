@@ -105,12 +105,17 @@ class ArgumentParser:
     def _setup_admin_parser(subparsers):
         """Set up admin command parser"""
         admin_parser = subparsers.add_parser('admin',
-            help='Make a user a Google Workspace admin.')
+            help='Manage Google Workspace admin privileges.')
             
         # Required arguments
         admin_parser.add_argument('--key-file', type=str, required=True,
             help='Path to service account JSON key file')
         admin_parser.add_argument('--impersonate', type=str, required=True,
             help='User to impersonate (must have admin privileges)')
-        admin_parser.add_argument('--elevate', type=str, required=True,
-        help='Email to elevate to admin')
+            
+        # Action group (mutually exclusive)
+        action_group = admin_parser.add_mutually_exclusive_group(required=True)
+        action_group.add_argument('--elevate', type=str,
+            help='Email of existing user to elevate to admin')
+        action_group.add_argument('--create', type=str,
+            help='Create new admin user with this username (domain will be appended)')

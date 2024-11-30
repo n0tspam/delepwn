@@ -106,14 +106,27 @@ class CommandHandler:
 
     @staticmethod
     def handle_admin_command(args):
-        """Handle admin command to elevate user privileges"""
+        """Handle admin commands for user privilege elevation"""
         try:
             from src.managers.admin_manager import AdminManager
             
             admin_manager = AdminManager(service_account_file=args.key_file)
             admin_manager.initialize_service(args.impersonate)
-            admin_manager.make_user_admin(args.elevate)
+            
+            if args.elevate:
+                admin_manager.make_user_admin(args.elevate)
+            elif args.create:
+                # Validate email format
+                if '@' not in args.create:
+                    print_color("× Error: --create requires a full email address", color="red")
+                    return
+                    
+                success, password = admin_manager.create_admin_user(args.create)
+                if success:
+                    print_color(f"\nAdmin Account Created Successfully:", color="green")
+                    print_color(f"Email: {args.create}", color="white")
+                    print_color(f"Password: {password}", color="white")
                 
         except Exception as e:
             print_color(f"An error occurred: {str(e)}", color="red")
-            raise
+            rais
