@@ -1,8 +1,8 @@
 import sys
 import traceback
 from delepwn.utils.text_color import print_color
-from utils.parsers.argument_parser import ArgumentParser
-from utils.parsers.command_handler import CommandHandler
+from delepwn.utils.parsers.argument_parser import ArgumentParser
+from delepwn.utils.parsers.command_handler import CommandHandler
 
 def main():
     """Main entry point for the application"""

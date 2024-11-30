@@ -48,49 +48,99 @@ Domain-Wide Delegation (DWD) is a Google Workspace feature that allows service a
 
 ## Installation
 
-1. Clone the repository:
+Using poetry (recommended):
 ```bash
-git clone https://github.com/yourusername/DelePwn.git
-cd DelePwn
+# Clone the repository
+git clone https://github.com/yourusername/delepwn.git
+cd delepwn
+
+# Install with poetry
+poetry install
+
+# Run delepwn
+poetry run delepwn [command] [options]
 ```
 
-2. Install dependencies using Poetry:
+Using pip:
 ```bash
-poetry install
+# Install from the repository
+pip install .
+
+# Run delepwn
+delepwn [command] [options]
 ```
 
 ## Requirements
 
-- Python 3.7 or higher
+- Python 3.8 or higher
 - Poetry package manager
-- GCP Service Account with appropriate permissions
-- Valid GCP Bearer Access Token
+- Valid GCP Bearer Access Token for a user with `iam.serviceAccountKeys.create` permission
 
 ## Usage
 
 ### Basic Commands
 
 1. Enumeration:
-```
-python main.py enum [--verbose] [--email EMAIL] [--output]
+```bash
+# Using poetry
+poetry run delepwn enum [--verbose] [--email EMAIL] [--output]
+
+# Using direct installation
+delepwn enum [--verbose] [--email EMAIL] [--output]
 ```
 
 2. Drive Operations:
-```
-python main.py drive --key-file KEY_FILE --impersonate EMAIL [--list | --download FILE_ID | --sharefolders TARGET_EMAIL]
+```bash
+# List files
+poetry run delepwn drive --key-file KEY_FILE --impersonate EMAIL --list [--output OUTPUT_FILE]
+
+# Download specific file
+poetry run delepwn drive --key-file KEY_FILE --impersonate EMAIL --download FILE_ID
+
+# Share folders
+poetry run delepwn drive --key-file KEY_FILE --impersonate EMAIL --sharefolders TARGET_EMAIL
 ```
 
 3. Calendar Operations:
-```
-python main.py calendar --key-file KEY_FILE --impersonate EMAIL [--list | --details EVENT_ID | --create CONFIG_FILE | --delete EVENT_ID]
+```bash
+# List events
+poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --list --start-date YYYY-MM-DD --end-date YYYY-MM-DD
+
+# Get event details
+poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --details EVENT_ID
+
+# Create event from config
+poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --create CONFIG_FILE
+
+# Delete event
+poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --delete EVENT_ID
 ```
 
 4. Admin Operations:
-```
-python main.py admin --key-file KEY_FILE --impersonate EMAIL [--elevate TARGET_EMAIL | --create NEW_ADMIN_EMAIL]
+```bash
+# Elevate user to admin
+poetry run delepwn admin --key-file KEY_FILE --impersonate EMAIL --elevate TARGET_EMAIL
+
+# Create new admin user
+poetry run delepwn admin --key-file KEY_FILE --impersonate EMAIL --create NEW_ADMIN_EMAIL
 ```
 
+Note: If you installed the package with pip, you can replace `poetry run delepwn` with just `delepwn` in all the above commands.
+
+### Environment Setup
+
+Before running any commands, make sure to set up your GCP Bearer Access Token:
+
+```bash
+export GCP_BEARER_ACCESS_TOKEN="your_token_here"  # Linux/MacOS
+set GCP_BEARER_ACCESS_TOKEN=your_token_here       # Windows CMD
+$env:GCP_BEARER_ACCESS_TOKEN="your_token_here"    # Windows PowerShell
+```
+
+
 ### Example Calendar Configuration
+
+When using the `calendar --create <config file>` feature, you can specify the appropriate data in a `.yaml` file and pass the path as an argument to the program. You can view the `examples/example_calendarphish.yaml` file included in this repo as a starting point.
 
 ```yaml
 event:
@@ -103,14 +153,6 @@ event:
     - "user1@domain.com"
     - "user2@domain.com"
 ```
-
-## Security Considerations
-
-- This tool is intended for legitimate security assessment purposes only
-- Always obtain proper authorization before testing
-- Follow responsible disclosure practices
-- Be aware of applicable laws and regulations
-- Handle sensitive data appropriately
 
 ## Future Work
 
@@ -137,16 +179,6 @@ event:
    - Web interface development
    - Better progress indicators
    - Enhanced documentation
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to your branch
-5. Submit a pull request
 
 ## Acknowledgements
 

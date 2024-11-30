@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "delepwn"
 version = "0.1.0"
-description = ""
+description = "Security assessment tool for Google Workspace Domain-Wide Delegation"
 authors = ["walt <wg2159@nyu.edu>"]
 readme = "README.md"
 packages = [
-    { include = "delepwn", from = "src" }
+    { include = "delepwn", from = "src" },
+    { include = "managers", from = "src" }
 ]
 
 [tool.poetry.dependencies]
@@ -15,11 +16,13 @@ google-api-python-client = "2.123.0"
 protobuf = "5.29.0"
 pyyaml = "6.0.2"
 requests = "2.32.3"
-
+google-auth = "^2.0.0"
+google-auth-oauthlib = "^1.0.0"
+google-auth-httplib2 = "^0.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-delepwn = "main:main"
+delepwn = "delepwn.main:main"

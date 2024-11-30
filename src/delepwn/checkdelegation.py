@@ -1,11 +1,11 @@
 import yaml
 import argparse
 from google.auth.credentials import Credentials
-from src.gcp_sa_enum import ServiceAccountEnumerator
+from delepwn.gcp_sa_enum import ServiceAccountEnumerator
 from googleapiclient.errors import HttpError
 from google.auth.exceptions import RefreshError
-from src import oauth_scope_enumerator
-from src.domain_users_enum import DomainUserEnumerator
+from delepwn.oauth_scope_enumerator import OAuthEnumerator
+from delepwn.domain_users_enum import DomainUserEnumerator
 import os
 import traceback
 from datetime import datetime

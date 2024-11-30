@@ -1,13 +1,15 @@
-
 import os
 import sys
 import csv
 from datetime import datetime, timedelta
-from src.gcp_sa_enum import ServiceAccountEnumerator
-from src.checkdelegation import CustomCredentials, check
+from delepwn.gcp_sa_enum import ServiceAccountEnumerator
+from delepwn.checkdelegation import CustomCredentials, check
 from delepwn.utils.text_color import print_color
-from src.managers.drive_manager import DriveManager
-from src.managers.calendar_manager import CalendarManager
+from managers.drive_manager import DriveManager
+from managers.calendar_manager import CalendarManager
+from managers.admin_manager import AdminManager
+from delepwn.utils.parsers.argument_parser import ArgumentParser
+
 
 class CommandHandler:
     """Handles command execution for different modules"""
