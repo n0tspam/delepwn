@@ -1,8 +1,6 @@
-# main.py
-
 import sys
 import traceback
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 from utils.parsers.argument_parser import ArgumentParser
 from utils.parsers.command_handler import CommandHandler
 
@@ -29,6 +27,7 @@ def main():
         print_color("An unexpected error occurred:", color="red")
         print(traceback.format_exc())
         sys.exit(1)
+    pass
 
 if __name__ == "__main__":
     main()

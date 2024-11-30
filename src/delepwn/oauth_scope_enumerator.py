@@ -2,7 +2,7 @@ from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from google.auth.exceptions import DefaultCredentialsError, RefreshError
 from src.domain_users_enum import DomainUserEnumerator
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 import requests
 import os
 

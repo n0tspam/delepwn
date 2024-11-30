@@ -4,7 +4,7 @@ from datetime import datetime
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 
 class CalendarManager:
     """Manage Google Calendar operations including listing, updating, and creating events"""

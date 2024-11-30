@@ -1,4 +1,4 @@
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 
 class DomainUserEnumerator:
     """ Find target Workspace users using GCP projects role enumeration. returns one email address per distinct domain org """

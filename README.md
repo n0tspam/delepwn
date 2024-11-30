@@ -2,6 +2,9 @@
 
 DelePwn is a security assessment tool designed to identify and demonstrate the risks associated with Google Workspace Domain-Wide Delegation (DWD) misconfigurations in Google Cloud Platform (GCP) environments. This tool helps security professionals and administrators evaluate their organization's exposure to potential DWD-based attacks.
 
+## What is Domain-Wide Delegation?
+Domain-Wide Delegation (DWD) is a Google Workspace feature that allows service accounts to impersonate any user within a domain and access their Google Workspace data through Google APIs. While this feature is powerful for automation and service integrations, misconfigurations can lead to significant security risks. An attacker who gains access to a service account with DWD could potentially access any user's Gmail, Drive, Calendar, and other Google Workspace services, making it a critical security control that requires careful management.
+
 ## Features
 
 ### Feature Overview
@@ -68,22 +71,22 @@ poetry install
 ### Basic Commands
 
 1. Enumeration:
-```bash
+```
 python main.py enum [--verbose] [--email EMAIL] [--output]
 ```
 
 2. Drive Operations:
-```bash
+```
 python main.py drive --key-file KEY_FILE --impersonate EMAIL [--list | --download FILE_ID | --sharefolders TARGET_EMAIL]
 ```
 
 3. Calendar Operations:
-```bash
+```
 python main.py calendar --key-file KEY_FILE --impersonate EMAIL [--list | --details EVENT_ID | --create CONFIG_FILE | --delete EVENT_ID]
 ```
 
 4. Admin Operations:
-```bash
+```
 python main.py admin --key-file KEY_FILE --impersonate EMAIL [--elevate TARGET_EMAIL | --create NEW_ADMIN_EMAIL]
 ```
 
@@ -147,14 +150,7 @@ Contributions are welcome! Please follow these steps:
 
 ## Acknowledgements
 
-This project builds upon the work of several researchers and tools in the field of cloud security assessment:
 
-- The Google Cloud Platform security research community
-- The creators of the Google API Python client libraries
-- Contributors to various open-source security tools
-- Security researchers who have documented DWD attack vectors
-
-Special thanks to all who have contributed to the understanding of GCP security mechanisms and Domain-Wide Delegation risks.
 
 ## Disclaimer
 
@@ -162,4 +158,24 @@ This tool is intended for security research and legitimate testing purposes only
 
 ## License
 
-[Insert chosen license information here]
+MIT License
+
+Copyright (c) [2024] [n0tspam]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

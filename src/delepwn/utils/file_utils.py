@@ -3,7 +3,7 @@ import yaml
 import csv
 from pathlib import Path
 from typing import List, Dict, Any
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 
 def ensure_dir(directory: str) -> None:
     """Ensure directory exists, create if it doesn't"""

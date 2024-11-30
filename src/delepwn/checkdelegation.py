@@ -9,7 +9,7 @@ from src.domain_users_enum import DomainUserEnumerator
 import os
 import traceback
 from datetime import datetime
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 
 SCOPES_FILE = 'src/oauth_scopes.txt'  #  scopes file
 KEY_FOLDER = 'SA_private_keys'

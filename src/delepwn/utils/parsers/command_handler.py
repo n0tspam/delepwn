@@ -5,7 +5,7 @@ import csv
 from datetime import datetime, timedelta
 from src.gcp_sa_enum import ServiceAccountEnumerator
 from src.checkdelegation import CustomCredentials, check
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 from src.managers.drive_manager import DriveManager
 from src.managers.calendar_manager import CalendarManager
 

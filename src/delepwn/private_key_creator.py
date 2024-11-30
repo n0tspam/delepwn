@@ -3,7 +3,7 @@ import json
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from utils.text_color import print_color
+from delepwn.utils.text_color import print_color
 import base64
 
 class PrivateKeyCreator:

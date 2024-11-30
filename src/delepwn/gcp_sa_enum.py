@@ -1,7 +1,7 @@
 import requests
 from googleapiclient.discovery import build
-from src.private_key_creator import PrivateKeyCreator
-from utils.text_color import print_color
+from delepwn.private_key_creator import PrivateKeyCreator
+from delepwn.utils.text_color import print_color
 
 class ServiceAccountEnumerator:
     """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission  """
