@@ -70,6 +70,17 @@ pip install .
 delepwn [command] [options]
 ```
 
+### Environment Setup
+
+Before running any commands, make sure to set up your GCP Bearer Access Token:
+
+```bash
+export GCP_BEARER_ACCESS_TOKEN="your_token_here"  # Linux/MacOS
+set GCP_BEARER_ACCESS_TOKEN=your_token_here       # Windows CMD
+$env:GCP_BEARER_ACCESS_TOKEN="your_token_here"    # Windows PowerShell
+```
+
+
 ## Requirements
 
 - Python 3.8 or higher
@@ -127,15 +138,6 @@ poetry run delepwn admin --key-file KEY_FILE --impersonate EMAIL --create NEW_AD
 
 Note: If you installed the package with pip, you can replace `poetry run delepwn` with just `delepwn` in all the above commands.
 
-### Environment Setup
-
-Before running any commands, make sure to set up your GCP Bearer Access Token:
-
-```bash
-export GCP_BEARER_ACCESS_TOKEN="your_token_here"  # Linux/MacOS
-set GCP_BEARER_ACCESS_TOKEN=your_token_here       # Windows CMD
-$env:GCP_BEARER_ACCESS_TOKEN="your_token_here"    # Windows PowerShell
-```
 
 
 ### Example Calendar Configuration
