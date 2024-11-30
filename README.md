@@ -180,8 +180,11 @@ event:
    - Better progress indicators
    - Enhanced documentation
 
-## Acknowledgements
+## References / Acknowledgements
 
+Special shoutout to the developers of (https://github.com/axon-git/DeleFriend)[https://github.com/axon-git/DeleFriend]. They have an incredible explanation of how DWD privileges can be enumerated in their repo. Pretty much all of the code from the `enum` function is based on their research and work, so thank you! 
+
+The implementation of the `admin` function was based on [gcp_delegation.py](https://gitlab.com/gitlab-com/gl-security/security-operations/redteam/redteam-public/pocs/gcp_misc/-/blob/master/gcp_delegation.py) so also a shoutout to them!
 
 
 ## Disclaimer
