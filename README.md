@@ -1,4 +1,10 @@
 # DelePwn
+<p align="center">
+    <picture>
+      <img src="delepwn.png" alt="description" width="400">
+    </picture>
+</p>
+<hr />
 
 DelePwn is a security assessment tool designed to identify and demonstrate the risks associated with Google Workspace Domain-Wide Delegation (DWD) misconfigurations in Google Cloud Platform (GCP) environments. This tool helps security professionals and administrators evaluate their organization's exposure to potential DWD-based attacks.
 
