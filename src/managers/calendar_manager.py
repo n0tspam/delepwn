@@ -5,6 +5,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from delepwn.utils.text_color import print_color
+from delepwn.utils.api_utils import handle_api_ratelimit
 
 class CalendarManager:
     """Manage Google Calendar operations including listing, updating, and creating events"""
@@ -42,6 +43,7 @@ class CalendarManager:
         self.current_user = impersonate_email
         print_color(f"✓ Calendar service initialized for {impersonate_email}", color="green")
 
+    @handle_api_ratelimit
     def list_events(self, start_date, end_date):
         """List events between specified dates
         

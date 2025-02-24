@@ -25,9 +25,27 @@ class CommandHandler:
 
         try:
             credentials = CustomCredentials(token)
-            enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose)
+            enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project)
+            enumerator.check_access = args.check_access
+            
+            if args.list_projects:
+                print_color("\n→ Listing accessible GCP projects:\n", color="cyan")
+                projects = enumerator.list_projects()
+                for project in projects:
+                    print_color(f"Project ID: {project['projectId']}", color="white")
+                    print_color(f"Project Name: {project['name']}", color="cyan")
+                    print(f"Project Number: {project['projectNumber']}")
+                    if args.check_access:
+                        roles = project.get('roles', [])
+                        print_color(f"  Your Roles: {', '.join(roles)}", color="yellow")
+                        print_color(f"  Key Creation Perms: {'✓' if any(enumerator.check_permission(r) for r in roles) else '✗'}", 
+                                  color="green" if any(enumerator.check_permission(r) for r in roles) else "red")
+                    print("---")
+                sys.exit(0)
+            
             if enumerator.user_email is None:
                 raise Exception(print_color("[-] Error verifying token. Ensure it's refreshed.", color="red"))
+            
             print_color(f"✓ GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="green")
             check(enumerator, args.email, args.verbose, args.output)
         except Exception as e:

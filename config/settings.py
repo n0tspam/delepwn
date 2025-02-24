@@ -27,3 +27,8 @@ IAM_SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
 
 # Environment variables
 GCP_TOKEN_ENV_VAR = "GCP_BEARER_ACCESS_TOKEN"
+
+# Rate limiting settings
+MAX_API_RETRIES = 5
+RATE_LIMIT_BACKOFF_FACTOR = 2
+API_RETRY_STATUS_CODES = [429, 500, 502, 503, 504]
