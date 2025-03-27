@@ -2,16 +2,18 @@ import requests
 from googleapiclient.discovery import build
 from delepwn.private_key_creator import PrivateKeyCreator
 from delepwn.utils.text_color import print_color
+from delepwn.utils.api_utils import handle_api_ratelimit
 
 class ServiceAccountEnumerator:
     """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission  """
-    def __init__(self, credentials, verbose=False):
+    def __init__(self, credentials, verbose=False, project_id=None):
         self.credentials = credentials
         self.resource_manager_service = build('cloudresourcemanager', 'v1', credentials=self.credentials)
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
         self.user_email = self.get_iam_email_from_token()
         self.key_creator = PrivateKeyCreator(credentials)
         self.verbose = verbose
+        self.project_id = project_id  # Store the specific project ID if provided
 
     def get_iam_email_from_token(self):
         """Get the email (or SA email identifier) associated with the access token provided in order to check for the user relevant role and permissions"""
@@ -45,6 +47,7 @@ class ServiceAccountEnumerator:
                         return account['email']
         return None
 
+    @handle_api_ratelimit
     def get_service_account_details(self, service_account_name):
         """Get detailed information about the service account, including the oauth2ClientId. This function relevant only for SA access tokens"""
         request = self.iam_service.projects().serviceAccounts().get(name=service_account_name)
@@ -74,6 +77,7 @@ class ServiceAccountEnumerator:
                             roles.append(binding['role'])
         return roles
 
+    @handle_api_ratelimit
     def get_project_roles(self, project_id):
         """Get Project-level roles of the IAM User/SA from the IAM Policy"""
         request = self.resource_manager_service.projects().getIamPolicy(
@@ -87,40 +91,54 @@ class ServiceAccountEnumerator:
             for binding in response['bindings']:
                 if 'members' in binding:
                     for member in binding['members']:
-                        # Extract the email or serviceaccount identifier part after the ':' character
-                        _, member_identifier = member.split(':', 1)
-
-                        # Check if the extracted identifier matches the token user email to understand if it has the role
-                        if member_identifier == self.user_email:
-                            roles.append(binding['role'])
-
+                        # Handle different member types properly
+                        if ':' in member:
+                            member_type, member_id = member.split(':', 1)
+                            # Check against both user and service account formats
+                            if member_id == self.user_email:
+                                roles.append(binding['role'])
+                        # Handle special cases like allUsers/allAuthenticatedUsers
+                        else:
+                            if member == self.user_email:
+                                roles.append(binding['role'])
         return roles
 
-
+    @handle_api_ratelimit
     def get_projects(self):
         try:
-            request = self.resource_manager_service.projects().list() # Get list of target projects
+            if self.project_id:  # Check if a specific project was requested
+                try:
+                    # Verify project exists and is accessible
+                    request = self.resource_manager_service.projects().get(projectId=self.project_id)
+                    response = request.execute()
+                    return [self.project_id]  # Return single project ID as list
+                except Exception as e:
+                    print_color(f"Error accessing project {self.project_id}", color="red")
+                    # Fall back to all projects if inaccessible
+            
+            # Default behavior returns all projects
+            request = self.resource_manager_service.projects().list()
             response = request.execute()
             return [project['projectId'] for project in response['projects']]
 
         except Exception as e:
-            print(f"Failed to get projects: {e}")
+            print_color(f"Failed to get projects: {e}", color="red")
             raise e
 
-
     def check_permission(self, role):
-        """ Check if the target role has iam.serviceAccountKeys.create permission """
+        """Check if the target role has iam.serviceAccountKeys.create permission"""
+        try:
+            if "projects/" in role:
+                request = self.iam_service.projects().roles().get(name=role)
+            else:
+                request = self.iam_service.roles().get(name=role)
 
-        # custom role validation - custom roles starting with the following format projects/<project_name>
-        if "projects/" in role:
-            request = self.iam_service.projects().roles().get(name=role)
-        # basic or predefined roles
-        else:
-            request = self.iam_service.roles().get(name=role)
-
-        response = request.execute()
-        permissions = response.get('includedPermissions', [])
-        return 'iam.serviceAccountKeys.create' in permissions
+            response = request.execute()
+            return 'iam.serviceAccountKeys.create' in response.get('includedPermissions', [])
+        except Exception as e:
+            if self.verbose:
+                print_color(f"Error checking role {role}: {str(e)}", color="yellow")
+            return False
 
     def enumerate_service_accounts(self):
         any_service_account_with_key_permission = False
@@ -150,5 +168,23 @@ class ServiceAccountEnumerator:
         print_color('  UniqueId: ' + account['uniqueId'], color="cyan")
         if roles:
             print_color(f'  Roles: {", ".join(roles)}', color="green")
+
+    @handle_api_ratelimit
+    def list_projects(self):
+        """List accessible GCP projects with details and access information"""
+        try:
+            request = self.resource_manager_service.projects().list()
+            response = request.execute()
+            projects = response.get('projects', [])
+            
+            # Enrich with access information if requested
+            if hasattr(self, 'check_access') and self.check_access:
+                for project in projects:
+                    project_id = project['projectId']
+                    project['roles'] = self.get_project_roles(project_id)
+            return projects
+        except Exception as e:
+            print_color(f"Failed to list projects: {e}", color="red")
+            raise e
 
 

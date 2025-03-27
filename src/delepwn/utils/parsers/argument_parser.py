@@ -34,6 +34,12 @@ class ArgumentParser:
             help='Optional: Specify a single email to test DWD against instead of enumerating users')    
         parser_enum.add_argument('--output', action='store_true', default=False,
             help='Enable colored, formatted output in results.txt file')
+        parser_enum.add_argument('--project', type=str,
+            help='Specify a single GCP project ID to enumerate')
+        parser_enum.add_argument('--list-projects', action='store_true',
+            help='List all accessible GCP projects and exit')
+        parser_enum.add_argument('--check-access', action='store_true',
+            help='Show access levels for projects/service accounts')
 
     @staticmethod
     def _setup_drive_parser(subparsers):

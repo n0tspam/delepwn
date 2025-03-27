@@ -4,14 +4,14 @@ from google.auth.credentials import Credentials
 from delepwn.gcp_sa_enum import ServiceAccountEnumerator
 from googleapiclient.errors import HttpError
 from google.auth.exceptions import RefreshError
-from delepwn.oauth_scope_enumerator import OAuthEnumerator
+from delepwn import oauth_scope_enumerator
 from delepwn.domain_users_enum import DomainUserEnumerator
 import os
 import traceback
 from datetime import datetime
 from delepwn.utils.text_color import print_color
 
-SCOPES_FILE = 'src/oauth_scopes.txt'  #  scopes file
+SCOPES_FILE = 'src/delepwn/oauth_scopes.txt'  #  scopes file
 KEY_FOLDER = 'SA_private_keys'
 
 
