@@ -177,11 +177,9 @@ class ServiceAccountEnumerator:
             response = request.execute()
             projects = response.get('projects', [])
             
-            # Enrich with access information if requested
-            if hasattr(self, 'check_access') and self.check_access:
-                for project in projects:
-                    project_id = project['projectId']
-                    project['roles'] = self.get_project_roles(project_id)
+            for project in projects:
+                project_id = project['projectId']
+                project['roles'] = self.get_project_roles(project_id)
             return projects
         except Exception as e:
             print_color(f"Failed to list projects: {e}", color="red")

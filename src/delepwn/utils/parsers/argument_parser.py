@@ -37,9 +37,8 @@ class ArgumentParser:
         parser_enum.add_argument('--project', type=str,
             help='Specify a single GCP project ID to enumerate')
         parser_enum.add_argument('--list-projects', action='store_true',
-            help='List all accessible GCP projects and exit')
-        parser_enum.add_argument('--check-access', action='store_true',
-            help='Show access levels for projects/service accounts')
+            help='List all accessible GCP projects and show access only.')
+
 
     @staticmethod
     def _setup_drive_parser(subparsers):

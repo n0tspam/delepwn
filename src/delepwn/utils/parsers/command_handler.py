@@ -20,13 +20,13 @@ class CommandHandler:
         token = os.environ.get('GCP_BEARER_ACCESS_TOKEN')
         if not token:
             print_color("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for "
-                       "a user with the iam.ServiceAccountKeys.create permission.", color="red")
+                       "a user with the iam.ServiceAccountKeys.create permission.\n\nRun 'gcloud auth print-access-token' to get a valid token.", color="red")
             sys.exit(1)
 
         try:
             credentials = CustomCredentials(token)
             enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project)
-            enumerator.check_access = args.check_access
+            #enumerator.check_access = args.check_access
             
             if args.list_projects:
                 print_color("\n→ Listing accessible GCP projects:\n", color="cyan")
@@ -35,11 +35,10 @@ class CommandHandler:
                     print_color(f"Project ID: {project['projectId']}", color="white")
                     print_color(f"Project Name: {project['name']}", color="cyan")
                     print(f"Project Number: {project['projectNumber']}")
-                    if args.check_access:
-                        roles = project.get('roles', [])
-                        print_color(f"  Your Roles: {', '.join(roles)}", color="yellow")
-                        print_color(f"  Key Creation Perms: {'✓' if any(enumerator.check_permission(r) for r in roles) else '✗'}", 
-                                  color="green" if any(enumerator.check_permission(r) for r in roles) else "red")
+                    roles = project.get('roles', [])
+                    print_color(f"  Your Roles: {', '.join(roles)}", color="yellow")
+                    print_color(f"  Key Creation Perms: {'✓' if any(enumerator.check_permission(r) for r in roles) else '✗'}", 
+                                color="green" if any(enumerator.check_permission(r) for r in roles) else "red")
                     print("---")
                 sys.exit(0)
             
@@ -149,4 +148,4 @@ class CommandHandler:
                 
         except Exception as e:
             print_color(f"An error occurred: {str(e)}", color="red")
-            rais
+            raise
