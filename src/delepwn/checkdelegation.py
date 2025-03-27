@@ -1,3 +1,4 @@
+import sys
 import yaml
 import argparse
 from google.auth.credentials import Credentials
@@ -103,3 +104,64 @@ def check(enumerator, testEmail, verbose, enum_output):
     except Exception as e:
         print_color(f"An error occurred: {e}", color="red")
         traceback.print_exc()
+
+def test_service_account_key(credentials, args, verbose=False):
+    """Test a service account key file for Domain-Wide Delegation privileges
+    
+    Args:
+        credentials: The service account credentials to test
+        args: Command line arguments
+        verbose: Whether to show detailed output
+    """
+    from google.oauth2.credentials import Credentials
+    from googleapiclient.discovery import build
+    import google.auth.transport.requests
+    
+    # Read all OAuth scopes from the file
+    with open(SCOPES_FILE, 'r') as file:
+        test_scopes = [line.strip() for line in file.readlines()]
+    
+    print_color("\nTesting for Domain-Wide Delegation privileges...", color="cyan")
+    
+    # Pull from the user that the user provided in --email OR enumerate and find the first valid user
+    if args.email:
+        test_user = args.email
+    else:
+        print_color("\n[-] No email provided. Please provide a valid email address using --email\n[!] An invalid email will give a false negative!", color="red")
+        sys.exit(1)
+
+    if verbose:
+        print_color(f"\nTesting impersonation of {test_user}", color="yellow")
+        print_color("Testing the following scopes:", color="yellow")
+        for scope in test_scopes:
+            print(f"  - {scope}")
+    
+    authorized_scopes = []
+    
+    for scope in test_scopes:
+        try:
+            # Try to create delegated credentials
+            delegated_credentials = credentials.with_subject(test_user)
+            delegated_credentials = delegated_credentials.with_scopes([scope])
+            
+            # Try to refresh the token
+            request = google.auth.transport.requests.Request()
+            delegated_credentials.refresh(request)
+            
+            authorized_scopes.append(scope)
+            if verbose:
+                print_color(f"✓ Successfully authorized scope: {scope}", color="green")
+                
+        except Exception as e:
+            if verbose:
+                print_color(f"× Failed to authorize scope: {scope}", color="red")
+                print_color(f"  Error: {str(e)}", color="red")
+    
+    # Print results
+    if authorized_scopes:
+        print_color("\n[!] Service account has Domain-Wide Delegation enabled!", color="yellow")
+        print_color("\nAuthorized scopes:", color="green")
+        for scope in authorized_scopes:
+            print(f"  - {scope}")
+    else:
+        print_color("\n[-] Service account does not have Domain-Wide Delegation privileges", color="red")
