@@ -1,22 +1,33 @@
 import requests
 from googleapiclient.discovery import build
-from delepwn.private_key_creator import PrivateKeyCreator
-from delepwn.utils.text_color import print_color
-from delepwn.utils.api_utils import handle_api_ratelimit
+from delepwn.core.key_manager import PrivateKeyCreator
+from delepwn.utils.output import print_color
+from delepwn.utils.api import handle_api_ratelimit
+from delepwn.auth.credentials import CustomCredentials
+import sys
 
 class ServiceAccountEnumerator:
-    """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission  """
+    """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission"""
     def __init__(self, credentials, verbose=False, project_id=None):
         self.credentials = credentials
         self.resource_manager_service = build('cloudresourcemanager', 'v1', credentials=self.credentials)
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
-        self.user_email = self.get_iam_email_from_token()
+        
+        # Handle both CustomCredentials and direct service account credentials
+        if isinstance(credentials, CustomCredentials):
+            self.user_email = (self.get_iam_email_from_token() 
+                              if credentials.token 
+                              else credentials.service_account_email)
+        else:
+            # Direct service account credentials
+            self.user_email = credentials.service_account_email
+        
         self.key_creator = PrivateKeyCreator(credentials)
         self.verbose = verbose
-        self.project_id = project_id  # Store the specific project ID if provided
+        self.project_id = project_id
 
     def get_iam_email_from_token(self):
-        """Get the email (or SA email identifier) associated with the access token provided in order to check for the user relevant role and permissions"""
+        """Get the email associated with the access token"""
         try:
             response = requests.get(
                 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json',
@@ -24,7 +35,7 @@ class ServiceAccountEnumerator:
             )
             response.raise_for_status()
             token_info = response.json()
-            # Service Account access tokens return different token parameters, here we use 'azp' (issued_to) to find the matching service account email
+            # Service Account access tokens return different token parameters
             if 'email' not in token_info:
                 azp = token_info.get('issued_to')
                 return self.find_service_account_email_by_client_id(azp) if azp else None
@@ -141,6 +152,7 @@ class ServiceAccountEnumerator:
             return False
 
     def enumerate_service_accounts(self):
+        """Enumerate service accounts and check for key creation permissions"""
         any_service_account_with_key_permission = False
         for project_id in self.get_projects():
             request = self.iam_service.projects().serviceAccounts().list(name='projects/' + project_id)
@@ -158,8 +170,11 @@ class ServiceAccountEnumerator:
                         self.print_service_account_details(account)
                         print_color('✗ No relevant roles found', color="red")
                         print('---')
+
         if not any_service_account_with_key_permission:
-            print("No GCP Service Accounts roles found with the relevant key permissions")
+            print_color("\n× No GCP Service Accounts roles found with the relevant key permissions", color="red")
+            print_color("  This could mean:\n  1. No service accounts exist in the accessible projects\n  2. You don't have permissions to create keys\n  3. The token has expired", color="yellow")
+            sys.exit(1)
 
     def print_service_account_details(self, account, roles=None):
         print_color("→ Service Account Details", color="magenta")

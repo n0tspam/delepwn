@@ -1,5 +1,4 @@
 # argument_parser.py
-
 import argparse
 
 class ArgumentParser:
@@ -38,7 +37,8 @@ class ArgumentParser:
             help='Specify a single GCP project ID to enumerate')
         parser_enum.add_argument('--list-projects', action='store_true',
             help='List all accessible GCP projects and show access only.')
-
+        parser_enum.add_argument('--key-file', type=str,
+            help='Path to service account JSON key file to test for DWD privileges')
 
     @staticmethod
     def _setup_drive_parser(subparsers):

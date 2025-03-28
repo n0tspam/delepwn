@@ -1,3 +1,5 @@
+"""Global configuration settings"""
+
 import os
 from pathlib import Path
 
@@ -9,7 +11,7 @@ DOWNLOADS_DIR = ROOT_DIR / "downloads"
 EXAMPLES_DIR = ROOT_DIR / "examples"
 
 # OAuth scopes file
-OAUTH_SCOPES_FILE = ROOT_DIR / "src" / "oauth_scopes.txt"
+OAUTH_SCOPES_FILE = 'delepwn/config/oauth_scopes.txt'
 
 # Ensure required directories exist
 for directory in [KEYS_DIR, RESULTS_DIR, DOWNLOADS_DIR]:
@@ -32,3 +34,14 @@ GCP_TOKEN_ENV_VAR = "GCP_BEARER_ACCESS_TOKEN"
 MAX_API_RETRIES = 5
 RATE_LIMIT_BACKOFF_FACTOR = 2
 API_RETRY_STATUS_CODES = [429, 500, 502, 503, 504]
+
+# File paths
+SERVICE_ACCOUNT_KEY_FOLDER = 'SA_private_keys'
+RESULTS_FOLDER = 'results'
+
+# API settings
+API_RETRY_COUNT = 3
+API_RETRY_DELAY = 1  # seconds
+
+# Default timeouts
+DEFAULT_REQUEST_TIMEOUT = 30  # seconds

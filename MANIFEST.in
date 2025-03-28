@@ -1,0 +1,2 @@
+include delepwn/config/oauth_scopes.txt
+recursive-include delepwn * 

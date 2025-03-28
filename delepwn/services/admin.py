@@ -1,7 +1,7 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from delepwn.utils.text_color import print_color
+from delepwn.utils.output import print_color
 import random
 import string
 

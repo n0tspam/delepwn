@@ -1,5 +1,5 @@
-from delepwn.utils.text_color import print_color
-from delepwn.utils.api_utils import handle_api_ratelimit
+from delepwn.utils.output import print_color
+from delepwn.utils.api import handle_api_ratelimit
 
 class DomainUserEnumerator:
     """ Find target Workspace users using GCP projects role enumeration. returns one email address per distinct domain org """
@@ -41,4 +41,16 @@ class DomainUserEnumerator:
                 print_color(f"  User: {user}", color="cyan")
         else:
             print_color("\n  No unique domain IAM users found in the specified projects.", color="yellow")
+
+    def get_first_valid_domain_user(self):
+        """Get the first valid domain user email found during enumeration"""
+        try:
+            self.list_unique_domain_users()
+            if self.single_test_email:
+                first_email = next(iter(self.single_test_email.values()))
+                return first_email
+            return None
+        except Exception as e:
+            print_color(f"Error finding valid domain user: {str(e)}", color="red")
+            return None
 

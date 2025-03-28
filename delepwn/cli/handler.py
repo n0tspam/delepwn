@@ -2,13 +2,14 @@ import os
 import sys
 import csv
 from datetime import datetime, timedelta
-from delepwn.gcp_sa_enum import ServiceAccountEnumerator
-from delepwn.checkdelegation import CustomCredentials, check
-from delepwn.utils.text_color import print_color
-from managers.drive_manager import DriveManager
-from managers.calendar_manager import CalendarManager
-from managers.admin_manager import AdminManager
-from delepwn.utils.parsers.argument_parser import ArgumentParser
+from delepwn.core.enumerator import ServiceAccountEnumerator
+from delepwn.core.delegator import check, test_service_account_key
+from delepwn.utils.output import print_color
+from delepwn.services.drive import DriveManager
+from delepwn.services.calendar import CalendarManager
+from delepwn.services.admin import AdminManager
+from delepwn.auth.credentials import CustomCredentials
+from google.oauth2 import service_account
 
 
 class CommandHandler:
@@ -17,6 +18,68 @@ class CommandHandler:
     @staticmethod
     def handle_enum_command(args):
         """Handle enumeration commands"""
+        # Check for list-projects first
+        if args.list_projects:
+            try:
+                if args.key_file:
+                    # Use service account key file if provided
+                    try:
+                        credentials = service_account.Credentials.from_service_account_file(args.key_file)
+                        print_color(f"✓ Successfully loaded service account: {credentials.service_account_email}", color="green")
+                    except Exception as e:
+                        print_color(f"× Error loading service account key file: {str(e)}", color="red")
+                        sys.exit(1)
+                else:
+                    # Use token authentication
+                    token = os.environ.get('GCP_BEARER_ACCESS_TOKEN')
+                    if not token:
+                        print_color("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for "
+                                "a user with the iam.ServiceAccountKeys.create permission.\n\nRun 'gcloud auth print-access-token' to get a valid token.", color="red")
+                        sys.exit(1)
+                    credentials = CustomCredentials(token)
+
+                enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project)
+                
+                print_color("\n→ Listing accessible GCP projects:\n", color="cyan")
+                projects = enumerator.list_projects()
+                for project in projects:
+                    print_color(f"Project ID: {project['projectId']}", color="white")
+                    print_color(f"Project Name: {project['name']}", color="cyan")
+                    print(f"Project Number: {project['projectNumber']}")
+                    roles = project.get('roles', [])
+                    print_color(f"  Your Roles: {', '.join(roles)}", color="yellow")
+                    print_color(f"  Key Creation Perms: {'✓' if any(enumerator.check_permission(r) for r in roles) else '✗'}", 
+                                color="green" if any(enumerator.check_permission(r) for r in roles) else "red")
+                    print("---")
+                sys.exit(0)
+            except Exception as e:
+                print_color(f"An error occurred while listing projects: {str(e)}", color="red")
+                raise
+            return
+
+        # If key file is provided, test it directly for DWD privileges
+        if args.key_file:
+            try:
+                print_color(f"\n→ Testing service account key file: {args.key_file}", color="cyan")
+                
+                # Load the service account key
+                try:
+                    credentials = service_account.Credentials.from_service_account_file(args.key_file)
+                    service_account_email = credentials.service_account_email
+                    print_color(f"✓ Successfully loaded service account: {service_account_email}", color="green")
+                except Exception as e:
+                    print_color(f"× Error loading service account key file: {str(e)}", color="red")
+                    sys.exit(1)
+                    
+                # Test the service account for DWD
+                test_service_account_key(credentials, args, args.verbose)
+                return
+                
+            except Exception as e:
+                print_color(f"An error occurred while testing service account: {str(e)}", color="red")
+                sys.exit(1)
+        
+        # Original enumeration logic for when no key file is provided
         token = os.environ.get('GCP_BEARER_ACCESS_TOKEN')
         if not token:
             print_color("GCP_BEARER_ACCESS_TOKEN environment variable is not set. This tool requires an access token for "
