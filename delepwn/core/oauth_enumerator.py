@@ -1,8 +1,8 @@
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from google.auth.exceptions import DefaultCredentialsError, RefreshError
-from delepwn.domain_users_enum import DomainUserEnumerator
-from delepwn.utils.text_color import print_color
+from delepwn.core.domain_users import DomainUserEnumerator
+from delepwn.utils.output import print_color
 import requests
 import os
 
@@ -60,9 +60,9 @@ class OAuthEnumerator:
     def print_valid_output(self):
         for token, scopes in self.valid_results.items():
             print_color(f"Service Account with Domain-Wide Delegation: {token}", color="cyan")
-            print_color("-" * len(token), color="cyan")
+            print_color(f"Authorized scopes:", color="green")
             for scope in scopes:
-                print_color(f"✔ {scope}", color="green")
+                print_color(f"  ✔ {scope}", color="green")
 
     def token_validator(self, jwt_objects):
         """ Validate access tokens for each JWT object combination  """
@@ -99,7 +99,7 @@ class OAuthEnumerator:
             return
 
         if not os.path.exists(self.key_folder) or not os.listdir(self.key_folder):
-            print_color('[!] No GCP private key pairs were found. It might suggest the IAM user doesn’t have permission to create keys on target Service Accounts. Try to use different GCP identity', color="red")
+            print_color("[!] No GCP private key pairs were found. It might suggest the IAM user doesn't have permission to create keys on target Service Accounts. Try to use different GCP identity", color="red")
             return
 
         total_combinations = self.total_jwt_combinations()

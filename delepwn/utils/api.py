@@ -1,7 +1,7 @@
 import time
 import logging
 from googleapiclient.errors import HttpError
-from delepwn.utils.text_color import print_color
+from delepwn.utils.output import print_color
 
 def handle_api_ratelimit(func):
     """Decorator to handle API rate limiting with exponential backoff"""

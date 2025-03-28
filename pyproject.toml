@@ -5,8 +5,7 @@ description = "Security assessment tool for Google Workspace Domain-Wide Delegat
 authors = ["walt <wg2159@nyu.edu>"]
 readme = "README.md"
 packages = [
-    { include = "delepwn", from = "src" },
-    { include = "managers", from = "src" }
+    { include = "delepwn" }
 ]
 
 [tool.poetry.dependencies]

@@ -2,17 +2,19 @@ import sys
 import yaml
 import argparse
 from google.auth.credentials import Credentials
-from delepwn.gcp_sa_enum import ServiceAccountEnumerator
+from delepwn.core.enumerator import ServiceAccountEnumerator
 from googleapiclient.errors import HttpError
 from google.auth.exceptions import RefreshError
-from delepwn import oauth_scope_enumerator
-from delepwn.domain_users_enum import DomainUserEnumerator
+from delepwn.core.oauth_enumerator import OAuthEnumerator
+from delepwn.core.domain_users import DomainUserEnumerator
 import os
 import traceback
 from datetime import datetime
-from delepwn.utils.text_color import print_color
+from delepwn.utils.output import print_color
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 
-SCOPES_FILE = 'src/delepwn/oauth_scopes.txt'  #  scopes file
+SCOPES_FILE = 'delepwn/config/oauth_scopes.txt'  # Updated path
 KEY_FOLDER = 'SA_private_keys'
 
 
@@ -72,12 +74,12 @@ def check(enumerator, testEmail, verbose, enum_output):
             # Create a dictionary with the test email in the same format as single_test_email
             domain = testEmail.split('@')[1]
             test_email_dict = {domain: testEmail}
-            oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, test_email_dict, verbose=verbose)
+            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, test_email_dict, verbose=verbose)
         else:
             # If no test email provided, enumerate users to find one
             domain_user_enumerator = DomainUserEnumerator(enumerator)
             domain_user_enumerator.print_unique_domain_users()
-            oauth_enumerator = oauth_scope_enumerator.OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
+            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
 
         print_color("\n[*] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations)\n", color="yellow")
         oauth_enumerator.run()
@@ -106,7 +108,7 @@ def test_service_account_key(credentials, args, verbose=False):
         if not test_user:
             test_user = domain_user_enumerator.get_first_valid_domain_user()
             if test_user:
-                print_color(f"\n[+] Found valid domain user to test: {test_user}", color="green")
+                print_color(f"\n✓ Found valid domain user to test: {test_user}", color="green")
             else:
                 print_color("\n[-] Could not find valid domain user to test", color="red")
                 sys.exit(1)
@@ -122,11 +124,6 @@ def test_service_account_key(credentials, args, verbose=False):
     
     print_color("\nTesting for Domain-Wide Delegation privileges...", color="cyan")
     
-    if verbose:
-        print_color(f"\nTesting impersonation of {test_user}", color="yellow")
-        print_color("Testing the following scopes:", color="yellow")
-        for scope in test_scopes:
-            print(f"  - {scope}")
     
     authorized_scopes = []
     
@@ -154,6 +151,6 @@ def test_service_account_key(credentials, args, verbose=False):
         print_color("\n[!] Service account has Domain-Wide Delegation enabled!", color="yellow")
         print_color("\nAuthorized scopes:", color="green")
         for scope in authorized_scopes:
-            print(f"  - {scope}")
+            print_color(f"  ✔ {scope}", color="green")
     else:
         print_color("\n[-] Service account does not have Domain-Wide Delegation privileges", color="red")

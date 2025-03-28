@@ -1,10 +1,12 @@
 import os
 import json
+import base64
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from delepwn.utils.text_color import print_color
-import base64
+from delepwn.utils.output import print_color
+from delepwn.config.settings import SERVICE_ACCOUNT_KEY_FOLDER
+
 
 class PrivateKeyCreator:
     """ Creates GCP private key pairs for SAs with permissions """
@@ -109,6 +111,6 @@ class PrivateKeyCreator:
                         self.delete_remote_key(resource_name)
                     # Delete the key locally
                     os.remove(full_path)
-                    print_color(f"✓ Deleted local service account key without DWD: {full_path}", color="green")
+                    print_color(f"✓ Deleted local service account key without DWD", color="green")
                 except OSError as e:
                     print_color(f"Error deleting {full_path}: {e}", color="red")
