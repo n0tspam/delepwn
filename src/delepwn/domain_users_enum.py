@@ -42,3 +42,15 @@ class DomainUserEnumerator:
         else:
             print_color("\n  No unique domain IAM users found in the specified projects.", color="yellow")
 
+    def get_first_valid_domain_user(self):
+        """Get the first valid domain user email found during enumeration"""
+        try:
+            self.list_unique_domain_users()
+            if self.single_test_email:
+                first_email = next(iter(self.single_test_email.values()))
+                return first_email
+            return None
+        except Exception as e:
+            print_color(f"Error finding valid domain user: {str(e)}", color="red")
+            return None
+

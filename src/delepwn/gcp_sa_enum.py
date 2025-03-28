@@ -3,20 +3,30 @@ from googleapiclient.discovery import build
 from delepwn.private_key_creator import PrivateKeyCreator
 from delepwn.utils.text_color import print_color
 from delepwn.utils.api_utils import handle_api_ratelimit
+from delepwn.utils.custom_credentials import CustomCredentials
 
 class ServiceAccountEnumerator:
-    """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission  """
+    """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission"""
     def __init__(self, credentials, verbose=False, project_id=None):
         self.credentials = credentials
         self.resource_manager_service = build('cloudresourcemanager', 'v1', credentials=self.credentials)
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
-        self.user_email = self.get_iam_email_from_token()
+        
+        # Handle both CustomCredentials and direct service account credentials
+        if isinstance(credentials, CustomCredentials):
+            self.user_email = (self.get_iam_email_from_token() 
+                              if credentials.token 
+                              else credentials.service_account_email)
+        else:
+            # Direct service account credentials
+            self.user_email = credentials.service_account_email
+        
         self.key_creator = PrivateKeyCreator(credentials)
         self.verbose = verbose
-        self.project_id = project_id  # Store the specific project ID if provided
+        self.project_id = project_id
 
     def get_iam_email_from_token(self):
-        """Get the email (or SA email identifier) associated with the access token provided in order to check for the user relevant role and permissions"""
+        """Get the email associated with the access token"""
         try:
             response = requests.get(
                 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json',
@@ -24,7 +34,7 @@ class ServiceAccountEnumerator:
             )
             response.raise_for_status()
             token_info = response.json()
-            # Service Account access tokens return different token parameters, here we use 'azp' (issued_to) to find the matching service account email
+            # Service Account access tokens return different token parameters
             if 'email' not in token_info:
                 azp = token_info.get('issued_to')
                 return self.find_service_account_email_by_client_id(azp) if azp else None

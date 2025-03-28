@@ -16,21 +16,6 @@ SCOPES_FILE = 'src/delepwn/oauth_scopes.txt'  #  scopes file
 KEY_FOLDER = 'SA_private_keys'
 
 
-class CustomCredentials(Credentials):
-
-    def __init__(self, token):
-        self.token = token
-
-    def apply(self, headers):
-        headers['Authorization'] = f'Bearer {self.token}'
-
-    def before_request(self, request, method, url, headers):
-        self.apply(headers)
-
-    def refresh(self, request):
-        pass
-
-
 def results(oauth_enumerator):
     """
     Write enumeration results to a file in the results directory
@@ -106,30 +91,37 @@ def check(enumerator, testEmail, verbose, enum_output):
         traceback.print_exc()
 
 def test_service_account_key(credentials, args, verbose=False):
-    """Test a service account key file for Domain-Wide Delegation privileges
-    
-    Args:
-        credentials: The service account credentials to test
-        args: Command line arguments
-        verbose: Whether to show detailed output
-    """
+    """Test a service account key file for Domain-Wide Delegation privileges"""
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
     import google.auth.transport.requests
     
+    # Create custom credentials and enumerator
+    try:
+        enumerator = ServiceAccountEnumerator(credentials, verbose=verbose)
+        domain_user_enumerator = DomainUserEnumerator(enumerator)
+        
+        # Try to get a valid domain user
+        test_user = args.email
+        if not test_user:
+            test_user = domain_user_enumerator.get_first_valid_domain_user()
+            if test_user:
+                print_color(f"\n[+] Found valid domain user to test: {test_user}", color="green")
+            else:
+                print_color("\n[-] Could not find valid domain user to test", color="red")
+                sys.exit(1)
+    except Exception as e:
+        print_color(f"\n[-] Error during enumeration: {str(e)}", color="red")
+        if verbose:
+            traceback.print_exc()
+        sys.exit(1)
+
     # Read all OAuth scopes from the file
     with open(SCOPES_FILE, 'r') as file:
         test_scopes = [line.strip() for line in file.readlines()]
     
     print_color("\nTesting for Domain-Wide Delegation privileges...", color="cyan")
     
-    # Pull from the user that the user provided in --email OR enumerate and find the first valid user
-    if args.email:
-        test_user = args.email
-    else:
-        print_color("\n[-] No email provided. Please provide a valid email address using --email\n[!] An invalid email will give a false negative!", color="red")
-        sys.exit(1)
-
     if verbose:
         print_color(f"\nTesting impersonation of {test_user}", color="yellow")
         print_color("Testing the following scopes:", color="yellow")

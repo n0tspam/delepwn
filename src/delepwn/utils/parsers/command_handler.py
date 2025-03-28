@@ -3,13 +3,14 @@ import sys
 import csv
 from datetime import datetime, timedelta
 from delepwn.gcp_sa_enum import ServiceAccountEnumerator
-from delepwn.checkdelegation import CustomCredentials, check, test_service_account_key
+from delepwn.checkdelegation import check, test_service_account_key
 from delepwn.utils.text_color import print_color
 from managers.drive_manager import DriveManager
 from managers.calendar_manager import CalendarManager
 from managers.admin_manager import AdminManager
 from delepwn.utils.parsers.argument_parser import ArgumentParser
 from google.oauth2 import service_account
+from delepwn.utils.custom_credentials import CustomCredentials
 
 
 class CommandHandler:
