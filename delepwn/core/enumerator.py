@@ -4,6 +4,7 @@ from delepwn.core.key_manager import PrivateKeyCreator
 from delepwn.utils.output import print_color
 from delepwn.utils.api import handle_api_ratelimit
 from delepwn.auth.credentials import CustomCredentials
+import sys
 
 class ServiceAccountEnumerator:
     """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission"""
@@ -151,6 +152,7 @@ class ServiceAccountEnumerator:
             return False
 
     def enumerate_service_accounts(self):
+        """Enumerate service accounts and check for key creation permissions"""
         any_service_account_with_key_permission = False
         for project_id in self.get_projects():
             request = self.iam_service.projects().serviceAccounts().list(name='projects/' + project_id)
@@ -168,8 +170,11 @@ class ServiceAccountEnumerator:
                         self.print_service_account_details(account)
                         print_color('✗ No relevant roles found', color="red")
                         print('---')
+
         if not any_service_account_with_key_permission:
-            print("No GCP Service Accounts roles found with the relevant key permissions")
+            print_color("\n× No GCP Service Accounts roles found with the relevant key permissions", color="red")
+            print_color("  This could mean:\n  1. No service accounts exist in the accessible projects\n  2. You don't have permissions to create keys\n  3. The token has expired", color="yellow")
+            sys.exit(1)
 
     def print_service_account_details(self, account, roles=None):
         print_color("→ Service Account Details", color="magenta")
