@@ -9,3 +9,6 @@ poetry.lock
 downloads
 sample.yaml
 tools
+tests
+.coverage
+.pytest_cache
