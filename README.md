@@ -21,6 +21,8 @@ Domain-Wide Delegation (DWD) is a Google Workspace feature that allows service a
 | [Drive Operations](#2-google-drive-operations-drive) | `drive` | `--list`<br>`--download`<br>`--sharefolders`<br>`--folder` | • Lists Drive contents<br>• Downloads files<br>• Recursive folder sharing<br>• Exports Google Workspace files |
 | [Calendar Management](#3-calendar-management-calendar) | `calendar` | `--list`<br>`--details`<br>`--create`<br>`--delete` | • Manages calendar events<br>• Creates events from YAML<br>• Google Meet integration<br>• Event notifications handling |
 | [Admin Operations](#4-admin-operations-admin) | `admin` | `--elevate`<br>`--create` | • Creates admin users<br>• Elevates user privileges<br>• Manages admin access<br>• Permission validation |
+| [Gmail Operations](#5-gmail-operations-gmail) | `gmail` | `--list`<br>`--keyword`<br>`--start-date`<br>`--end-date` | • Lists emails in a CSV format<br>• Searches by keyword<br>• Date range filtering<br>• Shows attachments |
+
 
 ### 1. Enumeration (`enum`)
 - Discovers GCP service accounts with DWD privileges
@@ -51,6 +53,14 @@ Domain-Wide Delegation (DWD) is a Google Workspace feature that allows service a
 - Elevates existing users to admin status
 - Manages user privileges
 - Validates admin operations and permissions
+
+### 5. Gmail Operations (`gmail`)
+- Lists emails from user's inbox in detail
+- Filters emails by date range using `--start-date` and `--end-date`
+- Searches emails by keyword across subject, body, and destination
+- Identifies and lists email attachments
+- Supports CSV-formatted output for easy analysis
+- Configurable maximum results limit
 
 ## Installation
 
@@ -121,30 +131,40 @@ poetry run delepwn drive --key-file KEY_FILE --impersonate EMAIL --sharefolders 
 3. Calendar Operations:
 ```bash
 # List events
-poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --list --start-date YYYY-MM-DD --end-date YYYY-MM-DD
+delepwn calendar --key-file KEY_FILE --impersonate EMAIL --list --start-date YYYY-MM-DD --end-date YYYY-MM-DD
 
 # Get event details
-poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --details EVENT_ID
+delepwn calendar --key-file KEY_FILE --impersonate EMAIL --details EVENT_ID
 
 # Create event from config
-poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --create CONFIG_FILE
+delepwn calendar --key-file KEY_FILE --impersonate EMAIL --create CONFIG_FILE
 
 # Delete event
-poetry run delepwn calendar --key-file KEY_FILE --impersonate EMAIL --delete EVENT_ID
+delepwn calendar --key-file KEY_FILE --impersonate EMAIL --delete EVENT_ID
 ```
 
 4. Admin Operations:
 ```bash
 # Elevate user to admin
-poetry run delepwn admin --key-file KEY_FILE --impersonate EMAIL --elevate TARGET_EMAIL
+delepwn admin --key-file KEY_FILE --impersonate EMAIL --elevate TARGET_EMAIL
 
 # Create new admin user
-poetry run delepwn admin --key-file KEY_FILE --impersonate EMAIL --create NEW_ADMIN_EMAIL
+delepwn admin --key-file KEY_FILE --impersonate EMAIL --create NEW_ADMIN_EMAIL
+```
+
+4. Gmail Operations:
+```bash
+# List all emails
+delepwn gmail --key-file KEY_FILE --impersonate EMAIL --list [--start-date YYYY-MM-DD] [--end-date YYYY-MM-DD] [--keyword KEYWORD]
+
+# Search for emails by keyword
+delepwn gmail --key-file KEY_FILE --impersonate EMAIL --keyword KEYWORD
+
+# Search for emails by date range
+delepwn gmail --key-file KEY_FILE --impersonate EMAIL --start-date YYYY-MM-DD --end-date YYYY-MM-DD
 ```
 
 Note: If you installed the package with pip, you can replace `poetry run delepwn` with just `delepwn` in all the above commands.
-
-
 
 ### Example Calendar Configuration
 
