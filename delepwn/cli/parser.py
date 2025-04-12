@@ -19,6 +19,7 @@ class ArgumentParser:
         ArgumentParser._setup_drive_parser(subparsers)
         ArgumentParser._setup_calendar_parser(subparsers)
         ArgumentParser._setup_admin_parser(subparsers)
+        ArgumentParser._setup_gmail_parser(subparsers)
 
         return parser
 
@@ -124,3 +125,23 @@ class ArgumentParser:
             help='Email of existing user to elevate to admin')
         action_group.add_argument('--create', type=str,
             help='Create new admin user with this username (domain will be appended)')
+
+    @staticmethod
+    def _setup_gmail_parser(subparsers):
+        """Set up gmail command parser"""
+        parser_gmail = subparsers.add_parser('gmail',
+            help='Access Gmail through DWD')
+        parser_gmail.add_argument('--key-file', required=True,
+            help='Path to service account JSON key file')
+        parser_gmail.add_argument('--impersonate', required=True,
+            help='Email address to impersonate')
+        parser_gmail.add_argument('--list', action='store_true',
+            help='List emails in the inbox')
+        parser_gmail.add_argument('--max-results', type=int, default=100,
+            help='Maximum number of emails to list (default: 100)')
+        parser_gmail.add_argument('--start-date', type=str,
+            help='Start date for listing emails (YYYY-MM-DD format)')
+        parser_gmail.add_argument('--end-date', type=str,
+            help='End date for listing emails (YYYY-MM-DD format)')
+        parser_gmail.add_argument('--keyword', type=str,
+            help='Search for emails containing specific keyword')

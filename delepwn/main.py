@@ -18,8 +18,10 @@ def main():
             CommandHandler.handle_drive_command(args)
         elif args.command == 'calendar':
             CommandHandler.handle_calendar_command(args)
-        elif args.command == 'admin':  # Add this section
+        elif args.command == 'admin':
             CommandHandler.handle_admin_command(args)
+        elif args.command == 'gmail':
+            CommandHandler.handle_gmail_command(args)
         else:
             parser.print_help()
             

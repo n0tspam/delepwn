@@ -10,6 +10,7 @@ from delepwn.services.calendar import CalendarManager
 from delepwn.services.admin import AdminManager
 from delepwn.auth.credentials import CustomCredentials
 from google.oauth2 import service_account
+from delepwn.services.gmail import GmailManager
 
 
 class CommandHandler:
@@ -208,6 +209,27 @@ class CommandHandler:
                     print_color(f"\nAdmin Account Created Successfully:", color="green")
                     print_color(f"Email: {args.create}", color="white")
                     print_color(f"Password: {password}", color="white")
+                
+        except Exception as e:
+            print_color(f"An error occurred: {str(e)}", color="red")
+            raise
+
+    @staticmethod
+    def handle_gmail_command(args):
+        """Handle Gmail-related commands"""
+        try:
+            gmail_manager = GmailManager(service_account_file=args.key_file)
+            gmail_manager.initialize_service(args.impersonate)
+
+            if args.list:
+                gmail_manager.list_messages(
+                    max_results=args.max_results,
+                    start_date=args.start_date,
+                    end_date=args.end_date,
+                    keyword=args.keyword
+                )
+            else:
+                print_color("No Gmail operation specified. Use --list to list emails.", color="yellow")
                 
         except Exception as e:
             print_color(f"An error occurred: {str(e)}", color="red")
