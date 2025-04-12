@@ -1,7 +1,7 @@
 # DelePwn
 <p align="center">
     <picture>
-      <img src="delepwn.png" alt="description" width="400">
+      <img src="assets/delepwn.png" alt="description" width="400">
     </picture>
 </p>
 <hr />
@@ -74,12 +74,13 @@ cd delepwn
 poetry install
 
 # Run delepwn
-poetry run delepwn [command] [options]
+delepwn [command] [options]
 ```
 
 Using pip:
 ```bash
 # Install from the repository
+cd delepwn
 pip install .
 
 # Run delepwn
@@ -184,29 +185,7 @@ event:
 
 ## Future Work
 
-1. Enhanced Features:
-   - Support for additional Google Workspace services
-   - Integration with other cloud platforms
-   - Advanced reporting capabilities
-   - Automated remediation suggestions
-
-2. Technical Improvements:
-   - Async operations support
-   - Rate limiting and throttling
-   - Enhanced error handling
-   - Expanded logging capabilities
-
-3. Security Enhancements:
-   - Implementation of additional security controls
-   - Support for custom security policies
-   - Enhanced credential management
-   - Audit logging improvements
-
-4. User Experience:
-   - Interactive CLI mode
-   - Web interface development
-   - Better progress indicators
-   - Enhanced documentation
+Enhanced features: As this project grows, I'll look to add support for more OAuth scopes and features. If you come across any scopes that aren't currently supported, please let me know and I'll do my best to get them added as soon as I can. OR feel free to submit a PR!
 
 ## References / Acknowledgements
 
