@@ -137,6 +137,31 @@ class GmailManager:
             keyword in body.lower()
         )
 
+    def get_attachments(self, msg):
+        """Extract attachment names from the message
+        
+        Args:
+            msg (dict): The full message object from Gmail API
+            
+        Returns:
+            str: Comma-separated list of attachment filenames
+        """
+        attachments = []
+        if 'payload' not in msg:
+            return ''
+
+        def get_attachments_from_parts(parts):
+            for part in parts:
+                if part.get('filename'):
+                    attachments.append(part['filename'])
+                if 'parts' in part:
+                    get_attachments_from_parts(part['parts'])
+
+        if 'parts' in msg['payload']:
+            get_attachments_from_parts(msg['payload']['parts'])
+
+        return '; '.join(attachments)
+
     @handle_api_ratelimit
     def list_messages(self, max_results=100, start_date=None, end_date=None, keyword=None):
         """List emails in the user's inbox in CSV format"""
@@ -179,8 +204,8 @@ class GmailManager:
             output = StringIO()
             writer = csv.writer(output, lineterminator='')
             
-            # Write header
-            writer.writerow(['From', 'Subject', 'Date', 'Message ID', 'Body'])
+            # Write header with To field and attachments
+            writer.writerow(['From', 'To', 'Subject', 'Date', 'Message ID', 'Body', 'Attachments'])
             print(output.getvalue(), end='\n')
             output.seek(0)
             output.truncate(0)
@@ -193,18 +218,19 @@ class GmailManager:
                     format='full'
                 ).execute()
                 
-                # Skip if keyword doesn't match
                 if keyword and not self.check_keywords_in_message(msg, keyword):
                     continue
 
                 headers = msg['payload']['headers']
                 subject = next((h['value'] for h in headers if h['name'] == 'Subject'), 'No Subject')
                 sender = next((h['value'] for h in headers if h['name'] == 'From'), 'Unknown Sender')
+                recipient = next((h['value'] for h in headers if h['name'] == 'To'), 'No Recipient')
                 date = next((h['value'] for h in headers if h['name'] == 'Date'), 'No Date')
                 body = self.get_message_body(msg)
+                attachments = self.get_attachments(msg)
                 
-                # Write message data
-                writer.writerow([sender, subject, date, message['id'], body])
+                # Write message data with To field and attachments
+                writer.writerow([sender, recipient, subject, date, message['id'], body, attachments])
                 print(output.getvalue(), end='\n')
                 output.seek(0)
                 output.truncate(0)
