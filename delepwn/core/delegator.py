@@ -50,7 +50,7 @@ def results(oauth_enumerator):
             if valid_scopes:
                 # Service Account section
                 f.write("-" * 40 + "\n")
-                f.write(f"Service Account: {os.path.basename(json_path)}\n")
+                f.write(f"Service Account enabled for DWD: {os.path.basename(json_path)}\n")
                 f.write("-" * 40 + "\n")
                 
                 # OAuth Scopes section

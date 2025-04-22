@@ -13,7 +13,7 @@ class PrivateKeyCreator:
     def __init__(self, credentials):
         self.credentials = credentials
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
-        self.keys_directory = "SA_private_keys"
+        self.keys_directory = SERVICE_ACCOUNT_KEY_FOLDER
         os.makedirs(self.keys_directory, exist_ok=True)
     
     def check_existing_key(self, service_account_path):
@@ -94,23 +94,61 @@ class PrivateKeyCreator:
             print_color(f"[!] Error deleting remote key {key_name}: {e}", color="red")
 
     def delete_keys_without_dwd(self, confirmed_dwd_keys):
-        """ Delete SA keys which found without DWD from local folder and remotely"""
-        print_color("\n\n[*] Clearing private keys without DWD enabled ...", color="cyan")
-        for key_path in os.listdir(self.keys_directory):
-            full_path = os.path.join(self.keys_directory, key_path)
-            if full_path not in confirmed_dwd_keys:
+        """Delete service account keys that don't have DWD enabled, keep the ones that do"""
+        print_color("\nCleaning Up Service Account Keys", color="cyan")
+        print_color("-" * 50, color="blue")
+        
+        try:
+            # Get list of all key files
+            key_files = os.listdir(self.keys_directory)
+            
+            # Track statistics
+            total_keys = len(key_files)
+            dwd_keys = 0
+            deleted_keys = 0
+            
+            for key_file in key_files:
+                key_path = os.path.join(self.keys_directory, key_file)
+                
+                # If key has DWD enabled, keep it
+                if key_path in confirmed_dwd_keys:
+                    dwd_keys += 1
+                    print_color(f"-> Keeping key with DWD access: {key_file}", color="white")
+                    continue
+                    
                 try:
-                    # Delete the key remotely
-                    with open(full_path, 'r') as key_file:
-                        key_data = json.load(key_file)
-                        client_email = key_data["client_email"]
-                        key_id = key_data["private_key_id"]
-                        project_id = key_data["project_id"]
-                        # API is expecting the following format projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}/keys/{KEY_ID}
-                        resource_name = f"projects/{project_id}/serviceAccounts/{client_email}/keys/{key_id}"
-                        self.delete_remote_key(resource_name)
-                    # Delete the key locally
-                    os.remove(full_path)
-                    print_color(f"✓ Deleted local service account key without DWD", color="green")
-                except OSError as e:
-                    print_color(f"Error deleting {full_path}: {e}", color="red")
+                    # Read the key file to get the key ID
+                    with open(key_path, 'r') as f:
+                        key_data = json.load(f)
+                        
+                    # Delete the remote key
+                    key_id = key_data.get('private_key_id')
+                    project_id = key_data.get('project_id')
+                    client_email = key_data.get('client_email')
+                    
+                    if key_id and project_id and client_email:
+                        # Format the key name according to the required pattern
+                        full_key_name = f"projects/{project_id}/serviceAccounts/{client_email}/keys/{key_id}"
+                        self.iam_service.projects().serviceAccounts().keys().delete(
+                            name=full_key_name
+                        ).execute()
+                        print_color(f"-> Removed remote key: {full_key_name}", color="white")
+                    
+                    # Delete the local key file
+                    os.remove(key_path)
+                    print_color(f"-> Removed local key: {key_file}", color="white")
+                    deleted_keys += 1
+                    
+                except Exception as e:
+                    print_color(f"-> Failed to remove key {key_file}: {str(e)}", color="red")
+                    
+            # Print summary
+            print_color("-" * 50, color="blue")
+            print_color("Key Cleanup Summary:", color="cyan")
+            print_color(f"Total keys processed: {total_keys}", color="white")
+            print_color(f"Keys with DWD access: {dwd_keys}", color="white")
+            print_color(f"Keys removed: {deleted_keys}", color="white")
+            print_color("-" * 50, color="blue")
+            
+        except Exception as e:
+            print_color(f"Error during key cleanup: {str(e)}", color="red")

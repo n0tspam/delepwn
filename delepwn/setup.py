@@ -12,6 +12,7 @@ setup(
         "pyyaml>=6.0.0",
         "requests>=2.0.0",
         "colorama>=0.4.6",
+        "tqdm>=4.65.0",
     ],
     entry_points={
         "console_scripts": [

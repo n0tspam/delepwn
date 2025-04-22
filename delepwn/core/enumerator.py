@@ -151,17 +151,36 @@ class ServiceAccountEnumerator:
                 print_color(f"Error checking role {role}: {str(e)}", color="yellow")
             return False
 
+    def print_service_account_details(self, account, roles=None):
+        """Print service account details in a standardized format"""
+        print_color("\nService Account Details", color="cyan")
+        print_color("-" * 50, color="blue")
+        print_color(f"Name: {account['name']}", color="white")
+        print_color(f"Email: {account['email']}", color="white")
+        print_color(f"ID: {account['uniqueId']}", color="white")
+        if roles:
+            print_color("Roles:", color="white")
+            for role in roles:
+                print_color(f"-> {role}", color="white")
+        print_color("-" * 50, color="blue")
+
     def enumerate_service_accounts(self):
         """Enumerate service accounts and check for key creation permissions"""
         any_service_account_with_key_permission = False
+        
+        print_color("\nEnumerating GCP Resources", color="cyan")
+        print_color("-" * 50, color="blue")
+        
         for project_id in self.get_projects():
             request = self.iam_service.projects().serviceAccounts().list(name='projects/' + project_id)
             response = request.execute()
+            
             if 'accounts' in response:
                 for account in response['accounts']:
                     project_roles = self.get_project_roles(project_id)
                     service_account_roles = self.get_service_account_roles(account['name'])
                     all_roles = list(set(project_roles + service_account_roles))
+                    
                     if any(self.check_permission(role) for role in all_roles):
                         self.print_service_account_details(account, all_roles)
                         self.key_creator.create_service_account_key(account['name'])
@@ -172,17 +191,12 @@ class ServiceAccountEnumerator:
                         print('---')
 
         if not any_service_account_with_key_permission:
-            print_color("\n× No GCP Service Accounts roles found with the relevant key permissions", color="red")
-            print_color("  This could mean:\n  1. No service accounts exist in the accessible projects\n  2. You don't have permissions to create keys\n  3. The token has expired", color="yellow")
+            print_color("\n✗ No GCP Service Accounts found with key creation permissions", color="red")
+            print_color("Possible reasons:", color="yellow")
+            print_color("-> No service accounts exist in accessible projects", color="white")
+            print_color("-> No permissions to create keys", color="white")
+            print_color("-> Token has expired", color="white")
             sys.exit(1)
-
-    def print_service_account_details(self, account, roles=None):
-        print_color("→ Service Account Details", color="magenta")
-        print_color('  Name: ' + account['name'], color="cyan")
-        print_color('  Email: ' + account['email'], color="cyan")
-        print_color('  UniqueId: ' + account['uniqueId'], color="cyan")
-        if roles:
-            print_color(f'  Roles: {", ".join(roles)}', color="green")
 
     @handle_api_ratelimit
     def list_projects(self):

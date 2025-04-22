@@ -25,11 +25,7 @@ class CalendarManager:
         self.current_user = None
 
     def initialize_service(self, impersonate_email):
-        """Initialize the Calendar Query with impersonation
-        
-        Args:
-            impersonate_email (str): Email of the user to impersonate
-        """
+        """Initialize the Calendar Query with impersonation"""
         if not impersonate_email:
             raise ValueError("Impersonation email is required")
             
@@ -41,23 +37,18 @@ class CalendarManager:
         
         self.service = build('calendar', 'v3', credentials=credentials)
         self.current_user = impersonate_email
-        print_color(f"✓ Querying Calendar for {impersonate_email}", color="green")
+        print_color(f"-> Querying Calendar for {impersonate_email}", color="cyan")
 
     @handle_api_ratelimit
     def list_events(self, start_date, end_date):
-        """List events between specified dates
-        
-        Args:
-            start_date (datetime): Start date for listing events
-            end_date (datetime): End date for listing events
-        """
+        """List events between specified dates"""
         if not self.service:
             raise ValueError("Service not initialized")
 
         try:
             events_result = self.service.events().list(
                 calendarId='primary',
-                timeMin=start_date.isoformat() + 'Z',  # 'Z' indicates UTC time
+                timeMin=start_date.isoformat() + 'Z',
                 timeMax=end_date.isoformat() + 'Z',
                 singleEvents=True,
                 orderBy='startTime'
@@ -69,6 +60,8 @@ class CalendarManager:
                 return
 
             print_color("\nEvents:", color="cyan")
+            print_color("-" * 50, color="blue")
+            
             for event in events:
                 start = event['start'].get('dateTime', event['start'].get('date'))
                 timezone = event['start'].get('timeZone', '')
@@ -77,12 +70,12 @@ class CalendarManager:
                 total_attendees = len(attendees)
                 summary = event.get('summary', 'No Title')
 
-                print_color(f"\nEvent: {summary}", color="white")
+                print_color(f"Title: {summary}", color="white")
                 print_color(f"Start: {start} {timezone}", color="white")
-                print_color(f"Event ID: {event['id']}", color="white")
+                print_color(f"ID: {event['id']}", color="white")
                 print_color(f"Creator: {creator}", color="white")
-                print_color(f"Total Attendees: {total_attendees}", color="white")
-                print_color("-" * 40, color="blue")
+                print_color(f"Attendees: {total_attendees}", color="white")
+                print_color("-" * 50, color="blue")
 
         except HttpError as error:
             print_color(f"Error listing events: {error}", color="red")
@@ -120,11 +113,7 @@ class CalendarManager:
             print_color(f"Error getting event details: {error}", color="red")
 
     def create_phishing_event(self, config_path):
-        """Create a phishing calendar event from YAML configuration
-        
-        Args:
-            config_path (str): Path to YAML configuration file
-        """
+        """Create a phishing calendar event from YAML configuration"""
         if not self.service:
             raise ValueError("Service not initialized")
 
@@ -194,8 +183,10 @@ class CalendarManager:
                     }
                 }
 
-            print_color("\nSending event with configuration:", color="cyan")
-            print_color(f"Send notifications: {send_notifications}", color="white")
+            print_color("\n-> Creating calendar event", color="cyan")
+            print_color("Configuration:", color="blue")
+            print_color(f"File: {config_path}", color="white")
+            print_color(f"Notifications: {send_notifications}", color="white")
 
             # Create the event
             result = self.service.events().insert(
@@ -205,16 +196,18 @@ class CalendarManager:
                 conferenceDataVersion=1 if event_config.get('conference_solution') else 0
             ).execute()
 
-            print_color("\n✓ Calendar event created successfully", color="green")
-            print_color(f"Event ID: {result.get('id')}", color="white")
+            print_color("\nEvent created successfully", color="green")
+            print_color("-" * 50, color="blue")
+            print_color(f"ID: {result.get('id')}", color="white")
             if 'hangoutLink' in result:
                 print_color(f"Meet Link: {result.get('hangoutLink')}", color="white")
             if 'attendees' in event:
                 print_color(f"Added {len(event['attendees'])} attendee(s)", color="white")
                 print_color("Attendees:", color="white")
                 for attendee in event['attendees']:
-                    print_color(f"  - {attendee['email']}", color="white")
+                    print_color(f"-> {attendee['email']}", color="white")
             print_color(f"Email notifications: {'enabled' if send_notifications else 'disabled'}", color="white")
+            print_color("-" * 50, color="blue")
 
             return result
 

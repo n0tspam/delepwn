@@ -35,12 +35,14 @@ class DomainUserEnumerator:
     def print_unique_domain_users(self):
         unique_domain_users = self.list_unique_domain_users()
         if unique_domain_users:
-            print_color("\n✓ Single domain IAM user for creating valid JWT objects to Google Workspace found...", color="green")
+            print_color("\n✓ Domain IAM Users Found", color="cyan")
+            print_color("-" * 50, color="blue")
             for domain, user in unique_domain_users.items():
-                print_color(f"  Domain: {domain}", color="cyan")
-                print_color(f"  User: {user}", color="cyan")
+                print_color(f"Domain: {domain}", color="white")
+                print_color(f"User: {user}", color="white")
+                print_color("-" * 50, color="blue")
         else:
-            print_color("\n  No unique domain IAM users found in the specified projects.", color="yellow")
+            print_color("\nNo domain IAM users found in specified projects", color="yellow")
 
     def get_first_valid_domain_user(self):
         """Get the first valid domain user email found during enumeration"""

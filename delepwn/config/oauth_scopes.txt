@@ -1,365 +1,374 @@
-https://www.googleapis.com/auth/cloud-platform
-https://www.googleapis.com/auth/cloud-platform.read-only
-https://www.googleapis.com/auth/adexchange.buyer
-https://www.googleapis.com/auth/admob.readonly
-https://www.googleapis.com/auth/admob.report
-https://www.googleapis.com/auth/adsensehost
-https://www.googleapis.com/auth/admin.reports.audit.readonly
-https://www.googleapis.com/auth/admin.reports.usage.readonly
-https://www.googleapis.com/auth/admin.datatransfer
-https://www.googleapis.com/auth/admin.datatransfer.readonly
-https://www.googleapis.com/auth/admin.chrome.printers
-https://www.googleapis.com/auth/admin.chrome.printers.readonly
-https://www.googleapis.com/auth/admin.directory.customer
-https://www.googleapis.com/auth/admin.directory.customer.readonly
-https://www.googleapis.com/auth/admin.directory.device.chromeos
-https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly
-https://www.googleapis.com/auth/admin.directory.device.mobile
-https://www.googleapis.com/auth/admin.directory.device.mobile.action
-https://www.googleapis.com/auth/admin.directory.device.mobile.readonly
-https://www.googleapis.com/auth/admin.directory.domain
-https://www.googleapis.com/auth/admin.directory.domain.readonly
-https://www.googleapis.com/auth/admin.directory.group
-https://www.googleapis.com/auth/admin.directory.group.member
-https://www.googleapis.com/auth/admin.directory.group.member.readonly
-https://www.googleapis.com/auth/admin.directory.group.readonly
-https://www.googleapis.com/auth/admin.directory.orgunit
-https://www.googleapis.com/auth/admin.directory.orgunit.readonly
-https://www.googleapis.com/auth/admin.directory.resource.calendar
-https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly
-https://www.googleapis.com/auth/admin.directory.rolemanagement
-https://www.googleapis.com/auth/admin.directory.rolemanagement.readonly
-https://www.googleapis.com/auth/admin.directory.user
-https://www.googleapis.com/auth/admin.directory.user.alias
-https://www.googleapis.com/auth/admin.directory.user.alias.readonly
-https://www.googleapis.com/auth/admin.directory.user.readonly
-https://www.googleapis.com/auth/admin.directory.user.security
-https://www.googleapis.com/auth/admin.directory.userschema
-https://www.googleapis.com/auth/admin.directory.userschema.readonly
-https://www.googleapis.com/auth/analytics
-https://www.googleapis.com/auth/analytics.readonly
-https://www.googleapis.com/auth/androidmanagement
-https://www.googleapis.com/auth/appengine.admin
-https://mail.google.com/
-https://www.google.com/calendar/feeds
-https://www.google.com/m8/feeds
-https://www.googleapis.com/auth/documents
-https://www.googleapis.com/auth/drive
-https://www.googleapis.com/auth/forms
-https://www.googleapis.com/auth/forms.currentonly
-https://www.googleapis.com/auth/groups
-https://www.googleapis.com/auth/script.deployments
-https://www.googleapis.com/auth/script.deployments.readonly
-https://www.googleapis.com/auth/script.metrics
-https://www.googleapis.com/auth/script.processes
-https://www.googleapis.com/auth/script.projects
-https://www.googleapis.com/auth/script.projects.readonly
-https://www.googleapis.com/auth/spreadsheets
-https://www.googleapis.com/auth/userinfo.email
-https://www.googleapis.com/auth/bigquery
-https://www.googleapis.com/auth/bigquery.insertdata
-https://www.googleapis.com/auth/devstorage.full_control
-https://www.googleapis.com/auth/devstorage.read_only
-https://www.googleapis.com/auth/devstorage.read_write
-https://www.googleapis.com/auth/blogger
-https://www.googleapis.com/auth/blogger.readonly
-https://www.googleapis.com/auth/books
-https://www.googleapis.com/auth/calendar
-https://www.googleapis.com/auth/calendar.events
-https://www.googleapis.com/auth/calendar.events.readonly
-https://www.googleapis.com/auth/calendar.readonly
-https://www.googleapis.com/auth/calendar.settings.readonly
-https://www.googleapis.com/auth/ddmconversions
-https://www.googleapis.com/auth/dfareporting
-https://www.googleapis.com/auth/dfatrafficking
-https://www.googleapis.com/auth/bigtable.admin
-https://www.googleapis.com/auth/bigtable.admin.cluster
-https://www.googleapis.com/auth/bigtable.admin.instance
-https://www.googleapis.com/auth/bigtable.admin.table
-https://www.googleapis.com/auth/cloud-bigtable.admin
-https://www.googleapis.com/auth/cloud-bigtable.admin.cluster
-https://www.googleapis.com/auth/cloud-bigtable.admin.table
-https://www.googleapis.com/auth/cloud-billing
-https://www.googleapis.com/auth/cloud-billing.readonly
-https://www.googleapis.com/auth/ndev.clouddns.readonly
-https://www.googleapis.com/auth/ndev.clouddns.readwrite
-https://www.googleapis.com/auth/datastore
-https://www.googleapis.com/auth/cloud_debugger
-https://www.googleapis.com/auth/ndev.cloudman
-https://www.googleapis.com/auth/ndev.cloudman.readonly
-https://www.googleapis.com/auth/cloud-identity.devices.lookup
-https://www.googleapis.com/auth/cloud-identity.groups
-https://www.googleapis.com/auth/cloud-identity.groups.readonly
-https://www.googleapis.com/auth/cloudkms
-https://www.googleapis.com/auth/logging.admin
-https://www.googleapis.com/auth/logging.read
-https://www.googleapis.com/auth/logging.write
-https://www.googleapis.com/auth/monitoring
-https://www.googleapis.com/auth/monitoring.read
-https://www.googleapis.com/auth/monitoring.write
-https://www.googleapis.com/auth/cloud-language
-https://www.googleapis.com/auth/compute
-https://www.googleapis.com/auth/compute.readonly
-https://www.googleapis.com/auth/pubsub
-https://www.googleapis.com/auth/cloudruntimeconfig
-https://www.googleapis.com/auth/sqlservice.admin
-https://www.googleapis.com/auth/cloud_search
-https://www.googleapis.com/auth/cloud_search.debug
-https://www.googleapis.com/auth/cloud_search.indexing
-https://www.googleapis.com/auth/cloud_search.query
-https://www.googleapis.com/auth/cloud_search.settings
-https://www.googleapis.com/auth/cloud_search.settings.indexing
-https://www.googleapis.com/auth/cloud_search.settings.query
-https://www.googleapis.com/auth/cloud_search.stats
-https://www.googleapis.com/auth/cloud_search.stats.indexing
-https://www.googleapis.com/auth/source.full_control
-https://www.googleapis.com/auth/source.read_only
-https://www.googleapis.com/auth/source.read_write
-https://www.googleapis.com/auth/spanner.admin
-https://www.googleapis.com/auth/spanner.data
-https://www.googleapis.com/auth/trace.append
-https://www.googleapis.com/auth/cloud-translation
-https://www.googleapis.com/auth/cloud-vision
-https://www.googleapis.com/auth/content
-https://www.googleapis.com/auth/dataportability.alerts.subscriptions
-https://www.googleapis.com/auth/dataportability.businessmessaging.conversations
-https://www.googleapis.com/auth/dataportability.chrome.autofill
-https://www.googleapis.com/auth/dataportability.chrome.bookmarks
-https://www.googleapis.com/auth/dataportability.chrome.dictionary
-https://www.googleapis.com/auth/dataportability.chrome.extensions
-https://www.googleapis.com/auth/dataportability.chrome.history
-https://www.googleapis.com/auth/dataportability.chrome.reading_list
-https://www.googleapis.com/auth/dataportability.chrome.settings
-https://www.googleapis.com/auth/dataportability.discover.follows
-https://www.googleapis.com/auth/dataportability.discover.likes
-https://www.googleapis.com/auth/dataportability.discover.not_interested
-https://www.googleapis.com/auth/dataportability.maps.aliased_places
-https://www.googleapis.com/auth/dataportability.maps.commute_routes
-https://www.googleapis.com/auth/dataportability.maps.commute_settings
-https://www.googleapis.com/auth/dataportability.maps.ev_profile
-https://www.googleapis.com/auth/dataportability.maps.factual_contributions
-https://www.googleapis.com/auth/dataportability.maps.offering_contributions
-https://www.googleapis.com/auth/dataportability.maps.photos_videos
-https://www.googleapis.com/auth/dataportability.maps.questions_answers
-https://www.googleapis.com/auth/dataportability.maps.reviews
-https://www.googleapis.com/auth/dataportability.maps.starred_places
-https://www.googleapis.com/auth/dataportability.myactivity.maps
-https://www.googleapis.com/auth/dataportability.myactivity.myadcenter
-https://www.googleapis.com/auth/dataportability.myactivity.play
-https://www.googleapis.com/auth/dataportability.myactivity.search
-https://www.googleapis.com/auth/dataportability.myactivity.shopping
-https://www.googleapis.com/auth/dataportability.myactivity.youtube
-https://www.googleapis.com/auth/dataportability.mymaps.maps
-https://www.googleapis.com/auth/dataportability.order_reserve.purchases_reservations
-https://www.googleapis.com/auth/dataportability.play.devices
-https://www.googleapis.com/auth/dataportability.play.grouping
-https://www.googleapis.com/auth/dataportability.play.installs
-https://www.googleapis.com/auth/dataportability.play.library
-https://www.googleapis.com/auth/dataportability.play.playpoints
-https://www.googleapis.com/auth/dataportability.play.promotions
-https://www.googleapis.com/auth/dataportability.play.purchases
-https://www.googleapis.com/auth/dataportability.play.redemptions
-https://www.googleapis.com/auth/dataportability.play.subscriptions
-https://www.googleapis.com/auth/dataportability.play.usersettings
-https://www.googleapis.com/auth/dataportability.saved.collections
-https://www.googleapis.com/auth/dataportability.search_ugc.comments
-https://www.googleapis.com/auth/dataportability.search_ugc.media.reviews_and_stars
-https://www.googleapis.com/auth/dataportability.search_ugc.media.streaming_video_providers
-https://www.googleapis.com/auth/dataportability.search_ugc.media.thumbs
-https://www.googleapis.com/auth/dataportability.search_ugc.media.watched
-https://www.googleapis.com/auth/dataportability.searchnotifications.settings
-https://www.googleapis.com/auth/dataportability.searchnotifications.subscriptions
-https://www.googleapis.com/auth/dataportability.shopping.addresses
-https://www.googleapis.com/auth/dataportability.shopping.reviews
-https://www.googleapis.com/auth/dataportability.streetview.imagery
-https://www.googleapis.com/auth/dataportability.youtube.channel
-https://www.googleapis.com/auth/dataportability.youtube.clips
-https://www.googleapis.com/auth/dataportability.youtube.comments
-https://www.googleapis.com/auth/dataportability.youtube.live_chat
-https://www.googleapis.com/auth/dataportability.youtube.music
-https://www.googleapis.com/auth/dataportability.youtube.playable
-https://www.googleapis.com/auth/dataportability.youtube.posts
-https://www.googleapis.com/auth/dataportability.youtube.private_playlists
-https://www.googleapis.com/auth/dataportability.youtube.private_videos
-https://www.googleapis.com/auth/dataportability.youtube.public_playlists
-https://www.googleapis.com/auth/dataportability.youtube.public_videos
-https://www.googleapis.com/auth/dataportability.youtube.shopping
-https://www.googleapis.com/auth/dataportability.youtube.subscriptions
-https://www.googleapis.com/auth/dataportability.youtube.unlisted_playlists
-https://www.googleapis.com/auth/dataportability.youtube.unlisted_videos
-https://www.googleapis.com/auth/drive.activity
-https://www.googleapis.com/auth/drive.activity.readonly
-https://www.googleapis.com/auth/drive.admin.labels
-https://www.googleapis.com/auth/drive.admin.labels.readonly
-https://www.googleapis.com/auth/drive.labels
-https://www.googleapis.com/auth/drive.labels.readonly
-https://www.googleapis.com/auth/apps.licensing
-https://www.googleapis.com/auth/factchecktools
-https://www.googleapis.com/auth/firebase.messaging
-https://www.googleapis.com/auth/firebase
-https://www.googleapis.com/auth/firebase.readonly
-https://www.googleapis.com/auth/fitness.activity.read
-https://www.googleapis.com/auth/fitness.activity.write
-https://www.googleapis.com/auth/fitness.blood_glucose.read
-https://www.googleapis.com/auth/fitness.blood_glucose.write
-https://www.googleapis.com/auth/fitness.blood_pressure.read
-https://www.googleapis.com/auth/fitness.blood_pressure.write
-https://www.googleapis.com/auth/fitness.body.read
-https://www.googleapis.com/auth/fitness.body.write
-https://www.googleapis.com/auth/fitness.body_temperature.read
-https://www.googleapis.com/auth/fitness.body_temperature.write
-https://www.googleapis.com/auth/fitness.heart_rate.read
-https://www.googleapis.com/auth/fitness.heart_rate.write
-https://www.googleapis.com/auth/fitness.location.read
-https://www.googleapis.com/auth/fitness.location.write
-https://www.googleapis.com/auth/fitness.nutrition.read
-https://www.googleapis.com/auth/fitness.nutrition.write
-https://www.googleapis.com/auth/fitness.oxygen_saturation.read
-https://www.googleapis.com/auth/fitness.oxygen_saturation.write
-https://www.googleapis.com/auth/fitness.reproductive_health.read
-https://www.googleapis.com/auth/fitness.reproductive_health.write
-https://www.googleapis.com/auth/fitness.sleep.read
-https://www.googleapis.com/auth/fitness.sleep.write
-https://www.googleapis.com/auth/genomics
-https://www.googleapis.com/auth/gmail.addons.current.action.compose
-https://www.googleapis.com/auth/gmail.addons.current.message.action
-https://www.googleapis.com/auth/gmail.addons.current.message.metadata
-https://www.googleapis.com/auth/gmail.addons.current.message.readonly
-https://www.googleapis.com/auth/gmail.compose
-https://www.googleapis.com/auth/gmail.insert
-https://www.googleapis.com/auth/gmail.labels
-https://www.googleapis.com/auth/gmail.metadata
-https://www.googleapis.com/auth/gmail.modify
-https://www.googleapis.com/auth/gmail.readonly
-https://www.googleapis.com/auth/gmail.send
-https://www.googleapis.com/auth/gmail.settings.basic
-https://www.googleapis.com/auth/gmail.settings.sharing
-https://www.googleapis.com/auth/postmaster.readonly
-https://www.googleapis.com/auth/analytics.edit
-https://www.googleapis.com/auth/analytics.manage.users
-https://www.googleapis.com/auth/analytics.manage.users.readonly
-https://www.googleapis.com/auth/analytics.provision
-https://www.googleapis.com/auth/analytics.user.deletion
-https://www.googleapis.com/auth/chat.admin.delete
-https://www.googleapis.com/auth/chat.admin.memberships
-https://www.googleapis.com/auth/chat.admin.memberships.readonly
-https://www.googleapis.com/auth/chat.admin.spaces
-https://www.googleapis.com/auth/chat.admin.spaces.readonly
-https://www.googleapis.com/auth/chat.app.delete
-https://www.googleapis.com/auth/chat.app.memberships
-https://www.googleapis.com/auth/chat.app.spaces
-https://www.googleapis.com/auth/chat.app.spaces.create
-https://www.googleapis.com/auth/chat.delete
-https://www.googleapis.com/auth/chat.import
-https://www.googleapis.com/auth/chat.memberships
-https://www.googleapis.com/auth/chat.memberships.app
-https://www.googleapis.com/auth/chat.memberships.readonly
-https://www.googleapis.com/auth/chat.messages
-https://www.googleapis.com/auth/chat.messages.create
-https://www.googleapis.com/auth/chat.messages.reactions
-https://www.googleapis.com/auth/chat.messages.reactions.create
-https://www.googleapis.com/auth/chat.messages.reactions.readonly
-https://www.googleapis.com/auth/chat.messages.readonly
-https://www.googleapis.com/auth/chat.spaces
-https://www.googleapis.com/auth/chat.spaces.create
-https://www.googleapis.com/auth/chat.spaces.readonly
-https://www.googleapis.com/auth/chat.users.readstate
-https://www.googleapis.com/auth/chat.users.readstate.readonly
-https://www.googleapis.com/auth/classroom.announcements
-https://www.googleapis.com/auth/classroom.announcements.readonly
-https://www.googleapis.com/auth/classroom.courses
-https://www.googleapis.com/auth/classroom.courses.readonly
-https://www.googleapis.com/auth/classroom.coursework.me
-https://www.googleapis.com/auth/classroom.coursework.me.readonly
-https://www.googleapis.com/auth/classroom.coursework.students
-https://www.googleapis.com/auth/classroom.coursework.students.readonly
-https://www.googleapis.com/auth/classroom.courseworkmaterials
-https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly
-https://www.googleapis.com/auth/classroom.guardianlinks.me.readonly
-https://www.googleapis.com/auth/classroom.guardianlinks.students
-https://www.googleapis.com/auth/classroom.guardianlinks.students.readonly
-https://www.googleapis.com/auth/classroom.profile.emails
-https://www.googleapis.com/auth/classroom.profile.photos
-https://www.googleapis.com/auth/classroom.push-notifications
-https://www.googleapis.com/auth/classroom.rosters
-https://www.googleapis.com/auth/classroom.rosters.readonly
-https://www.googleapis.com/auth/classroom.student-submissions.me.readonly
-https://www.googleapis.com/auth/classroom.student-submissions.students.readonly
-https://www.googleapis.com/auth/classroom.topics
-https://www.googleapis.com/auth/classroom.topics.readonly
-https://www.googleapis.com/auth/documents.readonly
-https://www.googleapis.com/auth/drive.file
-https://www.googleapis.com/auth/drive.readonly
-https://www.googleapis.com/auth/drive.appdata
-https://www.googleapis.com/auth/drive.apps.readonly
-https://www.googleapis.com/auth/drive.meet.readonly
-https://www.googleapis.com/auth/drive.metadata
-https://www.googleapis.com/auth/drive.metadata.readonly
-https://www.googleapis.com/auth/drive.photos.readonly
-https://www.googleapis.com/auth/drive.scripts
-https://www.googleapis.com/auth/forms.body
-https://www.googleapis.com/auth/forms.body.readonly
-https://www.googleapis.com/auth/forms.responses.readonly
-https://www.googleapis.com/auth/keep
-https://www.googleapis.com/auth/keep.readonly
-https://www.googleapis.com/auth/meetings.space.created
-https://www.googleapis.com/auth/meetings.space.readonly
-https://www.googleapis.com/auth/userinfo.profile
-https://www.googleapis.com/auth/androidpublisher
-https://www.googleapis.com/auth/androidenterprise
-https://www.googleapis.com/auth/games
-https://www.googleapis.com/auth/webmasters
-https://www.googleapis.com/auth/webmasters.readonly
-https://www.googleapis.com/auth/spreadsheets.readonly
-https://www.googleapis.com/auth/siteverification
-https://www.googleapis.com/auth/siteverification.verify_only
-https://www.googleapis.com/auth/presentations
-https://www.googleapis.com/auth/presentations.readonly
-https://www.googleapis.com/auth/tasks
-https://www.googleapis.com/auth/tasks.readonly
-https://www.googleapis.com/auth/ediscovery
-https://www.googleapis.com/auth/ediscovery.readonly
-https://www.googleapis.com/auth/apps.alerts
-https://www.googleapis.com/auth/apps.order
-https://www.googleapis.com/auth/apps.order.readonly
-https://www.googleapis.com/auth/apps.groups.migration
-https://www.googleapis.com/auth/apps.groups.settings
-https://www.googleapis.com/auth/indexing
-https://www.googleapis.com/auth/manufacturercenter
-https://www.googleapis.com/auth/contacts
-https://www.googleapis.com/auth/contacts.other.readonly
-https://www.googleapis.com/auth/contacts.readonly
-https://www.googleapis.com/auth/directory.readonly
-https://www.googleapis.com/auth/user.addresses.read
-https://www.googleapis.com/auth/user.birthday.read
-https://www.googleapis.com/auth/user.emails.read
-https://www.googleapis.com/auth/user.gender.read
-https://www.googleapis.com/auth/user.organization.read
-https://www.googleapis.com/auth/user.phonenumbers.read
-https://www.googleapis.com/auth/photoslibrary
-https://www.googleapis.com/auth/photoslibrary.appendonly
-https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata
-https://www.googleapis.com/auth/photoslibrary.readonly
-https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata
-https://www.googleapis.com/auth/photoslibrary.sharing
-https://www.googleapis.com/auth/sasportal
-https://www.googleapis.com/auth/doubleclicksearch
-https://www.googleapis.com/auth/service.management
-https://www.googleapis.com/auth/service.management.readonly
-https://www.googleapis.com/auth/streetviewpublish
-https://www.googleapis.com/auth/tagmanager.delete.containers
-https://www.googleapis.com/auth/tagmanager.edit.containers
-https://www.googleapis.com/auth/tagmanager.edit.containerversions
-https://www.googleapis.com/auth/tagmanager.manage.accounts
-https://www.googleapis.com/auth/tagmanager.manage.users
-https://www.googleapis.com/auth/tagmanager.publish
-https://www.googleapis.com/auth/tagmanager.readonly
-https://www.googleapis.com/auth/youtube
-https://www.googleapis.com/auth/youtube.readonly
-https://www.googleapis.com/auth/youtubepartner
-https://www.googleapis.com/auth/yt-analytics-monetary.readonly
-https://www.googleapis.com/auth/yt-analytics.readonly
-https://www.googleapis.com/auth/youtube.channel-memberships.creator
-https://www.googleapis.com/auth/youtube.force-ssl
-https://www.googleapis.com/auth/youtube.upload
-https://www.googleapis.com/auth/youtubepartner-channel-audit
+https://mail.google.com/|Read, compose, send, and permanently delete all your email from Gmail
+https://www.google.com/calendar/feeds|See, edit, share, and permanently delete all the calendars you can access using Google Calendar
+https://www.google.com/m8/feeds|See, edit, download, and permanently delete your contacts
+https://www.googleapis.com/auth/adexchange.buyer|Manage your Ad Exchange buyer account configuration
+https://www.googleapis.com/auth/admin.chrome.printers|See, add, edit, and permanently delete the printers that your organization can use with Chrome
+https://www.googleapis.com/auth/admin.chrome.printers.readonly|See the printers that your organization can use with Chrome
+https://www.googleapis.com/auth/admin.datatransfer|View and manage data transfers between users in your organization
+https://www.googleapis.com/auth/admin.datatransfer.readonly|View data transfers between users in your organization
+https://www.googleapis.com/auth/admin.directory.customer|View and manage customer related information
+https://www.googleapis.com/auth/admin.directory.customer.readonly|View customer related information
+https://www.googleapis.com/auth/admin.directory.device.chromeos|View and manage your Chrome OS devices' metadata
+https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly|View your Chrome OS devices' metadata
+https://www.googleapis.com/auth/admin.directory.device.mobile|View and manage your mobile devices' metadata
+https://www.googleapis.com/auth/admin.directory.device.mobile.action|Manage your mobile devices by performing administrative tasks
+https://www.googleapis.com/auth/admin.directory.device.mobile.readonly|View your mobile devices' metadata
+https://www.googleapis.com/auth/admin.directory.domain|View and manage the provisioning of domains for your customers
+https://www.googleapis.com/auth/admin.directory.domain.readonly|View domains related to your customers
+https://www.googleapis.com/auth/admin.directory.group|View and manage the provisioning of groups on your domain
+https://www.googleapis.com/auth/admin.directory.group.member|View and manage group subscriptions on your domain
+https://www.googleapis.com/auth/admin.directory.group.member.readonly|View group subscriptions on your domain
+https://www.googleapis.com/auth/admin.directory.group.readonly|View groups on your domain
+https://www.googleapis.com/auth/admin.directory.orgunit|View and manage organization units on your domain
+https://www.googleapis.com/auth/admin.directory.orgunit.readonly|View organization units on your domain
+https://www.googleapis.com/auth/admin.directory.resource.calendar|View and manage the provisioning of calendar resources on your domain
+https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly|View calendar resources on your domain
+https://www.googleapis.com/auth/admin.directory.rolemanagement|Manage delegated admin roles for your domain
+https://www.googleapis.com/auth/admin.directory.rolemanagement.readonly|View delegated admin roles for your domain
+https://www.googleapis.com/auth/admin.directory.user|View and manage the provisioning of users on your domain
+https://www.googleapis.com/auth/admin.directory.user.alias|View and manage user aliases on your domain
+https://www.googleapis.com/auth/admin.directory.user.alias.readonly|View user aliases on your domain
+https://www.googleapis.com/auth/admin.directory.user.readonly|See info about users on your domain
+https://www.googleapis.com/auth/admin.directory.user.security|Manage data access permissions for users on your domain
+https://www.googleapis.com/auth/admin.directory.userschema|View and manage the provisioning of user schemas on your domain
+https://www.googleapis.com/auth/admin.directory.userschema.readonly|View user schemas on your domain
+https://www.googleapis.com/auth/admin.reports.audit.readonly|View audit reports for your G Suite domain
+https://www.googleapis.com/auth/admin.reports.usage.readonly|View usage reports for your G Suite domain
+https://www.googleapis.com/auth/admob.readonly|See your AdMob data
+https://www.googleapis.com/auth/admob.report|See your AdMob data
+https://www.googleapis.com/auth/adsensehost|View and manage your AdSense host data and associated accounts
+https://www.googleapis.com/auth/analytics|View and manage your Google Analytics data
+https://www.googleapis.com/auth/analytics.edit|Edit Google Analytics management entities
+https://www.googleapis.com/auth/analytics.manage.users|Manage Google Analytics Account users by email address
+https://www.googleapis.com/auth/analytics.manage.users.readonly|View Google Analytics user permissions
+https://www.googleapis.com/auth/analytics.provision|Create a new Google Analytics account along with its default property and view
+https://www.googleapis.com/auth/analytics.readonly|See and download your Google Analytics data
+https://www.googleapis.com/auth/analytics.readonly|View your Google Analytics data
+https://www.googleapis.com/auth/analytics.user.deletion|Manage Google Analytics user deletion requests
+https://www.googleapis.com/auth/androidenterprise|Manage corporate Android devices
+https://www.googleapis.com/auth/androidmanagement|Manage Android devices and apps for your customers
+https://www.googleapis.com/auth/androidpublisher|View and manage your Google Play Developer account
+https://www.googleapis.com/auth/appengine.admin|View and manage your applications deployed on Google App Engine
+https://www.googleapis.com/auth/apps.alerts|See and delete your domain's G Suite alerts, and send alert feedback
+https://www.googleapis.com/auth/apps.groups.migration|Upload messages to any Google group in your domain
+https://www.googleapis.com/auth/apps.groups.settings|View and manage the settings of a G Suite group
+https://www.googleapis.com/auth/apps.licensing|View and manage G Suite licenses for your domain
+https://www.googleapis.com/auth/apps.order|Manage users on your domain
+https://www.googleapis.com/auth/apps.order.readonly|Manage users on your domain
+https://www.googleapis.com/auth/bigquery|View and manage your data in Google BigQuery and see the email address for your Google Account
+https://www.googleapis.com/auth/bigquery.insertdata|Insert data into Google BigQuery
+https://www.googleapis.com/auth/bigtable.admin|Administer your Cloud Bigtable tables and clusters
+https://www.googleapis.com/auth/bigtable.admin.cluster|Administer your Cloud Bigtable clusters
+https://www.googleapis.com/auth/bigtable.admin.instance|Administer your Cloud Bigtable clusters
+https://www.googleapis.com/auth/bigtable.admin.table|Administer your Cloud Bigtable tables
+https://www.googleapis.com/auth/blogger|Manage your Blogger account
+https://www.googleapis.com/auth/blogger.readonly|View your Blogger account
+https://www.googleapis.com/auth/books|Manage your books
+https://www.googleapis.com/auth/calendar|See, edit, share, and permanently delete all the calendars you can access using Google Calendar
+https://www.googleapis.com/auth/calendar.events|View and edit events on all your calendars
+https://www.googleapis.com/auth/calendar.events.readonly|View events on all your calendars
+https://www.googleapis.com/auth/calendar.readonly|See and download any calendar you can access using your Google Calendar
+https://www.googleapis.com/auth/calendar.settings.readonly|View your Calendar settings
+https://www.googleapis.com/auth/chat.admin.delete|Delete conversations and spaces owned by your organization and remove access to associated files in Google Chat
+https://www.googleapis.com/auth/chat.admin.memberships|View, add, update and remove members and managers in conversations owned by your organization
+https://www.googleapis.com/auth/chat.admin.memberships.readonly|View members and managers in conversations owned by your organization
+https://www.googleapis.com/auth/chat.admin.spaces|View or edit display name, description, and other metadata for all Google Chat conversations owned by your organization
+https://www.googleapis.com/auth/chat.admin.spaces.readonly|View display name, description, and other metadata for all Google Chat conversations owned by your organization
+https://www.googleapis.com/auth/chat.app.delete|On their own behalf, apps in Google Chat can delete conversations and spaces and remove access to associated files
+https://www.googleapis.com/auth/chat.app.memberships|On their own behalf, apps in Google Chat can see, add, update, and remove members from conversations and spaces
+https://www.googleapis.com/auth/chat.app.spaces|On their own behalf, apps in Google Chat can create conversations and spaces and see or update their metadata (including history settings and access settings)
+https://www.googleapis.com/auth/chat.app.spaces.create|On their own behalf, apps in Google Chat can create conversations and spaces
+https://www.googleapis.com/auth/chat.delete|Delete conversations and spaces and remove access to associated files in Google Chat
+https://www.googleapis.com/auth/chat.import|Import spaces, messages, and memberships into Google Chat.
+https://www.googleapis.com/auth/chat.memberships|See, add, update, and remove members from conversations and spaces in Google Chat
+https://www.googleapis.com/auth/chat.memberships.app|Add and remove itself from conversations and spaces in Google Chat
+https://www.googleapis.com/auth/chat.memberships.readonly|View members in Google Chat conversations.
+https://www.googleapis.com/auth/chat.messages|See, compose, send, update, and delete messages and their associated attachments, and add, see, and delete reactions to messages.
+https://www.googleapis.com/auth/chat.messages|See, compose, send, update, and delete messages as well as their message content; add, see, and delete reactions to messages.
+https://www.googleapis.com/auth/chat.messages.create|Compose and send messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.reactions|See, add, and delete reactions as well as their reaction content to messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.reactions|See, add, and delete reactions to messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.reactions.create|Add reactions to messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.reactions.readonly|View reactions as well as their reaction content to messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.reactions.readonly|View reactions to messages in Google Chat
+https://www.googleapis.com/auth/chat.messages.readonly|See messages and their associated reactions and attachments in Google Chat
+https://www.googleapis.com/auth/chat.messages.readonly|See messages as well as their reactions and message content in Google Chat
+https://www.googleapis.com/auth/chat.spaces|Create conversations and spaces and see or update metadata (including history settings and access settings) in Google Chat
+https://www.googleapis.com/auth/chat.spaces.create|Create new conversations and spaces in Google Chat
+https://www.googleapis.com/auth/chat.spaces.readonly|View chat and spaces in Google Chat
+https://www.googleapis.com/auth/chat.users.readstate|View and modify last read time for Google Chat conversations
+https://www.googleapis.com/auth/chat.users.readstate.readonly|View last read time for Google Chat conversations
+https://www.googleapis.com/auth/classroom.announcements|View and manage announcements in Google Classroom
+https://www.googleapis.com/auth/classroom.announcements.readonly|View announcements in Google Classroom
+https://www.googleapis.com/auth/classroom.courses|See, edit, create, and permanently delete your Google Classroom classes
+https://www.googleapis.com/auth/classroom.courses.readonly|View your Google Classroom classes
+https://www.googleapis.com/auth/classroom.coursework.me|See, create and edit coursework items including assignments, questions, and grades
+https://www.googleapis.com/auth/classroom.coursework.me.readonly|View your course work and grades in Google Classroom
+https://www.googleapis.com/auth/classroom.coursework.students|Manage course work and grades for students in the Google Classroom classes you teach and view the course work and grades for classes you administer
+https://www.googleapis.com/auth/classroom.coursework.students.readonly|View course work and grades for students in the Google Classroom classes you teach or administer
+https://www.googleapis.com/auth/classroom.courseworkmaterials|See, edit, and create classwork materials in Google Classroom
+https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly|See all classwork materials for your Google Classroom classes
+https://www.googleapis.com/auth/classroom.guardianlinks.me.readonly|View your Google Classroom guardians
+https://www.googleapis.com/auth/classroom.guardianlinks.students|View and manage guardians for students in your Google Classroom classes
+https://www.googleapis.com/auth/classroom.guardianlinks.students.readonly|View guardians for students in your Google Classroom classes
+https://www.googleapis.com/auth/classroom.profile.emails|View the email addresses of people in your classes
+https://www.googleapis.com/auth/classroom.profile.photos|View the profile photos of people in your classes
+https://www.googleapis.com/auth/classroom.push-notifications|Receive notifications about your Google Classroom data
+https://www.googleapis.com/auth/classroom.rosters|Manage your Google Classroom class rosters
+https://www.googleapis.com/auth/classroom.rosters.readonly|View your Google Classroom class rosters
+https://www.googleapis.com/auth/classroom.student-submissions.me.readonly|View your course work and grades in Google Classroom
+https://www.googleapis.com/auth/classroom.student-submissions.students.readonly|View course work and grades for students in the Google Classroom classes you teach or administer
+https://www.googleapis.com/auth/classroom.topics|See, create, and edit topics in Google Classroom
+https://www.googleapis.com/auth/classroom.topics.readonly|View topics in Google Classroom
+https://www.googleapis.com/auth/cloud_debugger|Use Stackdriver Debugger
+https://www.googleapis.com/auth/cloud_search|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.debug|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.indexing|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.query|Search your organization's data in the Cloud Search index
+https://www.googleapis.com/auth/cloud_search.settings|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.settings.indexing|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.settings.query|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.stats|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud_search.stats.indexing|Index and serve your organization's data with Cloud Search
+https://www.googleapis.com/auth/cloud-bigtable.admin|Administer your Cloud Bigtable tables and clusters
+https://www.googleapis.com/auth/cloud-bigtable.admin.cluster|Administer your Cloud Bigtable clusters
+https://www.googleapis.com/auth/cloud-bigtable.admin.table|Administer your Cloud Bigtable tables
+https://www.googleapis.com/auth/cloud-billing|View and manage your Google Cloud Platform billing accounts
+https://www.googleapis.com/auth/cloud-billing.readonly|View your Google Cloud Platform billing accounts
+https://www.googleapis.com/auth/cloud-identity.devices.lookup|See your device details
+https://www.googleapis.com/auth/cloud-identity.groups|See, change, create, and delete any of the Cloud Identity Groups that you can access, including the members of each group
+https://www.googleapis.com/auth/cloud-identity.groups.readonly|See any Cloud Identity Groups that you can access, including group members and their emails
+https://www.googleapis.com/auth/cloud-language|Apply machine learning models to reveal the structure and meaning of text
+https://www.googleapis.com/auth/cloud-platform|See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
+https://www.googleapis.com/auth/cloud-platform|View and manage your data across Google Cloud Platform services
+https://www.googleapis.com/auth/cloud-platform.read-only|View your data across Google Cloud Platform services
+https://www.googleapis.com/auth/cloud-platform.read-only|View your data across Google Cloud services and see the email address of your Google Account
+https://www.googleapis.com/auth/cloud-translation|Translate text from one language to another using Google Translate
+https://www.googleapis.com/auth/cloud-vision|Apply machine learning models to understand and label images
+https://www.googleapis.com/auth/cloudkms|View and manage your keys and secrets stored in Cloud Key Management Service
+https://www.googleapis.com/auth/cloudruntimeconfig|Manage your Google Cloud Platform services' runtime configuration
+https://www.googleapis.com/auth/compute|View and manage your Google Compute Engine resources
+https://www.googleapis.com/auth/compute.readonly|View your Google Compute Engine resources
+https://www.googleapis.com/auth/contacts|See, edit, download, and permanently delete your contacts
+https://www.googleapis.com/auth/contacts.other.readonly|See and download contact info automatically saved in your "Other contacts"
+https://www.googleapis.com/auth/contacts.readonly|See and download your contacts
+https://www.googleapis.com/auth/content|Manage your product listings and accounts for Google Shopping
+https://www.googleapis.com/auth/dataportability.alerts.subscriptions|Move a copy of the Google Alerts subscriptions you created
+https://www.googleapis.com/auth/dataportability.businessmessaging.conversations|Move a copy of messages between you and the businesses you have conversations with across Google services
+https://www.googleapis.com/auth/dataportability.chrome.autofill|Move a copy of the information you entered into online forms in Chrome
+https://www.googleapis.com/auth/dataportability.chrome.bookmarks|Move a copy of pages you bookmarked in Chrome
+https://www.googleapis.com/auth/dataportability.chrome.dictionary|Move a copy of words you added to Chrome's dictionary
+https://www.googleapis.com/auth/dataportability.chrome.extensions|Move a copy of extensions you installed from the Chrome Web Store
+https://www.googleapis.com/auth/dataportability.chrome.history|Move a copy of sites you visited in Chrome
+https://www.googleapis.com/auth/dataportability.chrome.reading_list|Move a copy of pages you added to your reading list in Chrome
+https://www.googleapis.com/auth/dataportability.chrome.settings|Move a copy of your settings in Chrome
+https://www.googleapis.com/auth/dataportability.discover.follows|Move a copy of searches and sites you follow, saved by Discover
+https://www.googleapis.com/auth/dataportability.discover.likes|Move a copy of links to your liked documents, saved by Discover
+https://www.googleapis.com/auth/dataportability.discover.not_interested|Move a copy of content you marked as not interested, saved by Discover
+https://www.googleapis.com/auth/dataportability.maps.aliased_places|Move a copy of the places you labeled on Maps
+https://www.googleapis.com/auth/dataportability.maps.commute_routes|Move a copy of your pinned trips on Maps
+https://www.googleapis.com/auth/dataportability.maps.commute_settings|Move a copy of your commute settings on Maps
+https://www.googleapis.com/auth/dataportability.maps.ev_profile|Move a copy of your electric vehicle profile on Maps
+https://www.googleapis.com/auth/dataportability.maps.factual_contributions|Move a copy of the corrections you made to places or map information on Maps
+https://www.googleapis.com/auth/dataportability.maps.offering_contributions|Move a copy of your updates to places on Maps
+https://www.googleapis.com/auth/dataportability.maps.photos_videos|Move a copy of the photos and videos you posted on Maps
+https://www.googleapis.com/auth/dataportability.maps.questions_answers|Move a copy of the questions and answers you posted on Maps
+https://www.googleapis.com/auth/dataportability.maps.reviews|Move a copy of your reviews and posts on Maps
+https://www.googleapis.com/auth/dataportability.maps.starred_places|Move a copy of your Starred places list on Maps
+https://www.googleapis.com/auth/dataportability.myactivity.maps|Move a copy of your Maps activity
+https://www.googleapis.com/auth/dataportability.myactivity.myadcenter|Move a copy of your My Ad Center activity
+https://www.googleapis.com/auth/dataportability.myactivity.play|Move a copy of your Google Play activity
+https://www.googleapis.com/auth/dataportability.myactivity.search|Move a copy of your Google Search activity
+https://www.googleapis.com/auth/dataportability.myactivity.shopping|Move a copy of your Shopping activity
+https://www.googleapis.com/auth/dataportability.myactivity.youtube|Move a copy of your YouTube activity
+https://www.googleapis.com/auth/dataportability.mymaps.maps|Move a copy of the maps you created in My Maps
+https://www.googleapis.com/auth/dataportability.order_reserve.purchases_reservations|Move a copy of your food purchase and reservation activity
+https://www.googleapis.com/auth/dataportability.play.devices|Move a copy of information about your devices with Google Play Store installed
+https://www.googleapis.com/auth/dataportability.play.grouping|Move a copy of your Google Play Store Grouping tags created by app developers
+https://www.googleapis.com/auth/dataportability.play.installs|Move a copy of your Google Play Store app installations
+https://www.googleapis.com/auth/dataportability.play.library|Move a copy of your Google Play Store downloads, including books, games, and apps
+https://www.googleapis.com/auth/dataportability.play.playpoints|Move a copy of information about your Google Play Store Points
+https://www.googleapis.com/auth/dataportability.play.promotions|Move a copy of information about your Google Play Store promotions
+https://www.googleapis.com/auth/dataportability.play.purchases|Move a copy of your Google Play Store purchases
+https://www.googleapis.com/auth/dataportability.play.redemptions|Move a copy of your Google Play Store redemption activities
+https://www.googleapis.com/auth/dataportability.play.subscriptions|Move a copy of your Google Play Store subscriptions
+https://www.googleapis.com/auth/dataportability.play.usersettings|Move a copy of your Google Play Store user settings and preferences
+https://www.googleapis.com/auth/dataportability.saved.collections|Move a copy of your saved links, images, places, and collections from your use of Google services
+https://www.googleapis.com/auth/dataportability.search_ugc.comments|Move a copy of your comments on Google Search
+https://www.googleapis.com/auth/dataportability.search_ugc.media.reviews_and_stars|Move a copy of your media reviews on Google Search
+https://www.googleapis.com/auth/dataportability.search_ugc.media.streaming_video_providers|Move a copy of your self-reported video streaming provider preferences from Google Search and Google TV
+https://www.googleapis.com/auth/dataportability.search_ugc.media.thumbs|Move a copy of your indicated thumbs up and thumbs down on media in Google Search and Google TV
+https://www.googleapis.com/auth/dataportability.search_ugc.media.watched|Move a copy of information about the movies and TV shows you marked as watched on Google Search and Google TV
+https://www.googleapis.com/auth/dataportability.searchnotifications.settings|Move a copy of your notification settings on the Google Search app
+https://www.googleapis.com/auth/dataportability.searchnotifications.subscriptions|Move a copy of your notification subscriptions on Google Search app
+https://www.googleapis.com/auth/dataportability.shopping.addresses|Move a copy of your shipping information on Shopping
+https://www.googleapis.com/auth/dataportability.shopping.reviews|Move a copy of reviews you wrote about products or online stores on Google Search
+https://www.googleapis.com/auth/dataportability.streetview.imagery|Move a copy of the images and videos you uploaded to Street View
+https://www.googleapis.com/auth/dataportability.youtube.channel|Move a copy of information about your YouTube channel
+https://www.googleapis.com/auth/dataportability.youtube.clips|Move a copy of your YouTube clips metadata
+https://www.googleapis.com/auth/dataportability.youtube.comments|Move a copy of your YouTube comments
+https://www.googleapis.com/auth/dataportability.youtube.live_chat|Move a copy of your YouTube messages in live chat
+https://www.googleapis.com/auth/dataportability.youtube.music|Move a copy of your uploaded YouTube music tracks and your YouTube music library
+https://www.googleapis.com/auth/dataportability.youtube.playable|Move a copy of your YouTube playables saved game progress files
+https://www.googleapis.com/auth/dataportability.youtube.posts|Move a copy of your YouTube posts
+https://www.googleapis.com/auth/dataportability.youtube.private_playlists|Move a copy of your YouTube private playlists
+https://www.googleapis.com/auth/dataportability.youtube.private_videos|Move a copy of your private YouTube videos and information about them
+https://www.googleapis.com/auth/dataportability.youtube.public_playlists|Move a copy of your public YouTube playlists
+https://www.googleapis.com/auth/dataportability.youtube.public_videos|Move a copy of your public YouTube videos and information about them
+https://www.googleapis.com/auth/dataportability.youtube.shopping|Move a copy of your YouTube shopping wishlists, and wishlist items
+https://www.googleapis.com/auth/dataportability.youtube.subscriptions|Move a copy of your YouTube channel subscriptions, even if they're private
+https://www.googleapis.com/auth/dataportability.youtube.unlisted_playlists|Move a copy of your unlisted YouTube playlists
+https://www.googleapis.com/auth/dataportability.youtube.unlisted_videos|Move a copy of your unlisted YouTube videos and information about them
+https://www.googleapis.com/auth/datastore|View and manage your Google Cloud Datastore data
+https://www.googleapis.com/auth/ddmconversions|Manage DoubleClick Digital Marketing conversions
+https://www.googleapis.com/auth/devstorage.full_control|Manage your data and permissions in Cloud Storage and see the email address for your Google Account
+https://www.googleapis.com/auth/devstorage.full_control|Manage your data and permissions in Google Cloud Storage
+https://www.googleapis.com/auth/devstorage.read_only|View your data in Google Cloud Storage
+https://www.googleapis.com/auth/devstorage.read_write|Manage your data in Cloud Storage and see the email address of your Google Account
+https://www.googleapis.com/auth/devstorage.read_write|Manage your data in Google Cloud Storage
+https://www.googleapis.com/auth/dfareporting|View and manage DoubleClick for Advertisers reports
+https://www.googleapis.com/auth/dfatrafficking|View and manage your DoubleClick Campaign Manager's (DCM) display ad campaigns
+https://www.googleapis.com/auth/directory.readonly|See and download your organization's GSuite directory
+https://www.googleapis.com/auth/documents|See, edit, create, and delete all your Google Docs documents
+https://www.googleapis.com/auth/documents.readonly|See all your Google Docs documents
+https://www.googleapis.com/auth/doubleclicksearch|View and manage your advertising data in DoubleClick Search
+https://www.googleapis.com/auth/drive|See, edit, create, and delete all of your Google Drive files
+https://www.googleapis.com/auth/drive.activity|View and add to the activity record of files in your Google Drive
+https://www.googleapis.com/auth/drive.activity.readonly|View the activity record of files in your Google Drive
+https://www.googleapis.com/auth/drive.admin.labels|See, edit, create, and delete all Google Drive labels in your organization, and see your organization's label-related admin policies
+https://www.googleapis.com/auth/drive.admin.labels.readonly|See all Google Drive labels and label-related admin policies in your organization
+https://www.googleapis.com/auth/drive.appdata|See, create, and delete its own configuration data in your Google Drive
+https://www.googleapis.com/auth/drive.apps.readonly|View your Google Drive apps
+https://www.googleapis.com/auth/drive.file|See, edit, create, and delete only the specific Google Drive files you use with this app
+https://www.googleapis.com/auth/drive.labels|See, edit, create, and delete your Google Drive labels
+https://www.googleapis.com/auth/drive.labels.readonly|See your Google Drive labels
+https://www.googleapis.com/auth/drive.meet.readonly|See and download your Google Drive files that were created or edited by Google Meet.
+https://www.googleapis.com/auth/drive.metadata|View and manage metadata of files in your Google Drive
+https://www.googleapis.com/auth/drive.metadata.readonly|See information about your Google Drive files
+https://www.googleapis.com/auth/drive.photos.readonly|View the photos, videos and albums in your Google Photos
+https://www.googleapis.com/auth/drive.readonly|See and download all your Google Drive files
+https://www.googleapis.com/auth/drive.scripts|Modify your Google Apps Script scripts' behavior
+https://www.googleapis.com/auth/ediscovery|Manage your eDiscovery data
+https://www.googleapis.com/auth/ediscovery.readonly|View your eDiscovery data
+https://www.googleapis.com/auth/factchecktools|Read, create, update, and delete your ClaimReview data.
+https://www.googleapis.com/auth/firebase|View and administer all your Firebase data and settings
+https://www.googleapis.com/auth/firebase.messaging|Send messages and manage messaging subscriptions for your Firebase applications
+https://www.googleapis.com/auth/firebase.readonly|View all your Firebase data and settings
+https://www.googleapis.com/auth/fitness.activity.read|Use Google Fit to see and store your physical activity data
+https://www.googleapis.com/auth/fitness.activity.write|Add to your Google Fit physical activity data
+https://www.googleapis.com/auth/fitness.blood_glucose.read|See info about your blood glucose in Google Fit. I consent to Google sharing my blood glucose information with this app.
+https://www.googleapis.com/auth/fitness.blood_glucose.write|Add info about your blood glucose to Google Fit. I consent to Google using my blood glucose information with this app.
+https://www.googleapis.com/auth/fitness.blood_pressure.read|See info about your blood pressure in Google Fit. I consent to Google sharing my blood pressure information with this app.
+https://www.googleapis.com/auth/fitness.blood_pressure.write|Add info about your blood pressure in Google Fit. I consent to Google using my blood pressure information with this app.
+https://www.googleapis.com/auth/fitness.body_temperature.read|See info about your body temperature in Google Fit. I consent to Google sharing my body temperature information with this app.
+https://www.googleapis.com/auth/fitness.body_temperature.write|Add to info about your body temperature in Google Fit. I consent to Google using my body temperature information with this app.
+https://www.googleapis.com/auth/fitness.body.read|See info about your body measurements in Google Fit
+https://www.googleapis.com/auth/fitness.body.write|Add info about your body measurements to Google Fit
+https://www.googleapis.com/auth/fitness.heart_rate.read|See your heart rate data in Google Fit. I consent to Google sharing my heart rate information with this app.
+https://www.googleapis.com/auth/fitness.heart_rate.write|Add to your heart rate data in Google Fit. I consent to Google using my heart rate information with this app.
+https://www.googleapis.com/auth/fitness.location.read|See your Google Fit speed and distance data
+https://www.googleapis.com/auth/fitness.location.write|Add to your Google Fit location data
+https://www.googleapis.com/auth/fitness.nutrition.read|See info about your nutrition in Google Fit
+https://www.googleapis.com/auth/fitness.nutrition.write|Add to info about your nutrition in Google Fit
+https://www.googleapis.com/auth/fitness.oxygen_saturation.read|See info about your oxygen saturation in Google Fit. I consent to Google sharing my oxygen saturation information with this app.
+https://www.googleapis.com/auth/fitness.oxygen_saturation.write|Add info about your oxygen saturation in Google Fit. I consent to Google using my oxygen saturation information with this app.
+https://www.googleapis.com/auth/fitness.reproductive_health.read|See info about your reproductive health in Google Fit. I consent to Google sharing my reproductive health information with this app.
+https://www.googleapis.com/auth/fitness.reproductive_health.write|Add info about your reproductive health in Google Fit. I consent to Google using my reproductive health information with this app.
+https://www.googleapis.com/auth/fitness.sleep.read|See your sleep data in Google Fit. I consent to Google sharing my sleep information with this app.
+https://www.googleapis.com/auth/fitness.sleep.write|Add to your sleep data in Google Fit. I consent to Google using my sleep information with this app.
+https://www.googleapis.com/auth/forms|View and manage your forms in Google Drive
+https://www.googleapis.com/auth/forms.body|See, edit, create, and delete all your Google Forms forms
+https://www.googleapis.com/auth/forms.body.readonly|See all your Google Forms forms
+https://www.googleapis.com/auth/forms.currentonly|View and manage forms that this application has been installed in
+https://www.googleapis.com/auth/forms.responses.readonly|See all responses to your Google Forms forms
+https://www.googleapis.com/auth/games|Create, edit, and delete your Google Play Games activity
+https://www.googleapis.com/auth/genomics|View and manage Genomics data
+https://www.googleapis.com/auth/gmail.addons.current.action.compose|Manage drafts and send emails when you interact with the add-on
+https://www.googleapis.com/auth/gmail.addons.current.message.action|View your email messages when you interact with the add-on
+https://www.googleapis.com/auth/gmail.addons.current.message.metadata|View your email message metadata when the add-on is running
+https://www.googleapis.com/auth/gmail.addons.current.message.readonly|View your email messages when the add-on is running
+https://www.googleapis.com/auth/gmail.compose|Manage drafts and send emails
+https://www.googleapis.com/auth/gmail.insert|Add emails into your Gmail mailbox
+https://www.googleapis.com/auth/gmail.labels|See and edit your email labels
+https://www.googleapis.com/auth/gmail.metadata|View your email message metadata such as labels and headers, but not the email body
+https://www.googleapis.com/auth/gmail.modify|Read, compose, and send emails from your Gmail account
+https://www.googleapis.com/auth/gmail.readonly|View your email messages and settings
+https://www.googleapis.com/auth/gmail.send|Send email on your behalf
+https://www.googleapis.com/auth/gmail.settings.basic|See, edit, create, or change your email settings and filters in Gmail
+https://www.googleapis.com/auth/gmail.settings.sharing|Manage your sensitive mail settings, including who can manage your mail
+https://www.googleapis.com/auth/groups|View and manage your Google Groups
+https://www.googleapis.com/auth/indexing|Submit data to Google for indexing
+https://www.googleapis.com/auth/keep|See, edit, create and permanently delete all your Google Keep data
+https://www.googleapis.com/auth/keep.readonly|View all your Google Keep data
+https://www.googleapis.com/auth/logging.admin|Administrate log data for your projects
+https://www.googleapis.com/auth/logging.read|View log data for your projects
+https://www.googleapis.com/auth/logging.write|Submit log data for your projects
+https://www.googleapis.com/auth/manufacturercenter|Manage your product listings for Google Manufacturer Center
+https://www.googleapis.com/auth/meetings.space.created|Create, edit, and see information about your Google Meet conferences created by the app.
+https://www.googleapis.com/auth/meetings.space.readonly|Read information about any of your Google Meet conferences
+https://www.googleapis.com/auth/monitoring|View and write monitoring data for all of your Google and third-party Cloud and API projects
+https://www.googleapis.com/auth/monitoring.read|View monitoring data for all of your Google Cloud and third-party projects
+https://www.googleapis.com/auth/monitoring.write|Publish metric data to your Google Cloud projects
+https://www.googleapis.com/auth/ndev.clouddns.readonly|View your DNS records hosted by Google Cloud DNS
+https://www.googleapis.com/auth/ndev.clouddns.readwrite|View and manage your DNS records hosted by Google Cloud DNS
+https://www.googleapis.com/auth/ndev.cloudman|View and manage your Google Cloud Platform management resources and deployment status information
+https://www.googleapis.com/auth/ndev.cloudman.readonly|View your Google Cloud Platform management resources and deployment status information
+https://www.googleapis.com/auth/photoslibrary|See, upload, and organize items in your Google Photos library
+https://www.googleapis.com/auth/photoslibrary.appendonly|Add to your Google Photos library
+https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata|Edit the info in your photos, videos, and albums created within this app, including titles, descriptions, and covers
+https://www.googleapis.com/auth/photoslibrary.readonly|View your Google Photos library
+https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata|Manage photos added by this app
+https://www.googleapis.com/auth/photoslibrary.sharing|Manage and add to shared albums on your behalf
+https://www.googleapis.com/auth/postmaster.readonly|See email traffic metrics for the domains you have registered in Gmail Postmaster Tools
+https://www.googleapis.com/auth/presentations|See, edit, create, and delete all your Google Slides presentations
+https://www.googleapis.com/auth/presentations.readonly|See all your Google Slides presentations
+https://www.googleapis.com/auth/pubsub|View and manage Pub/Sub topics and subscriptions
+https://www.googleapis.com/auth/sasportal|Read, create, update, and delete your SAS Portal data.
+https://www.googleapis.com/auth/script.deployments|Create and update Google Apps Script deployments
+https://www.googleapis.com/auth/script.deployments.readonly|View Google Apps Script deployments
+https://www.googleapis.com/auth/script.metrics|View Google Apps Script project's metrics
+https://www.googleapis.com/auth/script.processes|View Google Apps Script processes
+https://www.googleapis.com/auth/script.projects|Create and update Google Apps Script projects
+https://www.googleapis.com/auth/script.projects.readonly|View Google Apps Script projects
+https://www.googleapis.com/auth/service.management|Manage your Google API service configuration
+https://www.googleapis.com/auth/service.management.readonly|View your Google API service configuration
+https://www.googleapis.com/auth/siteverification|Manage the list of sites and domains you control
+https://www.googleapis.com/auth/siteverification.verify_only|Manage your new site verifications with Google
+https://www.googleapis.com/auth/source.full_control|Manage your source code repositories
+https://www.googleapis.com/auth/source.read_only|View the contents of your source code repositories
+https://www.googleapis.com/auth/source.read_write|Manage the contents of your source code repositories
+https://www.googleapis.com/auth/spanner.admin|Administer your Spanner databases
+https://www.googleapis.com/auth/spanner.data|View and manage the contents of your Spanner databases
+https://www.googleapis.com/auth/spreadsheets|See, edit, create, and delete all your Google Sheets spreadsheets
+https://www.googleapis.com/auth/spreadsheets.readonly|See all your Google Sheets spreadsheets
+https://www.googleapis.com/auth/sqlservice.admin|Manage your Google SQL Service instances
+https://www.googleapis.com/auth/streetviewpublish|Publish and manage your 360 photos on Google Street View
+https://www.googleapis.com/auth/tagmanager.delete.containers|Delete your Google Tag Manager containers
+https://www.googleapis.com/auth/tagmanager.edit.containers|Manage your Google Tag Manager container and its subcomponents, excluding versioning and publishing
+https://www.googleapis.com/auth/tagmanager.edit.containerversions|Manage your Google Tag Manager container versions
+https://www.googleapis.com/auth/tagmanager.manage.accounts|View and manage your Google Tag Manager accounts
+https://www.googleapis.com/auth/tagmanager.manage.users|Manage user permissions of your Google Tag Manager account and container
+https://www.googleapis.com/auth/tagmanager.publish|Publish your Google Tag Manager container versions
+https://www.googleapis.com/auth/tagmanager.readonly|View your Google Tag Manager container and its subcomponents
+https://www.googleapis.com/auth/tasks|Create, edit, organize, and delete all your tasks
+https://www.googleapis.com/auth/tasks.readonly|View your tasks
+https://www.googleapis.com/auth/trace.append|Write Trace data for a project or application
+https://www.googleapis.com/auth/user.addresses.read|View your street addresses
+https://www.googleapis.com/auth/user.birthday.read|See and download your exact date of birth
+https://www.googleapis.com/auth/user.emails.read|See and download all of your Google Account email addresses
+https://www.googleapis.com/auth/user.gender.read|See your gender
+https://www.googleapis.com/auth/user.organization.read|See your education, work history and org info
+https://www.googleapis.com/auth/user.phonenumbers.read|See and download your personal phone numbers
+https://www.googleapis.com/auth/userinfo.email|See your primary Google Account email address
+https://www.googleapis.com/auth/userinfo.profile|See your personal info, including any personal info you've made publicly available
+https://www.googleapis.com/auth/webmasters|View and manage Search Console data for your verified sites
+https://www.googleapis.com/auth/webmasters.readonly|View Search Console data for your verified sites
+https://www.googleapis.com/auth/youtube|Manage your YouTube account
+https://www.googleapis.com/auth/youtube.channel-memberships.creator|See a list of your current active channel members, their current level, and when they became a member
+https://www.googleapis.com/auth/youtube.force-ssl|See, edit, and permanently delete your YouTube videos, ratings, comments and captions
+https://www.googleapis.com/auth/youtube.readonly|View your YouTube account
+https://www.googleapis.com/auth/youtube.upload|Manage your YouTube videos
+https://www.googleapis.com/auth/youtubepartner|View and manage your assets and associated content on YouTube
+https://www.googleapis.com/auth/youtubepartner-channel-audit|View private information of your YouTube channel relevant during the audit process with a YouTube partner
+https://www.googleapis.com/auth/yt-analytics-monetary.readonly|View monetary and non-monetary YouTube Analytics reports for your YouTube content
+https://www.googleapis.com/auth/yt-analytics.readonly|View YouTube Analytics reports for your YouTube content
