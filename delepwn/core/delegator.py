@@ -66,7 +66,6 @@ def results(oauth_enumerator):
 
 def check(enumerator, testEmail, verbose, enum_output):
     try:
-        print_color(f"\n→ Enumerating GCP Resources: Projects and Service Accounts...\n", color="cyan")
         enumerator.enumerate_service_accounts()
 
         if testEmail:

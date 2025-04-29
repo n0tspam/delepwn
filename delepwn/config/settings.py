@@ -3,19 +3,21 @@
 import os
 from pathlib import Path
 
+# Get the project root directory (parent of delepwn folder)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # Base paths
-ROOT_DIR = Path(__file__).parent.parent
-KEYS_DIR = ROOT_DIR / "SA_private_keys"
-RESULTS_DIR = ROOT_DIR / "results"
-DOWNLOADS_DIR = ROOT_DIR / "downloads"
-EXAMPLES_DIR = ROOT_DIR / "examples"
+KEYS_DIR = os.path.join(PROJECT_ROOT, "SA_private_keys")
+RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
+DOWNLOADS_DIR = os.path.join(PROJECT_ROOT, "downloads")
+EXAMPLES_DIR = os.path.join(PROJECT_ROOT, "examples")
 
 # OAuth scopes file
 OAUTH_SCOPES_FILE = 'delepwn/config/oauth_scopes.txt'
 
 # Ensure required directories exist
 for directory in [KEYS_DIR, RESULTS_DIR, DOWNLOADS_DIR]:
-    directory.mkdir(exist_ok=True)
+    os.makedirs(directory, exist_ok=True)
 
 # Service settings
 DRIVE_API_VERSION = "v3"
@@ -36,8 +38,8 @@ RATE_LIMIT_BACKOFF_FACTOR = 2
 API_RETRY_STATUS_CODES = [429, 500, 502, 503, 504]
 
 # File paths
-SERVICE_ACCOUNT_KEY_FOLDER = 'SA_private_keys'
-RESULTS_FOLDER = 'results'
+SERVICE_ACCOUNT_KEY_FOLDER = KEYS_DIR
+RESULTS_FOLDER = RESULTS_DIR
 
 # API settings
 API_RETRY_COUNT = 3

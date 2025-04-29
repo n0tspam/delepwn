@@ -109,7 +109,7 @@ class CommandHandler:
             if enumerator.user_email is None:
                 raise Exception(print_color("[-] Error verifying token. Ensure it's refreshed.", color="red"))
             
-            print_color(f"✓ GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="green")
+            print_color(f"\n✓ GCP_BEARER_ACCESS_TOKEN is set with access token of {enumerator.user_email}", color="cyan")
             check(enumerator, args.email, args.verbose, args.output)
         except Exception as e:
             print_color(f"An error occurred: {e}", color="red")

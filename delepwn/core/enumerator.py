@@ -168,7 +168,7 @@ class ServiceAccountEnumerator:
         """Enumerate service accounts and check for key creation permissions"""
         any_service_account_with_key_permission = False
         
-        print_color("\nEnumerating GCP Resources", color="cyan")
+        print_color("\nEnumerating GCP Resources: Projects and Service Accounts...", color="cyan")
         print_color("-" * 50, color="blue")
         
         for project_id in self.get_projects():
