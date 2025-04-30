@@ -189,7 +189,8 @@ Enhanced features: As this project grows, I'll look to add support for more OAut
 
 ## References / Acknowledgements
 
-Special shoutout to the developers of (https://github.com/axon-git/DeleFriend)[https://github.com/axon-git/DeleFriend]. They have an incredible explanation of how DWD privileges can be enumerated in their repo. Pretty much all of the code from the `enum` function is based on their research and work, so thank you! 
+Special shoutout to the developers of [https://github.com/axon-git/DeleFriend](https://github.com/axon-git/DeleFriend). They have an incredible explanation of how DWD privileges can be enumerated in their repo and [blog post](https://www.hunters.security/en/blog/delefriend-a-newly-discovered-design-flaw-in-domain-wide-delegation-could-leave-google-workspace-vulnerable-for-takeover). Pretty much all of the code from the `enum` function is based on their research and work, so thank you! 
+
 
 The implementation of the `admin` function was based on [gcp_delegation.py](https://gitlab.com/gitlab-com/gl-security/security-operations/redteam/redteam-public/pocs/gcp_misc/-/blob/master/gcp_delegation.py) so also a shoutout to them!
 
