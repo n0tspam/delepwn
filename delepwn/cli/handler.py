@@ -145,12 +145,17 @@ class CommandHandler:
 
     @staticmethod
     def _handle_drive_share(drive_manager, args):
-        """Handle drive share subcommand"""
-        print_color(f"\nStarting folder sharing process...", color="cyan")
-        drive_manager.share_all_folders(
-            target_email=args.sharefolders,
-            role='writer'
-        )
+        """Handle the drive share command"""
+        try:
+            print_color("\nStarting folder sharing process...", color="cyan")
+            if args.sharefolders:
+                drive_manager.share_all_folders(
+                    target_users=[args.sharefolders],  # Pass as list
+                    include_subfolders=True  # Default to always include subfolders
+                )
+        except Exception as e:
+            print_color(f"An error occurred: {str(e)}", color="red")
+            raise
 
     @staticmethod
     def handle_calendar_command(args):

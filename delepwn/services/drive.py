@@ -296,6 +296,48 @@ class DriveManager:
         except RefreshError:
             print("[*] Token refresh required")
             raise
+
+    def share_folder(self, folder_id, user_email, role='reader'):
+        """Share a single folder with a user"""
+        try:
+            permission = {
+                'type': 'user',
+                'role': role,
+                'emailAddress': user_email
+            }
+            
+            result = self.service.permissions().create(
+                fileId=folder_id,
+                body=permission,
+                sendNotificationEmail=False,
+                fields='id'
+            ).execute()
+            
+            if result and 'id' in result:
+                print_color(f"✓ Shared folder {folder_id} with {user_email}", color="green")
+                return True
+                
+        except Exception as e:
+            print_color(f"× Error sharing folder {folder_id}: {str(e)}", color="red")
+            return False
+
+    def share_subfolders(self, parent_id, user_email, role='reader'):
+        """Share all subfolders under a parent folder"""
+        try:
+            query = f"'{parent_id}' in parents and mimeType='application/vnd.google-apps.folder'"
+            results = self.service.files().list(
+                q=query,
+                fields='files(id, name)'
+            ).execute()
+            
+            for folder in results.get('files', []):
+                self.share_folder(folder['id'], user_email, role)
+                # Recursively share subfolders
+                self.share_subfolders(folder['id'], user_email, role)
+                
+        except Exception as e:
+            print_color(f"× Error sharing subfolders of {parent_id}: {str(e)}", color="red")
+
     def share_folder_with_user(self, folder_id, target_email, notify=False):
         """Share a folder with a specific user. Reader permissions only 
         
@@ -341,119 +383,26 @@ class DriveManager:
             
         return False
 
-    def share_all_folders(self, target_email, notify=False, root_folder='root'):
-        """Share all folders and files recursively with a specific user with reader permissions
-        
-        Args:
-            target_email (str): Email of the user to share folders with
-            notify (bool, optional): Whether to send notification emails. Defaults to False
-            root_folder (str, optional): ID of the root folder. Defaults to 'root'
-            
-        Returns:
-            tuple: (total_items, successful_shares, failed_shares)
-        """
-        if not self.service:
-            raise ValueError("Service not initialized. Call initialize_service first.")
-
-        def share_item(item_id, item_name, is_folder=False):
-            """Helper function to share an individual item"""
-            try:
-                permission = {
-                    'type': 'user',
-                    'role': 'reader',
-                    'emailAddress': target_email
-                }
-                
-                result = self.service.permissions().create(
-                    fileId=item_id,
-                    body=permission,
-                    sendNotificationEmail=notify,
-                    fields='id'
-                ).execute()
-                
-                if result and 'id' in result:
-                    item_type = "folder" if is_folder else "file"
-                    print_color(f"✓ Shared {item_type} '{item_name}' with {target_email} (reader access)", color="green")
-                    return True
-                    
-            except HttpError as error:
-                if error.resp.status == 404:
-                    print_color(f"× Item '{item_name}' not found", color="red")
-                elif error.resp.status == 400:
-                    print_color(f"× Invalid sharing request for '{item_name}'", color="red")
-                elif error.resp.status == 403:
-                    print_color(f"× Permission denied for '{item_name}'", color="red")
-                else:
-                    print_color(f"× Error sharing '{item_name}': {str(error)}", color="red")
-            except Exception as e:
-                print_color(f"× Unexpected error sharing '{item_name}': {str(e)}", color="red")
-                
-            return False
-
-        def process_folder(folder_id):
-            nonlocal total_items, successful_shares, failed_shares
-            
-            try:
-                # Query to find all files and subfolders in current folder
-                query = f"'{folder_id}' in parents and trashed=false"
-                page_token = None
-                
-                while True:
-                    response = self.service.files().list(
-                        q=query,
-                        spaces='drive',
-                        fields='nextPageToken, files(id, name, mimeType)',
-                        pageToken=page_token
-                    ).execute()
-                    
-                    items = response.get('files', [])
-                    for item in items:
-                        total_items += 1
-                        item_name = item['name']
-                        item_id = item['id']
-                        is_folder = item['mimeType'] == 'application/vnd.google-apps.folder'
-                        
-                        # Share the current item
-                        print_color(f"Processing {'folder' if is_folder else 'file'}: {item_name}", color="blue")
-                        if share_item(item_id, item_name, is_folder):
-                            successful_shares += 1
-                        else:
-                            failed_shares += 1
-
-                        # If it's a folder, process its contents
-                        if is_folder:
-                            process_folder(item_id)
-                    
-                    page_token = response.get('nextPageToken')
-                    if not page_token:
-                        break
-
-            except Exception as e:
-                print_color(f"Error processing folder contents: {str(e)}", color="red")
-
+    def share_all_folders(self, target_users, include_subfolders=True):
+        """Share all accessible folders with target users as viewers"""
         try:
-            total_items = 0
-            successful_shares = 0
-            failed_shares = 0
-            
-            print_color(f"\nStarting recursive file and folder sharing process...", color="cyan")
-            print_color(f"Target email: {target_email}", color="cyan")
-            print_color(f"Permission role: reader", color="cyan")
-            
-            # Process all items starting from the root folder
-            process_folder(root_folder)
-            
-            # Print summary
-            print_color("\nSharing Summary:", color="cyan")
-            print_color(f"Total items processed: {total_items}", color="white")
-            print_color(f"Successfully shared: {successful_shares}", color="green")
-            print_color(f"Failed to share: {failed_shares}", color="red")
-            
-            return total_items, successful_shares, failed_shares
-                
+            folders = self.list_all_folders()
+            for folder in folders:
+                for user in target_users:
+                    self.share_folder(
+                        folder_id=folder['id'],
+                        user_email=user,
+                        role='reader'  # Changed from 'writer' to 'reader'
+                    )
+                    if include_subfolders:
+                        self.share_subfolders(
+                            parent_id=folder['id'],
+                            user_email=user,
+                            role='reader'  # Changed from 'writer' to 'reader'
+                        )
         except Exception as e:
-            print_color(f"\nAn unexpected error occurred: {str(e)}", color="red")
-            return 0, 0, 0
+            print_color(f"Error sharing folders: {str(e)}", color="red")
+            raise
 
     def get_folder_tree(self, folder_id='root', depth=None):
         """Get the folder structure as a tree
@@ -488,3 +437,17 @@ class DriveManager:
         except HttpError as error:
             print_color(f"Error retrieving folder structure: {str(error)}", color="red")
             return {}
+
+    def list_all_folders(self):
+        """List all accessible folders in Drive"""
+        try:
+            query = "mimeType='application/vnd.google-apps.folder' and trashed=false"
+            response = self.service.files().list(
+                q=query,
+                spaces='drive',
+                fields='files(id, name)'
+            ).execute()
+            return response.get('files', [])
+        except Exception as e:
+            print_color(f"Error listing folders: {str(e)}", color="red")
+            return []

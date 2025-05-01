@@ -102,6 +102,9 @@ class PrivateKeyCreator:
             # Get list of all key files
             key_files = os.listdir(self.keys_directory)
             
+            # Convert confirmed_dwd_keys to just filenames
+            dwd_filenames = [os.path.basename(path) for path in confirmed_dwd_keys]
+            
             # Track statistics
             total_keys = len(key_files)
             dwd_keys = 0
@@ -111,7 +114,7 @@ class PrivateKeyCreator:
                 key_path = os.path.join(self.keys_directory, key_file)
                 
                 # If key has DWD enabled, keep it
-                if key_path in confirmed_dwd_keys:
+                if key_file in dwd_filenames:
                     dwd_keys += 1
                     print_color(f"-> Keeping key with DWD access: {key_file}", color="white")
                     continue
