@@ -17,10 +17,10 @@ Domain-Wide Delegation (DWD) is a Google Workspace feature that allows service a
 
 | Module | Command | Capabilities | Description |
 |--------|---------|--------------|-------------|
-| [Enumeration](#1-enumeration-enum) | `enum` | `--verbose`<br>`--email`<br>`--output` | • Discovers GCP service accounts with DWD<br>• Maps service accounts to domain users<br>• Validates OAuth scopes<br>• Generates detailed reports |
+| [Enumeration](#1-enumeration-enum) | `enum` | `--project`<br>`--list-projects`<br>`--email`<br>`--output` | • Enumerate single project<br>• List all GCP projects<br>• Discovers GCP service accounts with DWD<br>• Maps service accounts to domain users<br>• Validates OAuth scopes<br>• Generates detailed reports |
 | [Drive Operations](#2-google-drive-operations-drive) | `drive` | `--list`<br>`--download`<br>`--sharefolders`<br> | • Lists Drive contents<br>• Downloads files<br>• Recursive folder sharing<br> |
-| [Calendar Management](#3-calendar-management-calendar) | `calendar` | `--list`<br>`--details`<br>`--create`<br>`--delete` | • Manages calendar events<br>• Creates events from YAML<br>• Google Meet integration<br>• Event notifications handling |
-| [Admin Operations](#4-admin-operations-admin) | `admin` | `--elevate`<br>`--create` | • Creates admin users<br>• Elevates user privileges<br>• Manages admin access<br>• Permission validation |
+| [Calendar Management](#3-calendar-management-calendar) | `calendar` | `--list`<br>`--details`<br>`--create`<br>`--delete` | • Lists all calendar events<br>• Creates events from YAML<br>• Delete a Calendar event<br>• Retrieve details of a specific event |
+| [Admin Operations](#4-admin-operations-admin) | `admin` | `--elevate`<br>`--create` | • Creates new admin users<br>• Elevates user privileges<br> |
 | [Gmail Operations](#5-gmail-operations-gmail) | `gmail` | `--list`<br>`--keyword`<br>`--start-date`<br>`--end-date` | • Lists emails in a CSV format<br>• Searches by keyword<br>• Date range filtering<br>• Shows attachments |
 
 
