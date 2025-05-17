@@ -13,9 +13,10 @@ from datetime import datetime
 from delepwn.utils.output import print_color
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+from delepwn.config.settings import SERVICE_ACCOUNT_KEY_FOLDER
+
 
 SCOPES_FILE = 'delepwn/config/oauth_scopes.txt'  # Updated path
-KEY_FOLDER = 'SA_private_keys'
 
 
 def results(oauth_enumerator):
@@ -73,12 +74,12 @@ def check(enumerator, testEmail, verbose, enum_output):
             # Create a dictionary with the test email in the same format as single_test_email
             domain = testEmail.split('@')[1]
             test_email_dict = {domain: testEmail}
-            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, test_email_dict, verbose=verbose)
+            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, SERVICE_ACCOUNT_KEY_FOLDER, test_email_dict, verbose=verbose)
         else:
             # If no test email provided, enumerate users to find one
             domain_user_enumerator = DomainUserEnumerator(enumerator)
             domain_user_enumerator.print_unique_domain_users()
-            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
+            oauth_enumerator = OAuthEnumerator(enumerator, SCOPES_FILE, SERVICE_ACCOUNT_KEY_FOLDER, domain_user_enumerator.single_test_email, verbose=verbose)
 
         print_color("\n[*] Enumerating OAuth scopes and private key access tokens... (it might take a while based on the number of the JWT combinations)\n", color="yellow")
         oauth_enumerator.run()

@@ -130,7 +130,7 @@ class ServiceAccountEnumerator:
             # Default behavior returns all projects
             request = self.resource_manager_service.projects().list()
             response = request.execute()
-            return [project['projectId'] for project in response['projects']]
+            return [project['projectId'] for project in response.get('projects', [])]
 
         except Exception as e:
             print_color(f"Failed to get projects: {e}", color="red")
