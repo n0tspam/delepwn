@@ -7,7 +7,6 @@ import requests
 import os
 from tqdm import tqdm
 
-KEY_FOLDER = 'SA_private_keys'
 
 class OAuthEnumerator:
     """ Creates access token to each private key, OAuth scope, and distinct org email and validate whether they have DWD enabled"""
