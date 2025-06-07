@@ -8,7 +8,7 @@ import sys
 
 class ServiceAccountEnumerator:
     """Enumerate GCP Projects and Service Accounts and find roles with iam.serviceAccountKeys.create permission"""
-    def __init__(self, credentials, verbose=False, project_id=None):
+    def __init__(self, credentials, verbose=False, project_id=None, current_email=None):
         self.credentials = credentials
         self.resource_manager_service = build('cloudresourcemanager', 'v1', credentials=self.credentials)
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
@@ -17,7 +17,10 @@ class ServiceAccountEnumerator:
         self.project_id = project_id
         
         # Handle both CustomCredentials and direct service account credentials
-        if isinstance(credentials, CustomCredentials):
+        if current_email:            
+            self.user_email = current_email
+            
+        elif isinstance(credentials, CustomCredentials):
             self.user_email = (self.get_iam_email_from_token() 
                               if credentials.token 
                               else credentials.service_account_email)
