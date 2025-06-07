@@ -40,6 +40,8 @@ class ArgumentParser:
             help='List all accessible GCP projects and show access only.')
         parser_enum.add_argument('--key-file', type=str,
             help='Path to service account JSON key file to test for DWD privileges')
+        parser_enum.add_argument('--current-email', type=str,
+            help='Email of the current user or service account')
 
     @staticmethod
     def _setup_drive_parser(subparsers):

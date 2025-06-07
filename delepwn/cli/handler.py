@@ -39,7 +39,7 @@ class CommandHandler:
                         sys.exit(1)
                     credentials = CustomCredentials(token)
 
-                enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project)
+                enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project, current_email=args.current_email)
                 
                 print_color("\n→ Listing accessible GCP projects:\n", color="cyan")
                 projects = enumerator.list_projects()
@@ -89,7 +89,7 @@ class CommandHandler:
 
         try:
             credentials = CustomCredentials(token)
-            enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project)
+            enumerator = ServiceAccountEnumerator(credentials, verbose=args.verbose, project_id=args.project, current_email=args.current_email)
             #enumerator.check_access = args.check_access
             
             if args.list_projects:
