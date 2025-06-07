@@ -12,6 +12,9 @@ class ServiceAccountEnumerator:
         self.credentials = credentials
         self.resource_manager_service = build('cloudresourcemanager', 'v1', credentials=self.credentials)
         self.iam_service = build('iam', 'v1', credentials=self.credentials)
+        self.key_creator = PrivateKeyCreator(credentials)
+        self.verbose = verbose
+        self.project_id = project_id
         
         # Handle both CustomCredentials and direct service account credentials
         if isinstance(credentials, CustomCredentials):
@@ -21,10 +24,6 @@ class ServiceAccountEnumerator:
         else:
             # Direct service account credentials
             self.user_email = credentials.service_account_email
-        
-        self.key_creator = PrivateKeyCreator(credentials)
-        self.verbose = verbose
-        self.project_id = project_id
 
     def get_iam_email_from_token(self):
         """Get the email associated with the access token"""
